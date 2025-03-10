@@ -12,6 +12,9 @@ This module contains basic code to handle them.
 > [!NOTE]
 > Spring Boot Actuator specific code is located in a [different module](../web-sidecar-actuator)
 
+> [!NOTE]
+> ``favicon.ico`` is [blocked by default](./src/main/java/software/xdev/sse/web/sidecar/blackholing/FaviconBlackHolingPathsProvider.java).
+
 ## Why is this required?
 
 Request flow roughly that way:
