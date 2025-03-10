@@ -17,6 +17,7 @@
 	<modules>
 		<module>csp</module>
 		<module>demo</module>
+		<module>web-sidecars</module>
 	</modules>
 
 	<properties>
