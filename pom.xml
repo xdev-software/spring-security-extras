@@ -15,8 +15,10 @@
 	</organization>
 
 	<modules>
+		<module>codec-sha256</module>
 		<module>csp</module>
 		<module>demo</module>
+		<module>web-sidecar-actuator</module>
 		<module>web-sidecars</module>
 	</modules>
 
