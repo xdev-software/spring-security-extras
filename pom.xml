@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev.spring-security-extras</groupId>
-	<artifactId>spring-security-extras-root</artifactId>
+	<artifactId>root</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 

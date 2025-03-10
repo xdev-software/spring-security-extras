@@ -18,7 +18,7 @@
 		<connection>scm:git:https://github.com/xdev-software/spring-security-extras.git</connection>
 	</scm>
 
-	<inceptionYear>2023</inceptionYear>
+	<inceptionYear>2025</inceptionYear>
 
 	<organization>
 		<name>XDEV Software</name>
