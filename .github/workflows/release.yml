@@ -102,7 +102,7 @@ jobs:
           Add the following lines to your pom:
           ```XML
           <dependency>
-             <groupId>software.xdev</groupId>
+             <groupId>software.xdev.spring-security-extras</groupId>
              <artifactId>${{ env.PRIMARY_MAVEN_MODULE }}</artifactId>
              <version>${{ steps.version.outputs.release }}</version>
           </dependency>
