@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev.spring-security-extras</groupId>
-	<artifactId>spring-security-extras</artifactId>
+	<artifactId>csp</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-security-extras</name>
-	<description>spring-security-extras</description>
+	<name>csp</name>
+	<description>Extras for Spring Security - CSP</description>
 	<url>https://github.com/xdev-software/spring-security-extras</url>
 
 	<scm>
