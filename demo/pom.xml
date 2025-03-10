@@ -32,7 +32,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>spring-security-extras</artifactId>
+			<artifactId>csp</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
