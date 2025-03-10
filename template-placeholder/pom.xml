@@ -5,17 +5,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev</groupId>
-	<artifactId>template-placeholder</artifactId>
+	<artifactId>spring-security-extras</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>template-placeholder</name>
-	<description>template-placeholder</description>
-	<url>https://github.com/xdev-software/template-placeholder</url>
+	<name>spring-security-extras</name>
+	<description>spring-security-extras</description>
+	<url>https://github.com/xdev-software/spring-security-extras</url>
 
 	<scm>
-		<url>https://github.com/xdev-software/template-placeholder</url>
-		<connection>scm:git:https://github.com/xdev-software/template-placeholder.git</connection>
+		<url>https://github.com/xdev-software/spring-security-extras</url>
+		<connection>scm:git:https://github.com/xdev-software/spring-security-extras.git</connection>
 	</scm>
 
 	<inceptionYear>2023</inceptionYear>
