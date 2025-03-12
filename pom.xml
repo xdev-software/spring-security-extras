@@ -25,14 +25,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<!-- Global ignored sonar rules -->
-		<sonar.issue.ignore.multicriteria>S6813</sonar.issue.ignore.multicriteria>
-		<!-- Constructor injection just creates more overhead (factor x3) and achieves NOTHING -->
-		<!-- "It allows the creation of objects in an invalid state" Get a better injection framework for your tests -->
-		<sonar.issue.ignore.multicriteria.S6813.ruleKey>java:S6813</sonar.issue.ignore.multicriteria.S6813.ruleKey>
-		<sonar.issue.ignore.multicriteria.S6813.resourceKey>**/*.java
-		</sonar.issue.ignore.multicriteria.S6813.resourceKey>
 	</properties>
 
 	<licenses>
