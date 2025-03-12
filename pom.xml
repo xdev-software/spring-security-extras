@@ -15,6 +15,7 @@
 	</organization>
 
 	<modules>
+		<module>bom</module>
 		<module>client-storage</module>
 		<module>codec-sha256</module>
 		<module>crypto-symmetric</module>
