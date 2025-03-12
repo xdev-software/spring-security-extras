@@ -99,33 +99,27 @@
 	<dependencies>
 		<dependency>
 			<groupId>software.xdev.spring-security-extras</groupId>
+			<artifactId>metrics</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>software.xdev.spring-security-extras</groupId>
 			<artifactId>codec-sha256</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>web-sidecars</artifactId>
+			<artifactId>web-sidecar-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

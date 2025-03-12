@@ -15,46 +15,33 @@
  */
 package software.xdev.sse.web.sidecar.actuator.metrics;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import software.xdev.sse.web.sidecar.actuator.config.ActuatorConfig;
+import software.xdev.sse.metrics.DefaultMetricsHandler;
+import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
 
 
-@Component
-public class DefaultActuatorSecurityMetricsHandler implements ActuatorSecurityMetricsHandler
+public class DefaultActuatorSecurityMetricsHandler extends DefaultMetricsHandler
+	implements ActuatorSecurityMetricsHandler
 {
-	protected static final String OUTCOME = "outcome";
-	
-	protected final boolean enabled;
-	
 	protected final Counter loginSuccess;
 	protected final Counter loginFailed;
 	
-	@Autowired
-	public DefaultActuatorSecurityMetricsHandler(final ActuatorConfig actuatorConfig, final MeterRegistry registry)
+	public DefaultActuatorSecurityMetricsHandler(final ActuatorSecurityConfig config, final MeterRegistry registry)
 	{
-		this.enabled = actuatorConfig.isDefaultMetricsEnabled();
+		super(config.isDefaultMetricsEnabled());
 		
-		if(!this.enabled)
+		if(!this.enabled())
 		{
 			this.loginSuccess = null;
 			this.loginFailed = null;
 			return;
 		}
 		
-		final String name = "security_auth_actuator_login";
+		final String name = PREFIX + "auth_actuator_login";
 		
-		this.loginSuccess = registry.counter(name, OUTCOME, "success");
-		this.loginFailed = registry.counter(name, OUTCOME, "failed");
-	}
-	
-	@Override
-	public boolean enabled()
-	{
-		return this.enabled;
+		this.loginSuccess = registry.counter(name, TAG_OUTCOME, "success");
+		this.loginFailed = registry.counter(name, TAG_OUTCOME, "failed");
 	}
 	
 	@Override

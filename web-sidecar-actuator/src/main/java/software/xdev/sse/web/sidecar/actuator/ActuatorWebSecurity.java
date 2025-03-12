@@ -22,10 +22,11 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -41,23 +42,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import software.xdev.sse.codec.hash.SHA256Hashing;
-import software.xdev.sse.web.sidecar.actuator.config.ActuatorConfig;
+import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 
 
 @EnableWebSecurity
-@Configuration
+@AutoConfiguration
 public class ActuatorWebSecurity
 {
-	@Autowired
-	protected ActuatorConfig actuatorConfig;
+	private static final Logger LOG = LoggerFactory.getLogger(ActuatorWebSecurity.class);
 	
+	protected final ActuatorSecurityConfig config;
 	protected final List<ActuatorSecurityMetricsHandler> metricsHandlers;
 	
-	@Autowired
 	public ActuatorWebSecurity(
+		final ActuatorSecurityConfig config,
 		final List<ActuatorSecurityMetricsHandler> metricsHandlers)
 	{
+		this.config = config;
 		this.metricsHandlers = metricsHandlers.stream()
 			.filter(ActuatorSecurityMetricsHandler::enabled)
 			.toList();
@@ -70,7 +72,9 @@ public class ActuatorWebSecurity
 		final WebEndpointProperties actuatorWebEndpointProperties,
 		final HttpSecurity http) throws Exception
 	{
-		final Set<String> alUserEndpoints = this.actuatorConfig.getUsers()
+		LOG.info("Building SecurityFilterChain with {}", this.config);
+		
+		final Set<String> alUserEndpoints = this.config.getUsers()
 			.stream()
 			.flatMap(u -> u.getAllowedEndpoints().stream())
 			.filter(Objects::nonNull)
@@ -82,8 +86,8 @@ public class ActuatorWebSecurity
 			.authorizeHttpRequests(registry -> {
 				alUserEndpoints.forEach(endpoint ->
 					registry.requestMatchers("/actuator/" + endpoint)
-						.hasAnyRole(this.actuatorConfig.getDefaultRoleName(), this.endpointToRole(endpoint)));
-				registry.anyRequest().hasRole(this.actuatorConfig.getDefaultRoleName());
+						.hasAnyRole(this.config.getDefaultRoleName(), this.endpointToRole(endpoint)));
+				registry.anyRequest().hasRole(this.config.getDefaultRoleName());
 			})
 			.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.httpBasic(NoErrorBasicAuthenticationEntryPoint::install)
@@ -95,27 +99,29 @@ public class ActuatorWebSecurity
 	
 	protected String endpointToRole(final String endpoint)
 	{
-		return this.actuatorConfig.getDefaultRoleName() + "_" + endpoint.trim().toUpperCase().replace("/", "_");
+		return this.config.getDefaultRoleName()
+			+ "_"
+			+ endpoint.trim().toUpperCase().replace("/", "_");
 	}
 	
 	protected AuthenticationProvider createActuatorAuthProvider()
 	{
 		final DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 		
-		final List<UserDetails> users = this.actuatorConfig.getUsers()
+		final List<UserDetails> users = this.config.getUsers()
 			.stream()
 			.map(au -> User.builder()
 				.username(au.getUsername())
 				.password(au.getPasswordSha256())
 				.roles((au.getAllowedEndpoints().isEmpty()
-					? Stream.of(this.actuatorConfig.getDefaultRoleName())
+					? Stream.of(this.config.getDefaultRoleName())
 					: au.getAllowedEndpoints().stream().map(this::endpointToRole))
 					.toArray(String[]::new))
 				.build())
 			.toList();
 		daoAuthenticationProvider.setUserDetailsService(new InMemoryUserDetailsManager(users));
 		
-		final int passwordMaxLength = this.actuatorConfig.getPasswordMaxLength();
+		final int passwordMaxLength = this.config.getPasswordMaxLength();
 		daoAuthenticationProvider.setPasswordEncoder(new PasswordEncoder()
 		{
 			@Override

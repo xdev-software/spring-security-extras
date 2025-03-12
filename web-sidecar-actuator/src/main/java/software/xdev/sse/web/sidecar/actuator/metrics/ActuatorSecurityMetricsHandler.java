@@ -15,13 +15,11 @@
  */
 package software.xdev.sse.web.sidecar.actuator.metrics;
 
-public interface ActuatorSecurityMetricsHandler
+import software.xdev.sse.metrics.MetricsHandler;
+
+
+public interface ActuatorSecurityMetricsHandler extends MetricsHandler
 {
-	default boolean enabled()
-	{
-		return true;
-	}
-	
 	void loginSuccess();
 	
 	void loginFailed();

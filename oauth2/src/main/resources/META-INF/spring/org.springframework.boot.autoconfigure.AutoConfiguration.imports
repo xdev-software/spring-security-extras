@@ -1,0 +1,7 @@
+software.xdev.sse.oauth2.checkauth.auto.OAuth2AuthCheckerDefaultAutoConfig
+software.xdev.sse.oauth2.cookie.auto.CookieAutoConfiguration
+software.xdev.sse.oauth2.rememberloginproviderredirect.auto.CookieBasedRememberOAuth2LoginProviderAutoConfig
+software.xdev.sse.oauth2.rememberme.auto.OAuth2CookieRememberMeServicesAutoConfig
+software.xdev.sse.oauth2.rememberme.clientstorage.auto.RememberMeClientStorageProcessorProviderAutoConfig
+software.xdev.sse.oauth2.rememberme.crypt.auto.RememberMeSymCryptAutoConfig
+software.xdev.sse.oauth2.sidecar.auto.SidecarAutoConfig

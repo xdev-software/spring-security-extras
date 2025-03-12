@@ -21,15 +21,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-
-@Service
 public class CSPGenerator
 {
-	@Autowired
-	protected List<CSPProvider> allCSPProviders;
+	protected final List<CSPProvider> allCSPProviders;
+	
+	public CSPGenerator(final List<CSPProvider> allCSPProviders)
+	{
+		this.allCSPProviders = allCSPProviders;
+	}
 	
 	public String buildCSP()
 	{

@@ -15,11 +15,17 @@
 	</organization>
 
 	<modules>
+		<module>client-storage</module>
 		<module>codec-sha256</module>
+		<module>crypto-symmetric</module>
+		<module>crypto-symmetric-managed</module>
 		<module>csp</module>
-		<module>demo</module>
+		<module>metrics</module>
+		<module>oauth2</module>
 		<module>web-sidecar-actuator</module>
-		<module>web-sidecars</module>
+		<module>web-sidecar-common</module>
+
+		<module>demo</module>
 	</modules>
 
 	<properties>

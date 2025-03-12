@@ -2,7 +2,7 @@
 
 Secures [Spring Boot's Actuator endpoints](https://docs.spring.io/spring-boot/reference/actuator/endpoints.html).
 
-For more details about sidecars please have a look at [``../web-sidecars``](../web-sidecars).
+For more details about sidecars please have a look at [``../web-sidecar-common``](../web-sidecar-common).
 
 Please note that you must supply a configuration like this:
 ```java
