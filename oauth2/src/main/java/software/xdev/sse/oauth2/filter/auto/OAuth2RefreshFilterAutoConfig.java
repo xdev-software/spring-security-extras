@@ -15,12 +15,11 @@
  */
 package software.xdev.sse.oauth2.filter.auto;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -29,10 +28,10 @@ import io.micrometer.core.instrument.MeterRegistry;
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 import software.xdev.sse.oauth2.checkauth.auto.OAuth2AuthCheckerAutoConfig;
 import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
+import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.DefaultOAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
-import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
@@ -48,17 +47,18 @@ public class OAuth2RefreshFilterAutoConfig
 		// Some injections need to be lazy for connectionless start
 		@Lazy final OAuth2AuthorizedClientService clientService,
 		@Lazy final OAuth2AuthChecker oAuth2AuthChecker,
-		@Lazy @Autowired(required = false) final OAuth2CookieRememberMeServices oAuth2CookieRememberMeServices,
-		final List<OAuth2RefreshReloadCommunicator> reloadCommunicators,
-		final OtherWebSecurityPaths otherWebSecurityPaths
+		final OtherWebSecurityPaths otherWebSecurityPaths,
+		// Lazy is not working for List<...> -> Use ApplicationContext and suppliers instead
+		final ApplicationContext context
 	)
 	{
 		return new OAuth2RefreshFilter(
 			metrics,
 			clientService,
 			oAuth2AuthChecker,
-			oAuth2CookieRememberMeServices,
-			reloadCommunicators)
+			() -> BeanFactoryUtils.beansOfTypeIncludingAncestors(context, OAuth2RefreshHandler.class).values(),
+			() -> BeanFactoryUtils.beansOfTypeIncludingAncestors(context, OAuth2RefreshReloadCommunicator.class)
+				.values())
 			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
 	}
 	

@@ -49,12 +49,12 @@ import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 import software.xdev.sse.oauth2.cookie.CookieSecureService;
+import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.rememberme.clientstorage.RememberMeClientStorageProcessor;
 import software.xdev.sse.oauth2.rememberme.clientstorage.RememberMeClientStorageProcessorProvider;
 import software.xdev.sse.oauth2.rememberme.config.OAuth2CookieRememberMeServicesConfig;
@@ -158,7 +158,7 @@ import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenUtil;
 // There is a lot of split code related to saving and reading (required by interface).
 // This code has common stuff which can't be abstracted usefully.
 @SuppressWarnings("PMD.GodClass")
-public class OAuth2CookieRememberMeServices implements RememberMeServices, LogoutHandler
+public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth2RefreshHandler
 {
 	private static final Logger LOG = LoggerFactory.getLogger(OAuth2CookieRememberMeServices.class);
 	
@@ -523,6 +523,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, Logou
 	protected final Map<Authentication, CookieSaveAction> pendingCookieSaves = new ConcurrentReferenceHashMap<>();
 	protected final Random random = new SecureRandom();
 	
+	@Override
 	public void saveAuthToCookie(
 		final ServletRequest request,
 		final ServletResponse response,
@@ -620,6 +621,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, Logou
 	{
 	}
 	
+	@Override
 	public void tryWritePendingCookieSave(
 		final ServletRequest request,
 		final ServletResponse response,

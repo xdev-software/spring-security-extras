@@ -16,8 +16,8 @@
 package software.xdev.sse.oauth2.filter;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.function.Supplier;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,9 +37,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
+import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
-import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 
 
 /**
@@ -56,8 +56,11 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	protected final OAuth2RefreshFilterAuthCheckMetrics metrics;
 	protected final OAuth2AuthorizedClientService clientService;
 	protected final OAuth2AuthChecker oAuth2AuthChecker;
-	protected final Optional<OAuth2CookieRememberMeServices> optOAuth2CookieRememberMeServices;
-	protected final List<OAuth2RefreshReloadCommunicator> reloadCommunicators;
+	protected final Supplier<Collection<OAuth2RefreshHandler>> oAuth2RefreshHandlersSupplier;
+	protected final Supplier<Collection<OAuth2RefreshReloadCommunicator>> reloadCommunicatorsSupplier;
+	
+	protected Collection<OAuth2RefreshHandler> oAuth2RefreshHandlers;
+	protected Collection<OAuth2RefreshReloadCommunicator> reloadCommunicators;
 	
 	protected RequestMatcher ignoreRequestMatcher = r -> false;
 	
@@ -65,18 +68,16 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		final OAuth2RefreshFilterAuthCheckMetrics metrics,
 		final OAuth2AuthorizedClientService clientService,
 		final OAuth2AuthChecker oAuth2AuthChecker,
-		final OAuth2CookieRememberMeServices oAuth2CookieRememberMeServices,
-		final List<OAuth2RefreshReloadCommunicator> reloadCommunicators)
+		final Supplier<Collection<OAuth2RefreshHandler>> oAuth2RefreshHandlersSupplier,
+		final Supplier<Collection<OAuth2RefreshReloadCommunicator>> reloadCommunicatorsSupplier)
 	{
 		this.metrics = metrics;
 		this.clientService = clientService;
 		this.oAuth2AuthChecker = oAuth2AuthChecker;
-		this.optOAuth2CookieRememberMeServices = Optional.ofNullable(oAuth2CookieRememberMeServices);
-		this.reloadCommunicators = reloadCommunicators;
+		this.oAuth2RefreshHandlersSupplier = oAuth2RefreshHandlersSupplier;
+		this.reloadCommunicatorsSupplier = reloadCommunicatorsSupplier;
 		
-		LOG.debug(
-			"Instantiated; hasOAuth2CookieRememberMeServices={}",
-			this.optOAuth2CookieRememberMeServices.isPresent());
+		LOG.debug("Instantiated");
 	}
 	
 	public OAuth2RefreshFilter setIgnoreRequestMatcher(final RequestMatcher ignoreRequestMatcher)
@@ -120,22 +121,20 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 			final OAuth2AuthorizedClient newClient = accessTokenRefreshRes.newClient();
 			
 			this.clientService.saveAuthorizedClient(newClient, auth);
-			this.optOAuth2CookieRememberMeServices.ifPresent(s ->
-				s.saveAuthToCookie(request, response, auth, newClient, true));
+			this.oAuth2RefreshHandlers().forEach(h ->
+				h.saveAuthToCookie(request, response, auth, newClient, true));
 			
 			LOG.debug("Refreshed and saved tokens for '{}'", auth.getName());
 		}
 		else if(authCheckResult.outcome() == OAuth2AuthChecker.AuthCheckOutcome.DE_AUTH)
 		{
 			// Failed to refresh -> Invalidate
-			this.optOAuth2CookieRememberMeServices.ifPresent(s ->
+			if(request instanceof final HttpServletRequest httpRequest
+				&& response instanceof final HttpServletResponse httpResponse)
 			{
-				if(request instanceof final HttpServletRequest httpRequest
-					&& response instanceof final HttpServletResponse httpResponse)
-				{
-					s.logout(httpRequest, httpResponse, auth);
-				}
-			});
+				this.oAuth2RefreshHandlers().forEach(h ->
+					h.logout(httpRequest, httpResponse, auth));
+			}
 			SecurityContextHolder.getContext().setAuthentication(null);
 			
 			LOG.debug("De-Authenticated '{}'", auth.getName());
@@ -144,17 +143,47 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		}
 		else if(authCheckResult.outcome() == OAuth2AuthChecker.AuthCheckOutcome.VALID)
 		{
-			this.optOAuth2CookieRememberMeServices.ifPresent(s ->
-				s.tryWritePendingCookieSave(request, response, auth));
+			this.oAuth2RefreshHandlers().forEach(h ->
+				h.tryWritePendingCookieSave(request, response, auth));
 		}
+	}
+	
+	protected Collection<OAuth2RefreshHandler> oAuth2RefreshHandlers()
+	{
+		if(this.oAuth2RefreshHandlers == null)
+		{
+			this.initOAuth2RefreshHandlers();
+		}
+		return this.oAuth2RefreshHandlers;
 	}
 	
 	protected void communicateReload(
 		final OAuth2RefreshReloadCommunicator.Source source,
 		final ServletRequest request,
-		final ServletResponse response
-	)
+		final ServletResponse response)
 	{
+		if(this.reloadCommunicators == null)
+		{
+			this.initReloadCommunicators();
+		}
 		this.reloadCommunicators.forEach(rc -> rc.communicate(source, request, response));
+	}
+	
+	protected synchronized void initOAuth2RefreshHandlers()
+	{
+		if(this.oAuth2RefreshHandlers == null)
+		{
+			this.oAuth2RefreshHandlers = this.oAuth2RefreshHandlersSupplier.get();
+			LOG.debug("Got {}x OAuth2RefreshHandlers", this.oAuth2RefreshHandlers.size());
+		}
+	}
+	
+	protected synchronized void initReloadCommunicators()
+	{
+		if(this.reloadCommunicators == null)
+		{
+			this.reloadCommunicators = this.reloadCommunicatorsSupplier.get();
+			LOG.debug("Got {}x ReloadCommunicators", this.reloadCommunicators.size());
+		}
 	}
 }
