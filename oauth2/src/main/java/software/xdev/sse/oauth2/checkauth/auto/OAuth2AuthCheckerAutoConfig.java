@@ -35,7 +35,7 @@ import software.xdev.sse.oauth2.checkauth.metrics.OAuth2ProviderOfflineManagerMe
 
 
 @AutoConfiguration
-public class OAuth2AuthCheckerDefaultAutoConfig
+public class OAuth2AuthCheckerAutoConfig
 {
 	@ConditionalOnMissingBean
 	@Bean

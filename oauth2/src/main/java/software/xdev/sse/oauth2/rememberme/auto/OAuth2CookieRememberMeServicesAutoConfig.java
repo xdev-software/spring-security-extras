@@ -39,6 +39,7 @@ import software.xdev.sse.oauth2.rememberme.metrics.DefaultAutoLoginMetrics;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.DefaultOAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
+import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 
 
 @AutoConfiguration
@@ -56,7 +57,8 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 		final OAuth2AuthorizedClientService clientService,
 		final ClientRegistrationRepository clientRegistrationRepository,
 		final OAuth2AuthChecker oAuth2AuthChecker,
-		final CookieSecureService cookieSecureService)
+		final CookieSecureService cookieSecureService,
+		final OtherWebSecurityPaths otherWebSecurityPaths)
 	{
 		return new OAuth2CookieRememberMeServices(
 			config,
@@ -68,8 +70,8 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 			clientService,
 			clientRegistrationRepository,
 			oAuth2AuthChecker,
-			cookieSecureService
-		);
+			cookieSecureService)
+			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(false));
 	}
 	
 	@ConditionalOnMissingBean
