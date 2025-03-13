@@ -45,6 +45,7 @@ import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 @AutoConfiguration
 public class OAuth2CookieRememberMeServicesAutoConfig
 {
+	@SuppressWarnings("PMD.ExcessiveParameterList")
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2CookieRememberMeServices oAuth2CookieRememberMeServices(
