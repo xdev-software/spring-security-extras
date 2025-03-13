@@ -24,6 +24,7 @@
 		<module>metrics</module>
 		<module>oauth2</module>
 		<module>oauth2-remember-me</module>
+		<module>vaadin</module>
 		<module>web-sidecar-actuator</module>
 		<module>web-sidecar-common</module>
 

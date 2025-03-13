@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev.spring-security-extras</groupId>
-	<artifactId>bom</artifactId>
+	<artifactId>vaadin</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<name>bom</name>
-	<description>Extras for Spring Security - BOM</description>
+	<name>vaadin</name>
+	<description>Extras for Spring Security - Vaadin</description>
 	<url>https://github.com/xdev-software/spring-security-extras</url>
 
 	<scm>
@@ -87,62 +87,53 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>client-storage</artifactId>
-				<version>${project.version}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>3.4.3</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
+
 			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>crypto-symmetric</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>crypto-symmetric-managed</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>codec-sha256</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>csp</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>metrics</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>oauth2</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>oauth2-remember-me</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>vaadin</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>web-sidecar-actuator</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>web-sidecar-common</artifactId>
-				<version>${project.version}</version>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>24.6.6</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring</artifactId>
+		</dependency>
+
+		<!-- Optional for autoconfigure -->
+		<dependency>
+			<groupId>software.xdev.spring-security-extras</groupId>
+			<artifactId>csp</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.spring-security-extras</groupId>
+			<artifactId>oauth2</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<pluginManagement>
@@ -159,6 +150,80 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>4.6</version>
+				<configuration>
+					<properties>
+						<email>${project.organization.url}</email>
+					</properties>
+					<licenseSets>
+						<licenseSet>
+							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+							<includes>
+								<include>src/main/java/**</include>
+								<include>src/test/java/**</include>
+							</includes>
+						</licenseSet>
+					</licenseSets>
+				</configuration>
+				<executions>
+					<execution>
+						<id>first</id>
+						<goals>
+							<goal>format</goal>
+						</goals>
+						<phase>process-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.0</version>
+				<configuration>
+					<release>${maven.compiler.release}</release>
+					<compilerArgs>
+						<arg>-proc:none</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.11.2</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<quiet>true</quiet>
+					<doclint>none</doclint>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 	<profiles>
 		<profile>
@@ -204,7 +269,7 @@
 							</execution>
 						</executions>
 					</plugin>
-
+					
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>

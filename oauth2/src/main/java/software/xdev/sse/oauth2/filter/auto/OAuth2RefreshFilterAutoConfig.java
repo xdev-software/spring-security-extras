@@ -15,7 +15,6 @@
  */
 package software.xdev.sse.oauth2.filter.auto;
 
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,6 +31,7 @@ import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.DefaultOAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
+import software.xdev.sse.oauth2.util.DynamicLazyBeanProvider;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
@@ -48,7 +48,6 @@ public class OAuth2RefreshFilterAutoConfig
 		@Lazy final OAuth2AuthorizedClientService clientService,
 		@Lazy final OAuth2AuthChecker oAuth2AuthChecker,
 		final OtherWebSecurityPaths otherWebSecurityPaths,
-		// Lazy is not working for List<...> -> Use ApplicationContext and suppliers instead
 		final ApplicationContext context
 	)
 	{
@@ -56,9 +55,8 @@ public class OAuth2RefreshFilterAutoConfig
 			metrics,
 			clientService,
 			oAuth2AuthChecker,
-			() -> BeanFactoryUtils.beansOfTypeIncludingAncestors(context, OAuth2RefreshHandler.class).values(),
-			() -> BeanFactoryUtils.beansOfTypeIncludingAncestors(context, OAuth2RefreshReloadCommunicator.class)
-				.values())
+			new DynamicLazyBeanProvider<>(context, OAuth2RefreshHandler.class),
+			new DynamicLazyBeanProvider<>(context, OAuth2RefreshReloadCommunicator.class))
 			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
 	}
 	

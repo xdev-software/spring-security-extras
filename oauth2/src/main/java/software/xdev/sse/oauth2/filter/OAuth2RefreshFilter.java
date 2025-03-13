@@ -17,7 +17,6 @@ package software.xdev.sse.oauth2.filter;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.function.Supplier;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,6 +39,7 @@ import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
+import software.xdev.sse.oauth2.util.DynamicLazyBeanProvider;
 
 
 /**
@@ -56,11 +56,8 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	protected final OAuth2RefreshFilterAuthCheckMetrics metrics;
 	protected final OAuth2AuthorizedClientService clientService;
 	protected final OAuth2AuthChecker oAuth2AuthChecker;
-	protected final Supplier<Collection<OAuth2RefreshHandler>> oAuth2RefreshHandlersSupplier;
-	protected final Supplier<Collection<OAuth2RefreshReloadCommunicator>> reloadCommunicatorsSupplier;
-	
-	protected Collection<OAuth2RefreshHandler> oAuth2RefreshHandlers;
-	protected Collection<OAuth2RefreshReloadCommunicator> reloadCommunicators;
+	protected final DynamicLazyBeanProvider<OAuth2RefreshHandler> refreshHandlersProvider;
+	protected final DynamicLazyBeanProvider<OAuth2RefreshReloadCommunicator> reloadCommunicatorsProvider;
 	
 	protected RequestMatcher ignoreRequestMatcher = r -> false;
 	
@@ -68,14 +65,14 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		final OAuth2RefreshFilterAuthCheckMetrics metrics,
 		final OAuth2AuthorizedClientService clientService,
 		final OAuth2AuthChecker oAuth2AuthChecker,
-		final Supplier<Collection<OAuth2RefreshHandler>> oAuth2RefreshHandlersSupplier,
-		final Supplier<Collection<OAuth2RefreshReloadCommunicator>> reloadCommunicatorsSupplier)
+		final DynamicLazyBeanProvider<OAuth2RefreshHandler> refreshHandlersProvider,
+		final DynamicLazyBeanProvider<OAuth2RefreshReloadCommunicator> reloadCommunicatorsProvider)
 	{
 		this.metrics = metrics;
 		this.clientService = clientService;
 		this.oAuth2AuthChecker = oAuth2AuthChecker;
-		this.oAuth2RefreshHandlersSupplier = oAuth2RefreshHandlersSupplier;
-		this.reloadCommunicatorsSupplier = reloadCommunicatorsSupplier;
+		this.refreshHandlersProvider = refreshHandlersProvider;
+		this.reloadCommunicatorsProvider = reloadCommunicatorsProvider;
 		
 		LOG.debug("Instantiated");
 	}
@@ -150,11 +147,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	
 	protected Collection<OAuth2RefreshHandler> oAuth2RefreshHandlers()
 	{
-		if(this.oAuth2RefreshHandlers == null)
-		{
-			this.initOAuth2RefreshHandlers();
-		}
-		return this.oAuth2RefreshHandlers;
+		return this.refreshHandlersProvider.get();
 	}
 	
 	protected void communicateReload(
@@ -162,28 +155,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		final ServletRequest request,
 		final ServletResponse response)
 	{
-		if(this.reloadCommunicators == null)
-		{
-			this.initReloadCommunicators();
-		}
-		this.reloadCommunicators.forEach(rc -> rc.communicate(source, request, response));
-	}
-	
-	protected synchronized void initOAuth2RefreshHandlers()
-	{
-		if(this.oAuth2RefreshHandlers == null)
-		{
-			this.oAuth2RefreshHandlers = this.oAuth2RefreshHandlersSupplier.get();
-			LOG.debug("Got {}x OAuth2RefreshHandlers", this.oAuth2RefreshHandlers.size());
-		}
-	}
-	
-	protected synchronized void initReloadCommunicators()
-	{
-		if(this.reloadCommunicators == null)
-		{
-			this.reloadCommunicators = this.reloadCommunicatorsSupplier.get();
-			LOG.debug("Got {}x ReloadCommunicators", this.reloadCommunicators.size());
-		}
+		this.reloadCommunicatorsProvider.get().forEach(
+			rc -> rc.communicate(source, request, response));
 	}
 }
