@@ -26,19 +26,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 
 /**
- * <a href="https://en.wikipedia.org/wiki/Black_hole_(networking)">Blackholes</a> certain requests so that they are not
+ * <a href="https://en.wikipedia.org/wiki/Black_hole_(networking)">Black holes</a> certain requests so that they are not
  * processed further.
  */
+@ConditionalOnProperty(value = "sse.sidecar.black-holing.enabled", matchIfMissing = true)
 @EnableWebSecurity
 @AutoConfiguration
 public class BlackHolingSecurity
@@ -64,16 +66,27 @@ public class BlackHolingSecurity
 		return mapping;
 	}
 	
-	@Controller
+	@ConditionalOnProperty(value = "sse.sidecar.black-holing.default-favicon.enabled", matchIfMissing = true)
+	@ConditionalOnMissingBean
+	@Bean
+	public FaviconBlackHolingPathsProvider faviconBlackHolingPathsProvider()
+	{
+		return new FaviconBlackHolingPathsProvider();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public BlackHoleController sagittariusA()
+	{
+		LOG.debug("Instantiating default black hole");
+		return new BlackHoleController();
+	}
+	
 	public static class BlackHoleController extends AbstractController
 	{
-		private static final Logger LOG = LoggerFactory.getLogger(BlackHoleController.class);
-		
 		public BlackHoleController()
 		{
 			super(false);
-			
-			LOG.debug("Instantiated black hole");
 		}
 		
 		@Override

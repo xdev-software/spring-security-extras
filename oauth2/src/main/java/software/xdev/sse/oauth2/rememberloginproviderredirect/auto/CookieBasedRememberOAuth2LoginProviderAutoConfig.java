@@ -17,14 +17,16 @@ package software.xdev.sse.oauth2.rememberloginproviderredirect.auto;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import software.xdev.sse.oauth2.cookie.CookieSecureService;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.config.CookieBasedRememberOAuth2LoginProviderConfig;
+import software.xdev.sse.web.cookie.CookieSecureService;
 
 
+@ConditionalOnProperty(value = "sse.oauth2.remember-login-provider-redirect.enabled", matchIfMissing = true)
 @AutoConfiguration
 public class CookieBasedRememberOAuth2LoginProviderAutoConfig
 {

@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPathsProvider;
 import software.xdev.sse.web.sidecar.blackholing.BlackHolingSecurity;
-import software.xdev.sse.web.sidecar.blackholing.FaviconBlackHolingPathsProvider;
 import software.xdev.sse.web.sidecar.errorpage.ErrorPageCompatibilityPathsProvider;
 import software.xdev.sse.web.sidecar.public_stateless.PublicStatelessWebSecurity;
 
@@ -44,18 +43,12 @@ public class CommonSidecarsAutoConfig
 		return new OtherWebSecurityPaths(pathsProviders);
 	}
 	
+	@ConditionalOnProperty(value = "sse.sidecar.error-page-compatibility.enabled", matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public ErrorPageCompatibilityPathsProvider errorPageCompatibilityPathsProvider(
 		@Autowired(required = false) final ErrorPageRegistry registry)
 	{
 		return new ErrorPageCompatibilityPathsProvider(registry);
-	}
-	
-	@ConditionalOnProperty(value = "sse.black-holing.default-favicon.enabled", matchIfMissing = true)
-	@Bean
-	public FaviconBlackHolingPathsProvider faviconBlackHolingPathsProvider()
-	{
-		return new FaviconBlackHolingPathsProvider();
 	}
 }

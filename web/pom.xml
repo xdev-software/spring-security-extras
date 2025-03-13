@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev.spring-security-extras</groupId>
-	<artifactId>oauth2</artifactId>
+	<artifactId>web</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>oauth2</name>
-	<description>Extras for Spring Security - OAuth2/OIDC</description>
+	<name>web</name>
+	<description>Extras for Spring Security - Web</description>
 	<url>https://github.com/xdev-software/spring-security-extras</url>
 
 	<scm>
@@ -98,51 +98,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>metrics</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>web</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<!-- Optional (only needed for AutoConfig) -->
-		<dependency>
-			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>web-sidecar-common</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.12.0</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -233,12 +190,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.2</version>
 			</plugin>
 		</plugins>
 	</build>

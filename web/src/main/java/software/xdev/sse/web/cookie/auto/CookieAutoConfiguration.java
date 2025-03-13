@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.sse.oauth2.cookie.auto;
+package software.xdev.sse.web.cookie.auto;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 
-import software.xdev.sse.oauth2.cookie.CookieSecureService;
-import software.xdev.sse.oauth2.cookie.DefaultCookieSecureService;
+import software.xdev.sse.web.cookie.CookieSecureService;
+import software.xdev.sse.web.cookie.DefaultCookieSecureService;
 
 
+@ConditionalOnProperty(value = "sse.web.cookie.enabled", matchIfMissing = true)
 @AutoConfiguration
 public class CookieAutoConfiguration
 {

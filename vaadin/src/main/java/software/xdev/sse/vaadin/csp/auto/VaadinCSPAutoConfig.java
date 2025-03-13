@@ -18,6 +18,7 @@ package software.xdev.sse.vaadin.csp.auto;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
@@ -26,6 +27,7 @@ import software.xdev.sse.vaadin.csp.VaadinDefaultCSPProvider;
 import software.xdev.sse.vaadin.csp.VaadinDevToolsCSPProvider;
 
 
+@ConditionalOnProperty(value = "sse.vaadin.csp.enabled", matchIfMissing = true)
 @ConditionalOnClass(CSPProvider.class)
 @AutoConfiguration
 public class VaadinCSPAutoConfig

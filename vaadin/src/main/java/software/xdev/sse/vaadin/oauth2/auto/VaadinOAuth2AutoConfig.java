@@ -18,12 +18,14 @@ package software.xdev.sse.vaadin.oauth2.auto;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
 import software.xdev.sse.vaadin.oauth2.VaadinOAuth2RefreshReloadCommunicator;
 
 
+@ConditionalOnProperty(value = "sse.vaadin.oauth2.enabled", matchIfMissing = true)
 @ConditionalOnClass(OAuth2RefreshReloadCommunicator.class)
 @AutoConfiguration
 public class VaadinOAuth2AutoConfig

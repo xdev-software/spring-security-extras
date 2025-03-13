@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 
 import io.micrometer.core.instrument.MeterRegistry;
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
-import software.xdev.sse.oauth2.cookie.CookieSecureService;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServicesCleaner;
 import software.xdev.sse.oauth2.rememberme.clientstorage.RememberMeClientStorageProcessorProvider;
@@ -39,6 +38,7 @@ import software.xdev.sse.oauth2.rememberme.metrics.DefaultAutoLoginMetrics;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.DefaultOAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
+import software.xdev.sse.web.cookie.CookieSecureService;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 
 

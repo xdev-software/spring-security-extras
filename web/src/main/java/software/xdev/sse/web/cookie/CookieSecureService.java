@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.sse.oauth2.cookie;
+package software.xdev.sse.web.cookie;
 
 public interface CookieSecureService
 {

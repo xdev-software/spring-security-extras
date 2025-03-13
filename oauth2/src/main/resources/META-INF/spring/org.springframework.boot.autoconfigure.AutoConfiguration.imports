@@ -1,5 +1,4 @@
 software.xdev.sse.oauth2.checkauth.auto.OAuth2AuthCheckerAutoConfig
-software.xdev.sse.oauth2.cookie.auto.CookieAutoConfiguration
 software.xdev.sse.oauth2.filter.auto.OAuth2RefreshFilterAutoConfig
 software.xdev.sse.oauth2.rememberloginproviderredirect.auto.CookieBasedRememberOAuth2LoginProviderAutoConfig
 software.xdev.sse.oauth2.sidecar.auto.SidecarAutoConfig

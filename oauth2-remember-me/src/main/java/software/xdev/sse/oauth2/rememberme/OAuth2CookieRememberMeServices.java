@@ -53,7 +53,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
-import software.xdev.sse.oauth2.cookie.CookieSecureService;
 import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.rememberme.clientstorage.RememberMeClientStorageProcessor;
 import software.xdev.sse.oauth2.rememberme.clientstorage.RememberMeClientStorageProcessorProvider;
@@ -66,6 +65,7 @@ import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.util.FastCookieFinder;
 import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenUtil;
+import software.xdev.sse.web.cookie.CookieSecureService;
 
 
 /**

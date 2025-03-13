@@ -42,9 +42,9 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import software.xdev.sse.oauth2.cookie.CookieSecureService;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.config.CookieBasedRememberOAuth2LoginProviderConfig;
 import software.xdev.sse.oauth2.util.FastCookieFinder;
+import software.xdev.sse.web.cookie.CookieSecureService;
 
 
 /**

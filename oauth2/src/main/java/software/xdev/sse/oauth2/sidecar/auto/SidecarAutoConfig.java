@@ -18,6 +18,7 @@ package software.xdev.sse.oauth2.sidecar.auto;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 import software.xdev.sse.oauth2.sidecar.DefaultOAuth2LoginLogoutPathsProvider;
@@ -25,6 +26,7 @@ import software.xdev.sse.oauth2.sidecar.OAuth2LoginLogoutPathsProvider;
 import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
 
+@ConditionalOnProperty(value = "sse.sidecar.oauth2.enabled", matchIfMissing = true)
 @AutoConfiguration
 @ConditionalOnClass(CommonSidecarsAutoConfig.class)
 public class SidecarAutoConfig

@@ -31,6 +31,7 @@ import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHan
 import software.xdev.sse.web.sidecar.actuator.metrics.DefaultActuatorSecurityMetricsHandler;
 
 
+@ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
 @AutoConfiguration
 @AutoConfigureBefore(ActuatorWebSecurity.class)
 public class ActuatorWebSecurityAutoConfig
@@ -52,7 +53,7 @@ public class ActuatorWebSecurityAutoConfig
 		return new DefaultActuatorSecurityMetricsHandler(config, registry);
 	}
 	
-	@ConditionalOnProperty(value = "sse.actuator.default-black-holing.enabled", matchIfMissing = true)
+	@ConditionalOnProperty(value = "sse.sidecar.actuator.default-black-holing.enabled", matchIfMissing = true)
 	@Bean
 	public ActuatorBlackHolingPathsProvider actuatorBlackHolingPathsProvider(
 		final WebEndpointProperties webEndpointProperties)

@@ -110,6 +110,12 @@
 			<artifactId>vaadin-spring</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>software.xdev.spring-security-extras</groupId>
+			<artifactId>web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- Optional for autoconfigure -->
 		<dependency>
 			<groupId>software.xdev.spring-security-extras</groupId>

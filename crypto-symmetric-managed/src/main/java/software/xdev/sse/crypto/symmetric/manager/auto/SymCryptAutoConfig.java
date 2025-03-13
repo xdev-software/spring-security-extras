@@ -34,6 +34,7 @@ public class SymCryptAutoConfig
 	@ConditionalOnProperty(
 		value = "sse.sym-crypt.provider-instantiators.default-aes-gcm.enabled",
 		matchIfMissing = true)
+	@ConditionalOnMissingBean
 	@Bean
 	public AESGCMSymCryptorProviderInstantiator aesgcmSymCryptorProviderInstantiator()
 	{
@@ -43,6 +44,7 @@ public class SymCryptAutoConfig
 	@ConditionalOnProperty(
 		value = "sse.sym-crypt.provider-instantiators.default-cha-cha-20.enabled",
 		matchIfMissing = true)
+	@ConditionalOnMissingBean
 	@Bean
 	public ChaCha20SymCryptorProviderInstantiator chaCha20SymCryptorProviderInstantiator()
 	{

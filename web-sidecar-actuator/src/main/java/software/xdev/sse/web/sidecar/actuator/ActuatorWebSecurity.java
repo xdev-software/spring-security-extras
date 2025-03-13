@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -46,6 +47,7 @@ import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 
 
+@ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
 @EnableWebSecurity
 @AutoConfiguration
 public class ActuatorWebSecurity

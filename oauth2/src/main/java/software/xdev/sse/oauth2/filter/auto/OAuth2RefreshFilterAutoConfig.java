@@ -18,6 +18,7 @@ package software.xdev.sse.oauth2.filter.auto;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -36,6 +37,7 @@ import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
 
+@ConditionalOnProperty(value = "sse.oauth2.refresh-filter.enabled", matchIfMissing = true)
 @AutoConfiguration
 @AutoConfigureAfter({CommonSidecarsAutoConfig.class, OAuth2AuthCheckerAutoConfig.class})
 public class OAuth2RefreshFilterAutoConfig

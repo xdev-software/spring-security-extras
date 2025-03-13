@@ -133,6 +133,11 @@
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.spring-security-extras</groupId>
+				<artifactId>web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.spring-security-extras</groupId>
 				<artifactId>web-sidecar-actuator</artifactId>
 				<version>${project.version}</version>
 			</dependency>
