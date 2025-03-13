@@ -3,9 +3,6 @@ name: Test Deployment
 on:
   workflow_dispatch:
 
-env:
-  PRIMARY_MAVEN_MODULE: ${{ github.event.repository.name }}
-
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
@@ -25,8 +22,7 @@ jobs:
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
     - name: Publish to OSSRH
-      run: ../mvnw -B deploy -Possrh -DskipTests
-      working-directory: ${{ env.PRIMARY_MAVEN_MODULE }}
+      run: ./mvnw -B deploy -pl "codec-sha256,csp,web-sidebar-actuator,web-sidecar-common" -am -Possrh -DskipTests
       env:
         MAVEN_CENTRAL_USERNAME: ${{ secrets.S01_OSS_SONATYPE_MAVEN_USERNAME }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.S01_OSS_SONATYPE_MAVEN_TOKEN }}
