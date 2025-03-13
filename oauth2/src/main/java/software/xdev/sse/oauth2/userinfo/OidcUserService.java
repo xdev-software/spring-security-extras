@@ -92,7 +92,7 @@ public class OidcUserService implements OAuth2UserService<OidcUserRequest, OidcU
 	}
 	
 	@Override
-	public OidcUser loadUser(final OidcUserRequest userRequest) throws OAuth2AuthenticationException
+	public OidcUser loadUser(final OidcUserRequest userRequest)
 	{
 		Assert.notNull(userRequest, "userRequest cannot be null");
 		OidcUserInfo userInfo = null;

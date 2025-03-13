@@ -67,7 +67,8 @@ public class OAuth2AuthCheckerAutoConfig
 	
 	@ConditionalOnMissingBean
 	@Bean
-	public OAuth2IsDisabledChecker oAuth2AuthIsDisabledChecker(final EmailBasedOAuth2AuthCheckerUserService emailBasedOAuth2AuthCheckerUserService)
+	public OAuth2IsDisabledChecker oAuth2AuthIsDisabledChecker(
+		final EmailBasedOAuth2AuthCheckerUserService emailBasedOAuth2AuthCheckerUserService)
 	{
 		return new DefaultEmailOAuth2IsDisabledChecker(emailBasedOAuth2AuthCheckerUserService);
 	}

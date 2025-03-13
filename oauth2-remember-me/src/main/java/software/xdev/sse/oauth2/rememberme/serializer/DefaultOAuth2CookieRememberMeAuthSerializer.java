@@ -170,7 +170,8 @@ public class DefaultOAuth2CookieRememberMeAuthSerializer implements OAuth2Cookie
 			return clientRegistrationId;
 		}
 		
-		public DefaultOAuth2AuthContainer toOriginal(final Function<String, ClientRegistration> clientRegistrationResolver)
+		public DefaultOAuth2AuthContainer toOriginal(
+			final Function<String, ClientRegistration> clientRegistrationResolver)
 		{
 			final ClientRegistration clientRegistration =
 				clientRegistrationResolver.apply(this.clientRegistrationId());
