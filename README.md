@@ -4,7 +4,11 @@
 
 # Extras for Spring Security
 
-TODO
+Various shared security solution - mostly for Spring Security.
+
+More detailed descriptions are available in the individual modules.
+
+Nearly everything can be overridden with a custom implementation or disabled if required.
 
 ## Installation
 [Installation guide for the latest release](https://github.com/xdev-software/spring-security-extras/releases/latest#Installation)

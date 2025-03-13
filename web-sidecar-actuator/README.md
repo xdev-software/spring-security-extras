@@ -4,30 +4,9 @@ Secures [Spring Boot's Actuator endpoints](https://docs.spring.io/spring-boot/re
 
 For more details about sidecars please have a look at [``../web-sidecar-common``](../web-sidecar-common).
 
-Please note that you must supply a configuration like this:
-```java
-@Autowired
-MySystemConfig systemConfig;
-
-@Bean
-ActuatorConfig actuatorConfig() {
-    return systemConfig.getActuatorConfig();
-}
-
-@Validated
-@Configuration
-@ConfigurationProperties(prefix = "myapp")
-class MySystemConfig {
-    @NotNull
-    private ActuatorConfig actuator = new ActuatorConfig();
-
-    // ...
-}
-```
-
 Example configuration:
 ```yml
-myapp:
+sse:
   actuator:
     users:
       # username = password

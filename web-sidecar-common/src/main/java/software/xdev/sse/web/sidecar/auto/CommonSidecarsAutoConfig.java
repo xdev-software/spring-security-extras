@@ -43,7 +43,9 @@ public class CommonSidecarsAutoConfig
 		return new OtherWebSecurityPaths(pathsProviders);
 	}
 	
-	@ConditionalOnProperty(value = "sse.sidecar.error-page-compatibility.enabled", matchIfMissing = true)
+	@ConditionalOnProperty(
+		value = ErrorPageCompatibilityPathsProvider.AUTO_CONFIG_ENABLE_PROPERTY,
+		matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public ErrorPageCompatibilityPathsProvider errorPageCompatibilityPathsProvider(

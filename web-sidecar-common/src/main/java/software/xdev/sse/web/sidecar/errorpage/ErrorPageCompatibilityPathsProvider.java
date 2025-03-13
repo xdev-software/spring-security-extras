@@ -37,6 +37,8 @@ import software.xdev.sse.web.sidecar.public_stateless.PublicStatelessPathsProvid
  */
 public class ErrorPageCompatibilityPathsProvider implements PublicStatelessPathsProvider
 {
+	public static final String AUTO_CONFIG_ENABLE_PROPERTY = "sse.sidecar.error-page-compatibility.enabled";
+	
 	private static final Logger LOG = LoggerFactory.getLogger(ErrorPageCompatibilityPathsProvider.class);
 	
 	protected final Set<String> paths;
@@ -53,7 +55,18 @@ public class ErrorPageCompatibilityPathsProvider implements PublicStatelessPaths
 			.filter(Objects::nonNull)
 			.collect(Collectors.toSet());
 		
-		if(this.paths.isEmpty() || !LOG.isInfoEnabled())
+		this.printInformation();
+	}
+	
+	protected void printInformation()
+	{
+		if(this.paths.isEmpty())
+		{
+			LOG.debug("Detected no error pages that require mitigation");
+			return;
+		}
+		
+		if(!LOG.isInfoEnabled())
 		{
 			return;
 		}
@@ -62,10 +75,20 @@ public class ErrorPageCompatibilityPathsProvider implements PublicStatelessPaths
 			"Error pages{} are treated as stateless publicly available resource, "
 				+ "as unexpected routing problems might happen otherwise! "
 				+ "Therefore it's strongly recommended to disable them. "
-				+ "Built-in error pages can be disabled with "
-				+ "@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class}) "
-				+ "which then only shows the error page (if any) of the underlying app server",
+				+ "More information is available at DEBUG log level.",
 			this.paths);
+		
+		if(!LOG.isDebugEnabled())
+		{
+			return;
+		}
+		
+		LOG.debug("Built-in error pages can be disabled with "
+			+ "@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class}) "
+			+ "which then only shows the error page (if any) of the underlying app server.");
+		LOG.debug("Alternatively you can also try to disable Spring's ErrorPageFilter "
+			+ "(see https://stackoverflow.com/q/30170586 for more information).");
+		LOG.debug("You can also disable this provider using '{}'", AUTO_CONFIG_ENABLE_PROPERTY);
 	}
 	
 	@Override

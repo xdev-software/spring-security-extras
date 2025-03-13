@@ -1,4 +1,6 @@
-# Web Sidecars
+# Common Web Sidecars
+
+## What is a (web) sidecar?
 
 A "web sidecar" is a service that is running next to the main/default/core application, that is not directly related to it.
 
@@ -12,8 +14,7 @@ This module contains basic code to handle them.
 > [!NOTE]
 > Spring Boot Actuator specific code is located in a [dedicated module](../web-sidecar-actuator)
 
-> [!NOTE]
-> ``favicon.ico`` is [blocked by default](./src/main/java/software/xdev/sse/web/sidecar/blackholing/FaviconBlackHolingPathsProvider.java).
+<details><summary>Detailed explanation</summary>
 
 ## Why is this required?
 
@@ -47,3 +48,30 @@ For example Vaadin has the following behavior (``VaadinServlet#serveStaticOrWebJ
 * (B) Otherwise go on, find/create a session, try show View etc
 
 All resource should therefore matched exactly to their corresponding path on security level (A) as otherwise unwanted Vaadin-Sessions would occur (B).
+
+</details>
+
+## Summary of contents
+
+### Public Stateless
+
+This Security Provider intercepts specified requests and handles them like public stateless contents that are always accessible.
+
+### Blackholing
+
+> [!NOTE]
+> This is usually not needed in simple Spring Boot applications that don't use custom servlets or similar technologies (e.g. Vaadin).<br/>
+> However due to security considerations it's still active by default.<br/>
+> You can disable it using ``sse.sidecar.black-holing.enabled=false``
+
+This Security Provider intercepts specified requests and answers them with ``404 Not found``.
+
+It's main use-case is to prevent the requests from reaching the main application, causing problems such as unwanted session creation.
+
+> [!NOTE]
+> ``favicon.ico`` is [blocked by default](./src/main/java/software/xdev/sse/web/sidecar/blackholing/FaviconBlackHolingPathsProvider.java).
+> This can be [undone when configured](./src/main/java/software/xdev/sse/web/sidecar/blackholing/BlackHolingSecurity.java).
+
+### Error page compatibility
+
+Ensure that registered Web-Server error pages are accessible.
