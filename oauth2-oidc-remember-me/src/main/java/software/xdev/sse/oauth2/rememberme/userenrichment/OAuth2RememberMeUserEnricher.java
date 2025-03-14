@@ -13,27 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.sse.oauth2.userenrichment;
+package software.xdev.sse.oauth2.rememberme.userenrichment;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import software.xdev.sse.oauth2.userenrichment.OAuth2UserEnricher;
 
-public interface OAuth2UserEnricher<U extends OAuth2User, C>
+
+public interface OAuth2RememberMeUserEnricher<U extends OAuth2User, C> extends OAuth2UserEnricher<U, C>
 {
-	EnrichmentContainer<U, C> enrich(final U user, final boolean createUserIfNotExisting);
-	
-	interface EnrichmentContainer<U, C>
-	{
-		U user();
-		
-		C enrichmentData();
-	}
-	
-	
-	record DefaultEnrichmentContainer<U, C>(
-		U user,
-		C enrichmentData
-	) implements EnrichmentContainer<U, C>
-	{
-	}
+	OAuth2User enrichForRememberMe(OAuth2User user);
 }

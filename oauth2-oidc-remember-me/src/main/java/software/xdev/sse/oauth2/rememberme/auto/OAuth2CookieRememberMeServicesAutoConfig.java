@@ -15,6 +15,8 @@
  */
 package software.xdev.sse.oauth2.rememberme.auto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -38,6 +40,7 @@ import software.xdev.sse.oauth2.rememberme.metrics.DefaultAutoLoginMetrics;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.DefaultOAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
+import software.xdev.sse.oauth2.rememberme.userenrichment.OAuth2RememberMeUserEnricher;
 import software.xdev.sse.web.cookie.CookieSecureService;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 
@@ -45,6 +48,8 @@ import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 @AutoConfiguration
 public class OAuth2CookieRememberMeServicesAutoConfig
 {
+	private static final Logger LOG = LoggerFactory.getLogger(OAuth2CookieRememberMeServicesAutoConfig.class);
+	
 	@SuppressWarnings("PMD.ExcessiveParameterList")
 	@ConditionalOnMissingBean
 	@Bean
@@ -59,9 +64,10 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 		final ClientRegistrationRepository clientRegistrationRepository,
 		final OAuth2AuthChecker oAuth2AuthChecker,
 		final CookieSecureService cookieSecureService,
-		final OtherWebSecurityPaths otherWebSecurityPaths)
+		final OtherWebSecurityPaths otherWebSecurityPaths,
+		@Autowired(required = false) final OAuth2RememberMeUserEnricher<?, ?> oAuth2RememberMeUserEnricher)
 	{
-		return new OAuth2CookieRememberMeServices(
+		final OAuth2CookieRememberMeServices rememberMeServices = new OAuth2CookieRememberMeServices(
 			config,
 			autoLoginMetrics,
 			cryptManager,
@@ -73,6 +79,19 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 			oAuth2AuthChecker,
 			cookieSecureService)
 			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(false));
+		if(oAuth2RememberMeUserEnricher != null)
+		{
+			rememberMeServices.setEnrichUserOnLoad(oAuth2RememberMeUserEnricher::enrichForRememberMe);
+			LOG.debug(
+				"Automatically used {} for setEnrichUserOnLoad",
+				oAuth2RememberMeUserEnricher.getClass().getSimpleName());
+		}
+		else
+		{
+			LOG.debug("Nothing found to automatically configure setEnrichUserOnLoad");
+		}
+		
+		return rememberMeServices;
 	}
 	
 	@ConditionalOnMissingBean
