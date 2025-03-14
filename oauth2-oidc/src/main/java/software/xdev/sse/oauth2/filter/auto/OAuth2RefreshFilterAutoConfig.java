@@ -67,11 +67,16 @@ public class OAuth2RefreshFilterAutoConfig
 		if(otherWebSecurityPaths != null)
 		{
 			filter.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
-			LOG.debug("Automatically configured setIgnoreRequestMatcher");
+			LOG.debug(
+				"Automatically used {} for {}#setIgnoreRequestMatcher",
+				otherWebSecurityPaths.getClass().getSimpleName(),
+				filter.getClass().getSimpleName());
 		}
 		else
 		{
-			LOG.debug("Nothing found to automatically configure setIgnoreRequestMatcher");
+			LOG.debug(
+				"Nothing found to automatically configure {}#setIgnoreRequestMatcher",
+				filter.getClass().getSimpleName());
 		}
 		
 		return filter;

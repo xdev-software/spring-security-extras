@@ -82,23 +82,31 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 		if(otherWebSecurityPaths != null)
 		{
 			rememberMeServices.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
-			LOG.debug("Automatically configured setIgnoreRequestMatcher");
+			LOG.debug(
+				"Automatically used {} for {}#setIgnoreRequestMatcher",
+				otherWebSecurityPaths.getClass().getSimpleName(),
+				rememberMeServices.getClass().getSimpleName());
 		}
 		else
 		{
-			LOG.debug("Nothing found to automatically configure setIgnoreRequestMatcher");
+			LOG.debug(
+				"Nothing found to automatically configure {}#setIgnoreRequestMatcher",
+				rememberMeServices.getClass().getSimpleName());
 		}
 		
 		if(oAuth2RememberMeUserEnricher != null)
 		{
 			rememberMeServices.setEnrichUserOnLoad(oAuth2RememberMeUserEnricher::enrichForRememberMe);
 			LOG.debug(
-				"Automatically used {} for setEnrichUserOnLoad",
-				oAuth2RememberMeUserEnricher.getClass().getSimpleName());
+				"Automatically used {} for {}#setEnrichUserOnLoad",
+				oAuth2RememberMeUserEnricher.getClass().getSimpleName(),
+				rememberMeServices.getClass().getSimpleName());
 		}
 		else
 		{
-			LOG.debug("Nothing found to automatically configure setEnrichUserOnLoad");
+			LOG.debug(
+				"Nothing found to automatically configure {}#setEnrichUserOnLoad",
+				rememberMeServices.getClass().getSimpleName());
 		}
 		
 		return rememberMeServices;
