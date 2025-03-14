@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1741960153219">
+    <module artifactId="client-storage" groupId="software.xdev.sse" version="0.0.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/clientstorage/ClientStorageProcessor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/clientstorage/DefaultClientStorageProcessor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/clientstorage/compressor/ClientStorageCompressor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/clientstorage/compressor/DeflateClientStorageCompressor.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
