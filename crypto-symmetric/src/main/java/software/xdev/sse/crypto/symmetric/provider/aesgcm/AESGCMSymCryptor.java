@@ -24,15 +24,11 @@ import software.xdev.sse.crypto.symmetric.provider.DefaultSymCryptor;
 public class AESGCMSymCryptor extends DefaultSymCryptor
 {
 	/**
-	 * AES/GCM/NoPadding AES:<br/> "Advanced Encryption Standard" (= symmetrisches Verschlüsselungsverfahren) <br/>
-	 * GCM:
-	 * "Galois Counter Mode" ist der Betriebsmodus NoPadding: da im GCM-Modus kein Padding möglich, <br/> NoPadding (=
-	 * auffüllen der Verschhlüsselungsblöcke)
-	 * <p/>
 	 * See also:
 	 * <ul>
-	 *     <li>TIMELINE-687</li>
-	 *     <li><a href="https://rules.sonarsource.com/java/RSPEC-4432">RSPEC-4432</a></li>
+	 *     <li><a href="https://find-sec-bugs.github.io/bugs.htm#ECB_MODE">FSB ECB_MODE</a></li>
+	 *     <li><a href="https://find-sec-bugs.github.io/bugs.htm#PADDING_ORACLE">FSB PADDING_ORACLE</a></li>
+	 *     <li><a href="https://sonarsource.atlassian.net/browse/RSPEC-4432">Sonar RSPEC-4432</a></li>
 	 * </ul>
 	 */
 	private static final String CIPHER = "AES/GCM/NoPadding";

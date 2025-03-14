@@ -25,30 +25,29 @@ public class AESGCMSymCryptorProvider implements SymCryptorProvider
 	// see AESGCMSymmetricCryptor#key
 	public static final int INIT_VECTOR_LENGTH = 12;
 	
-	/*
-	 * Die Sicherheit von GCM hängt vom Initialisierungsvektor und stark von der Groeße der Authentifizierungs-Tags ab.
-	 * Im allgemeinen wird eine Tag-Laenge von 12 Bytes empfohlen (siehe NIST* Special Publication 800-38D, Seite 21)
-	 * <p/>
+	/**
+	 * NOTE:
+	 * <p>
+	 * The Security of GCM depends on the init-vector (IV) and heavily on the size of the authentication tag.
+	 * Commonly a length of 12 bytes is recommended (see NIST - Special Publication 800-38D, page 21)
+	 * </p>
+	 * <p>
 	 * <b>IV of any size</b>
 	 * For GCM a 12 byte IV is strongly suggested as other IV lengths will require additional calculations. In
-	 * principle
-	 * any IV size can be used as long as the IV doesn't ever repeat. NIST however suggests that <b>only</b> an IV size
-	 * of 12 bytes needs to be supported by implementations.
-	 * <p/>
+	 * principle any IV size can be used as long as the IV doesn't ever repeat. NIST however suggests that <b>only</b>
+	 * an IV size of 12 bytes needs to be supported by implementations.
+	 * </p>
 	 * See also:
 	 * <ul>
-	 * <li>
-	 * 	<a href="https://crypto.stackexchange.com/questions/26783/ciphertext-and-tag-size-and-iv-transmission-with-aes
-	 * -in-gcm-mode">
-	 *     https://crypto.stackexchange.com/questions/26783/ciphertext-and-tag-size-and-iv-transmission-with-aes-in
-	 *     -gcm-mode
-	 *     </a>
-	 * </li>
-	 * <li>
-	 * 	<a href="https://crypto.stackexchange.com/questions/41601/aes-gcm-recommended-iv-size-why-12-bytes">
-	 *     https://crypto.stackexchange.com/questions/41601/aes-gcm-recommended-iv-size-why-12-bytes
-	 *     </a>
-	 * </li>
+	 *     <li><a href="https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf">
+	 *         NIST - Special Publication 800-38D
+	 *     </a></li>
+	 *     <li><a href="https://crypto.stackexchange.com/q/26783">
+	 *     crypto.stackexchange.com - Ciphertext and tag size and IV transmission with AES in GCM mode
+	 *     </a></li>
+	 *     <li><a href="https://crypto.stackexchange.com/q/41601">
+	 *     crypto.stackexchange.com - AES-GCM recommended IV size: Why 12 bytes?
+	 *     </a></li>
 	 * </ul>
 	 */
 	private final byte[] initVector;
