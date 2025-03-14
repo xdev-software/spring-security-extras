@@ -23,6 +23,9 @@ import org.springframework.context.annotation.Bean;
 
 import software.xdev.sse.oauth2.sidecar.DefaultOAuth2LoginLogoutPathsProvider;
 import software.xdev.sse.oauth2.sidecar.OAuth2LoginLogoutPathsProvider;
+import software.xdev.sse.oauth2.sidecar.compat.DefaultOtherWebSecurityPathsCompat;
+import software.xdev.sse.oauth2.sidecar.compat.OtherWebSecurityPathsCompat;
+import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
 
@@ -36,5 +39,13 @@ public class SidecarAutoConfig
 	public OAuth2LoginLogoutPathsProvider oAuth2LoginLogoutPathsProvider()
 	{
 		return new DefaultOAuth2LoginLogoutPathsProvider();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public OtherWebSecurityPathsCompat otherWebSecurityPathsCompat(
+		final OtherWebSecurityPaths otherWebSecurityPaths)
+	{
+		return new DefaultOtherWebSecurityPathsCompat(otherWebSecurityPaths);
 	}
 }

@@ -41,8 +41,8 @@ import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.DefaultOAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.userenrichment.OAuth2RememberMeUserEnricher;
+import software.xdev.sse.oauth2.sidecar.compat.OtherWebSecurityPathsCompat;
 import software.xdev.sse.web.cookie.CookieSecureService;
-import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 
 
 @AutoConfiguration
@@ -64,7 +64,7 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 		final ClientRegistrationRepository clientRegistrationRepository,
 		final OAuth2AuthChecker oAuth2AuthChecker,
 		final CookieSecureService cookieSecureService,
-		final OtherWebSecurityPaths otherWebSecurityPaths,
+		@Autowired(required = false) final OtherWebSecurityPathsCompat otherWebSecurityPaths,
 		@Autowired(required = false) final OAuth2RememberMeUserEnricher<?, ?> oAuth2RememberMeUserEnricher)
 	{
 		final OAuth2CookieRememberMeServices rememberMeServices = new OAuth2CookieRememberMeServices(
@@ -77,8 +77,18 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 			clientService,
 			clientRegistrationRepository,
 			oAuth2AuthChecker,
-			cookieSecureService)
-			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(false));
+			cookieSecureService);
+		
+		if(otherWebSecurityPaths != null)
+		{
+			rememberMeServices.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
+			LOG.debug("Automatically configured setIgnoreRequestMatcher");
+		}
+		else
+		{
+			LOG.debug("Nothing found to automatically configure setIgnoreRequestMatcher");
+		}
+		
 		if(oAuth2RememberMeUserEnricher != null)
 		{
 			rememberMeServices.setEnrichUserOnLoad(oAuth2RememberMeUserEnricher::enrichForRememberMe);

@@ -15,6 +15,9 @@
  */
 package software.xdev.sse.oauth2.filter.auto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,16 +35,17 @@ import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.DefaultOAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
+import software.xdev.sse.oauth2.sidecar.compat.OtherWebSecurityPathsCompat;
 import software.xdev.sse.oauth2.util.DynamicLazyBeanProvider;
-import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
-import software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig;
 
 
 @ConditionalOnProperty(value = "sse.oauth2.refresh-filter.enabled", matchIfMissing = true)
 @AutoConfiguration
-@AutoConfigureAfter({CommonSidecarsAutoConfig.class, OAuth2AuthCheckerAutoConfig.class})
+@AutoConfigureAfter({OAuth2AuthCheckerAutoConfig.class})
 public class OAuth2RefreshFilterAutoConfig
 {
+	private static final Logger LOG = LoggerFactory.getLogger(OAuth2RefreshFilterAutoConfig.class);
+	
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2RefreshFilter oAuth2RefreshFilter(
@@ -49,17 +53,28 @@ public class OAuth2RefreshFilterAutoConfig
 		// Some injections need to be lazy for connectionless start
 		@Lazy final OAuth2AuthorizedClientService clientService,
 		@Lazy final OAuth2AuthChecker oAuth2AuthChecker,
-		final OtherWebSecurityPaths otherWebSecurityPaths,
+		@Autowired(required = false) final OtherWebSecurityPathsCompat otherWebSecurityPaths,
 		final ApplicationContext context
 	)
 	{
-		return new OAuth2RefreshFilter(
+		final OAuth2RefreshFilter filter = new OAuth2RefreshFilter(
 			metrics,
 			clientService,
 			oAuth2AuthChecker,
 			new DynamicLazyBeanProvider<>(context, OAuth2RefreshHandler.class),
-			new DynamicLazyBeanProvider<>(context, OAuth2RefreshReloadCommunicator.class))
-			.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
+			new DynamicLazyBeanProvider<>(context, OAuth2RefreshReloadCommunicator.class));
+		
+		if(otherWebSecurityPaths != null)
+		{
+			filter.setIgnoreRequestMatcher(otherWebSecurityPaths.requestMatcher(true));
+			LOG.debug("Automatically configured setIgnoreRequestMatcher");
+		}
+		else
+		{
+			LOG.debug("Nothing found to automatically configure setIgnoreRequestMatcher");
+		}
+		
+		return filter;
 	}
 	
 	@ConditionalOnMissingBean
