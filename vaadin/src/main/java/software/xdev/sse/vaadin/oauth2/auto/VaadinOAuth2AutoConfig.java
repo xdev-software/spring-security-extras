@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Bean;
 
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
 import software.xdev.sse.vaadin.oauth2.VaadinOAuth2RefreshReloadCommunicator;
+import software.xdev.sse.vaadin.oauth2.allowedsources.DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
+import software.xdev.sse.vaadin.oauth2.allowedsources.VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
 
 
 @ConditionalOnProperty(value = "sse.vaadin.oauth2.enabled", matchIfMissing = true)
@@ -35,5 +37,12 @@ public class VaadinOAuth2AutoConfig
 	public VaadinOAuth2RefreshReloadCommunicator vaadinOAuth2RefreshReloadCommunicator()
 	{
 		return new VaadinOAuth2RefreshReloadCommunicator();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider vaadinOAuth2RefreshComAllowedSourcesProvider()
+	{
+		return new DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider();
 	}
 }
