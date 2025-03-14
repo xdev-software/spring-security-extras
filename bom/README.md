@@ -5,7 +5,7 @@ Add it like this
 <dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>software.xdev.spring-security-extras</groupId>
+            <groupId>software.xdev.sse</groupId>
             <artifactId>bom</artifactId>
             <version>...</version>
             <type>pom</type>

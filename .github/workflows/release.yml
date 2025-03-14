@@ -98,11 +98,13 @@ jobs:
           Add the following lines to your pom:
           ```XML
           <dependency>
-             <groupId>software.xdev.spring-security-extras</groupId>
+             <groupId>software.xdev.sse</groupId>
              <artifactId>corresponding_module</artifactId>
              <version>${{ steps.version.outputs.release }}</version>
           </dependency>
           ```
+
+          You can also use the [BOM](https://github.com/${{ github.repository }}/tree/develop/bom) for easier dependency management.
 
   publish-maven:
     runs-on: ubuntu-latest
