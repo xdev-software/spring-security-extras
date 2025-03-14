@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>software.xdev.spring-security-extras</groupId>
-	<artifactId>oauth2</artifactId>
+	<artifactId>oauth2-oidc</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
