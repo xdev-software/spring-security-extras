@@ -29,7 +29,7 @@ There are some problems with that:
 * If the persistent data/backend is breached, an attacker can easily use this data to login in / steal personal information
 * When restoring the session it might be necessary to invoke app-specific logic
 
-> [!IMPORTANT]
+> **⚠ IMPORTANT**<br/>
 > Data that should survive restarts/instance-switches (like the contents of a shopping cart) must NOT be stored inside the session!<br/>
 > Store them in a persistent database or something similar
 
