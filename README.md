@@ -1,4 +1,4 @@
-[![Latest version](https://img.shields.io/maven-central/v/software.xdev/spring-security-extras?logo=apache%20maven)](https://mvnrepository.com/artifact/software.xdev/spring-security-extras)
+[![Latest version](https://img.shields.io/maven-central/v/software.xdev.sse/bom?logo=apache%20maven)](https://mvnrepository.com/artifact/software.xdev.sse/bom)
 [![Build](https://img.shields.io/github/actions/workflow/status/xdev-software/spring-security-extras/check-build.yml?branch=develop)](https://github.com/xdev-software/spring-security-extras/actions/workflows/check-build.yml?query=branch%3Adevelop)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xdev-software_spring-security-extras&metric=alert_status)](https://sonarcloud.io/dashboard?id=xdev-software_spring-security-extras)
 
