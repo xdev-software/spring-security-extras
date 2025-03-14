@@ -118,12 +118,12 @@
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>oauth2</artifactId>
+				<artifactId>oauth2-oidc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.spring-security-extras</groupId>
-				<artifactId>oauth2-remember-me</artifactId>
+				<artifactId>oauth2-oidc-remember-me</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

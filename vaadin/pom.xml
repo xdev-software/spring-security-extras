@@ -125,7 +125,7 @@
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.spring-security-extras</groupId>
-			<artifactId>oauth2</artifactId>
+			<artifactId>oauth2-oidc</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

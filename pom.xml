@@ -22,8 +22,8 @@
 		<module>crypto-symmetric-managed</module>
 		<module>csp</module>
 		<module>metrics</module>
-		<module>oauth2</module>
-		<module>oauth2-remember-me</module>
+		<module>oauth2-oidc</module>
+		<module>oauth2-oidc-remember-me</module>
 		<module>vaadin</module>
 		<module>web</module>
 		<module>web-sidecar-actuator</module>
