@@ -16,15 +16,18 @@
 package software.xdev.sse.vaadin.oauth2.auto;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
+import software.xdev.sse.oauth2.sidecar.OAuth2LoginLogoutPathsProvider;
 import software.xdev.sse.vaadin.oauth2.VaadinOAuth2RefreshReloadCommunicator;
 import software.xdev.sse.vaadin.oauth2.allowedsources.DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
 import software.xdev.sse.vaadin.oauth2.allowedsources.VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
+import software.xdev.sse.vaadin.oauth2.csrf.OAuth2LoginLogoutCSRFDisableRequestMatcherProvider;
 
 
 @ConditionalOnProperty(value = "sse.vaadin.oauth2.enabled", matchIfMissing = true)
@@ -44,5 +47,14 @@ public class VaadinOAuth2AutoConfig
 	public VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider vaadinOAuth2RefreshComAllowedSourcesProvider()
 	{
 		return new DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider();
+	}
+	
+	@ConditionalOnBean(OAuth2LoginLogoutPathsProvider.class)
+	@ConditionalOnMissingBean
+	@Bean
+	public OAuth2LoginLogoutCSRFDisableRequestMatcherProvider oAuth2LoginLogoutCSRFDisableRequestMatcherProvider(
+		final OAuth2LoginLogoutPathsProvider provider)
+	{
+		return new OAuth2LoginLogoutCSRFDisableRequestMatcherProvider(provider);
 	}
 }

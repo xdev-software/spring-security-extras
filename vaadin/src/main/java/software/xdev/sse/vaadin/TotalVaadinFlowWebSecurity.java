@@ -15,6 +15,9 @@
  */
 package software.xdev.sse.vaadin;
 
+import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,9 +25,12 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
+
+import software.xdev.sse.vaadin.csrf.VaadinCSRFDisableRequestMatcherProvider;
 
 
 /**
@@ -36,7 +42,8 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	@Autowired
 	protected SecureVaadinRequestCache vaadinDefaultRequestCache;
 	
-	protected RequestMatcher csrfActiveRequestMatcher;
+	@Autowired
+	protected List<VaadinCSRFDisableRequestMatcherProvider> vaadinCSRFDisableRequestMatcherProviders;
 	
 	@SuppressWarnings("java:S4502") // Vaadin brings its own CSRF
 	@Override
@@ -44,20 +51,26 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	{
 		// IMPORTANT - SECURITY
 		// Not using "super.configure(http)" here due to security problems, see below #configureAuthorizeHttpRequests
-		
 		http.exceptionHandling(this::configureExceptionHandling);
 		
-		// Removed CSRF as Vaadin bring its own CSRF
+		final List<RequestMatcher> vaadinCSRFDisableRequestMatchers =
+			this.vaadinCSRFDisableRequestMatcherProviders.stream()
+				.map(VaadinCSRFDisableRequestMatcherProvider::getMatcher)
+				.filter(Objects::nonNull)
+				.toList();
+		
+		// Removed out-of-the-box Spring CSRF as Vaadin bring its own CSRF
 		// Otherwise sessions are created on rogue POST request
 		// If CSRF is required for other parts of the app, whitelist them using requireCsrfProtectionMatcher
-		if(this.csrfActiveRequestMatcher == null)
+		if(vaadinCSRFDisableRequestMatchers.isEmpty())
 		{
 			// NOTE that Springs default logout view will not show up when CSRF is disabled!
 			http.csrf(AbstractHttpConfigurer::disable);
 		}
 		else
 		{
-			http.csrf(c -> c.ignoringRequestMatchers(request -> !this.csrfActiveRequestMatcher.matches(request)));
+			final OrRequestMatcher matcher = new OrRequestMatcher(vaadinCSRFDisableRequestMatchers);
+			http.csrf(c -> c.ignoringRequestMatchers(request -> !matcher.matches(request)));
 		}
 		
 		// NOTE: Creates session by default for redirect after auth
@@ -89,11 +102,6 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 		
 		// ALL VAADIN REQUESTS REQUIRE AUTHENTICATION
 		urlRegistry.anyRequest().authenticated();
-	}
-	
-	public void setCsrfActiveRequestMatcher(final RequestMatcher csrfActiveRequestMatcher)
-	{
-		this.csrfActiveRequestMatcher = csrfActiveRequestMatcher;
 	}
 	
 	// Copied from super (as it's private) and removed hilla
