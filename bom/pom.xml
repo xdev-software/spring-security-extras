@@ -89,62 +89,62 @@
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>client-storage</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>crypto-symmetric</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>crypto-symmetric-managed</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>codec-sha256</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>csp</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>metrics</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc-remember-me</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>vaadin</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>web</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>web-sidecar-actuator</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>web-sidecar-common</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -175,7 +175,7 @@
 						<artifactId>flatten-maven-plugin</artifactId>
 						<version>1.7.0</version>
 						<configuration>
-							<flattenMode>ossrh</flattenMode>
+							<flattenMode>bom</flattenMode>
 						</configuration>
 						<executions>
 							<execution>
