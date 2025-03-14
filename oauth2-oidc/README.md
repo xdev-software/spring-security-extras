@@ -18,6 +18,8 @@ Used for checking if the used OAuth2/OIDC token is still valid.
 
 Once the token is no longer valid it's recheck.
 
+Also provides a [OAuth2/OIDC server "is offline" fallback](./src/main/java/software/xdev/sse/oauth2/checkauth/OAuth2ProviderOfflineManager.java), which means that the user is still considered valid when the server can't be reached for some time (default: 3h).
+
 #### Requirements
 
 * The OAuth2/OIDC Server should provide a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) (to recheck authentication).<br/>Usually this can be achieved with the [``offline_access`` scope](https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess).
