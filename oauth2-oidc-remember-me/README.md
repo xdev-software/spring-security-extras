@@ -95,7 +95,7 @@ sse:
 * If you use clustering you should still use [Stick Sessions](https://kubernetes.github.io/ingress-nginx/examples/affinity/cookie/) for the HTTP-Session
     * Otherwise a lot of performance might get lost due to the decryption overhead
 * The [size of a cookie is limited to ~4kB](https://datatracker.ietf.org/doc/html/rfc6265#section-6.1). If you have a ton of data inside the serialized authentication data (e.g. additional OIDC attributes) you might have to trim it down (instruct the OIDC server to send less) or customize the serialization to exclude it.
-  * By default there are compression mechanism in place to try to keep the serialized data low (usually a cookie has around ~2kB). This includes
-    * Using the bare minimum for JSON attribute-names
-    * Using deflate to compress the created JSON
-    * Using ChaCha20 as it's encryption causes no overhead
+  * By default there are compression mechanism in place to try to keep the serialized data low (usually a cookie has around ~2kB). This includes using
+    * the bare minimum for JSON attribute-names
+    * deflate to compress the created JSON
+    * an overhead-less encryption (e.g. ChaCha20)
