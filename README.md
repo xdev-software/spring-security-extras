@@ -4,11 +4,18 @@
 
 # Extras for Spring Security
 
-Various shared security solution - mostly for Spring Security.
-
-More detailed descriptions are available in the individual modules.
+A framework with various security solutions - mostly for Spring Security.
 
 Nearly everything can be overridden with a custom implementation or disabled if required.
+
+More detailed descriptions are available in the individual modules.<br/>
+However the most relevant modules are likely:
+* [bom](./bom/)
+* [oauth2-oidc](./oauth2-oidc/)
+* [oauth2-oidc-remember-me](./oauth2-oidc-remember-me/)
+* [vaadin](./vaadin/)
+* [web-sidecar-actuator](./web-sidecar-actuator/)
+* [web-sidecar-common](./web-sidecar-common/)
 
 ## Installation
 [Installation guide for the latest release](https://github.com/xdev-software/spring-security-extras/releases/latest#Installation)
