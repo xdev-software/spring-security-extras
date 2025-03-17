@@ -18,6 +18,7 @@ package software.xdev.sse.oauth2.filter.metrics;
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 
 
+@SuppressWarnings("java:S1186") // Dummy
 public class DummyOAuth2RefreshFilterAuthCheckMetrics implements OAuth2RefreshFilterAuthCheckMetrics
 {
 	@Override
