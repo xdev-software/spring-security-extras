@@ -9,6 +9,10 @@ The overall goal is to
 * only create Vaadin Sessions when really needed as these are rather heavy (Vaadin stores the state of the UI in these)
 * make Vaadin's ``VaadinWebSecurity`` better customizable
 
+## Requirements
+
+* ``com.vaadin:vaadin-spring`` must be provided manually (only included with scope ``provided`` by default to prevent versioning conflicts)
+
 ## Usage
 
 Create a ``Configuration``-class that extends from ``TotalVaadinFlowWebSecurity`` and extend it accordingly.
