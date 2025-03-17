@@ -108,6 +108,8 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring</artifactId>
+			<!-- Set to provided to not accidentally overwrite vaadin dependencies -->
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
