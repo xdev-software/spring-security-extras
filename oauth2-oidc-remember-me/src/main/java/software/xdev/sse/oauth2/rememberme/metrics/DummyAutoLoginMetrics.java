@@ -18,6 +18,7 @@ package software.xdev.sse.oauth2.rememberme.metrics;
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 
 
+@SuppressWarnings("java:S1186") // Dummy
 public class DummyAutoLoginMetrics implements AutoLoginMetrics
 {
 	@Override
