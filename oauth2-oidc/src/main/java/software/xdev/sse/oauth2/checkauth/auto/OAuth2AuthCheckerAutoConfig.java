@@ -18,6 +18,7 @@ package software.xdev.sse.oauth2.checkauth.auto;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -58,6 +59,7 @@ public class OAuth2AuthCheckerAutoConfig
 		return new OAuth2ProviderOfflineManager(config, metricsHandlers);
 	}
 	
+	@ConditionalOnBean(MeterRegistry.class)
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2ProviderOfflineManagerMetricsHandler defaultoAuth2ProviderOfflineManagerMetricsHandler(
