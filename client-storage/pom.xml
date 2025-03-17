@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>client-storage</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>client-storage</name>
