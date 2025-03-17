@@ -44,6 +44,7 @@ import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
  * Same as {@link VaadinDefaultRequestCache}, however only existing Vaadin routes are cached, which results in no
  * invalid redirects (to e.g. PWA offline resources) and unused/useless (redirect-)sessions
  */
+@SuppressWarnings("java:S6813")
 @Component
 public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 {

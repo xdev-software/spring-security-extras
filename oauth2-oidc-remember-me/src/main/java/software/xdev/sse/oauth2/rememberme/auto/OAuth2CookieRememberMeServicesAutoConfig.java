@@ -37,6 +37,7 @@ import software.xdev.sse.oauth2.rememberme.config.OAuth2CookieRememberMeServices
 import software.xdev.sse.oauth2.rememberme.crypt.RememberMeSymCryptManager;
 import software.xdev.sse.oauth2.rememberme.metrics.AutoLoginMetrics;
 import software.xdev.sse.oauth2.rememberme.metrics.DefaultAutoLoginMetrics;
+import software.xdev.sse.oauth2.rememberme.metrics.DummyAutoLoginMetrics;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.DefaultOAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
@@ -55,7 +56,7 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 	@Bean
 	public OAuth2CookieRememberMeServices oAuth2CookieRememberMeServices(
 		final OAuth2CookieRememberMeServicesConfig config,
-		final AutoLoginMetrics autoLoginMetrics,
+		@Autowired(required = false) final AutoLoginMetrics autoLoginMetrics,
 		@Autowired(required = false) final RememberMeSymCryptManager cryptManager,
 		final RememberMeClientStorageProcessorProvider clientStorageProcessorProvider,
 		final AuthRememberMeSecretService authRememberMeSecretService,
@@ -69,7 +70,7 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 	{
 		final OAuth2CookieRememberMeServices rememberMeServices = new OAuth2CookieRememberMeServices(
 			config,
-			autoLoginMetrics,
+			autoLoginMetrics != null ? autoLoginMetrics : new DummyAutoLoginMetrics(),
 			cryptManager,
 			clientStorageProcessorProvider,
 			authRememberMeSecretService,
@@ -119,6 +120,7 @@ public class OAuth2CookieRememberMeServicesAutoConfig
 		return new DefaultOAuth2CookieRememberMeAuthSerializer();
 	}
 	
+	@ConditionalOnBean(MeterRegistry.class)
 	@ConditionalOnMissingBean
 	@Bean
 	public AutoLoginMetrics autoLoginMetrics(final MeterRegistry meterRegistry)

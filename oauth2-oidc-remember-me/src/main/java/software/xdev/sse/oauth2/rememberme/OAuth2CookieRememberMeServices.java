@@ -179,7 +179,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	
 	protected final boolean enabled;
 	
-	@SuppressWarnings("java:S2629")
+	@SuppressWarnings({"java:S2629", "java:S107"})
 	public OAuth2CookieRememberMeServices(
 		final OAuth2CookieRememberMeServicesConfig config,
 		final AutoLoginMetrics autoLoginMetrics,

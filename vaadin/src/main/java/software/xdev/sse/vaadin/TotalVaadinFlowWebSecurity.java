@@ -37,6 +37,7 @@ import software.xdev.sse.vaadin.csrf.VaadinCSRFDisableRequestMatcherProvider;
  * Override of {@link VaadinWebSecurity} that doesn't allow any VaadinSession to be created without previous
  * authentication.
  */
+@SuppressWarnings("java:S6813")
 public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 {
 	@Autowired

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +34,7 @@ import software.xdev.sse.oauth2.checkauth.auto.OAuth2AuthCheckerAutoConfig;
 import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
 import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.DefaultOAuth2RefreshFilterAuthCheckMetrics;
+import software.xdev.sse.oauth2.filter.metrics.DummyOAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
 import software.xdev.sse.oauth2.sidecar.compat.OtherWebSecurityPathsCompat;
@@ -49,7 +51,7 @@ public class OAuth2RefreshFilterAutoConfig
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2RefreshFilter oAuth2RefreshFilter(
-		final OAuth2RefreshFilterAuthCheckMetrics metrics,
+		@Autowired(required = false) final OAuth2RefreshFilterAuthCheckMetrics metrics,
 		// Some injections need to be lazy for connectionless start
 		@Lazy final OAuth2AuthorizedClientService clientService,
 		@Lazy final OAuth2AuthChecker oAuth2AuthChecker,
@@ -58,7 +60,7 @@ public class OAuth2RefreshFilterAutoConfig
 	)
 	{
 		final OAuth2RefreshFilter filter = new OAuth2RefreshFilter(
-			metrics,
+			metrics != null ? metrics : new DummyOAuth2RefreshFilterAuthCheckMetrics(),
 			clientService,
 			oAuth2AuthChecker,
 			new DynamicLazyBeanProvider<>(context, OAuth2RefreshHandler.class),
@@ -82,6 +84,7 @@ public class OAuth2RefreshFilterAutoConfig
 		return filter;
 	}
 	
+	@ConditionalOnBean(MeterRegistry.class)
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2RefreshFilterAuthCheckMetrics oAuth2RefreshFilterAuthCheckMetrics(final MeterRegistry meterRegistry)
