@@ -111,6 +111,8 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	
 	protected void addDefaultAuthenticationEntryPointFor(final ExceptionHandlingConfigurer<HttpSecurity> cfg)
 	{
+		// This is required for so that stuff like Vaadin's POST requests are not redirected to the
+		// login site (causes JavaScript crash as HTML can't be parsed).
 		cfg.defaultAuthenticationEntryPointFor(
 			new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
 			request -> !DEFAULT_DO_NOT_RESPOND_UNAUTHORIZED_METHODS.contains(request.getMethod()));
