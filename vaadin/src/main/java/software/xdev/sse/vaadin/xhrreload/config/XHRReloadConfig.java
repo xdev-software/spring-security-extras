@@ -13,26 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.sse.oauth2.filter.reloadcom;
+package software.xdev.sse.vaadin.xhrreload.config;
 
-import java.util.Set;
+import jakarta.validation.constraints.NotNull;
 
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import org.springframework.validation.annotation.Validated;
 
 
-public interface OAuth2RefreshReloadCommunicator
+@Validated
+public class XHRReloadConfig
 {
-	default Set<Source> applicableSources()
+	@NotNull
+	private String header = "X-Force-Reload";
+	@NotNull
+	private String resourceLocation = "/xhrAdapter.js";
+	
+	public String getHeader()
 	{
-		return Set.of(Source.values());
+		return this.header;
 	}
 	
-	void communicate(Source source, ServletRequest request, ServletResponse response);
-	
-	enum Source
+	public void setHeader(final String header)
 	{
-		NO_AUTH,
-		DE_AUTH
+		this.header = header;
+	}
+	
+	public String getResourceLocation()
+	{
+		return this.resourceLocation;
+	}
+	
+	public void setResourceLocation(final String resourceLocation)
+	{
+		this.resourceLocation = resourceLocation;
 	}
 }

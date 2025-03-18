@@ -28,6 +28,7 @@ import software.xdev.sse.vaadin.oauth2.VaadinOAuth2RefreshReloadCommunicator;
 import software.xdev.sse.vaadin.oauth2.allowedsources.DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
 import software.xdev.sse.vaadin.oauth2.allowedsources.VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider;
 import software.xdev.sse.vaadin.oauth2.csrf.OAuth2LoginLogoutCSRFDisableRequestMatcherProvider;
+import software.xdev.sse.vaadin.xhrreload.config.XHRReloadConfig;
 
 
 @ConditionalOnProperty(value = "sse.vaadin.oauth2.enabled", matchIfMissing = true)
@@ -35,11 +36,12 @@ import software.xdev.sse.vaadin.oauth2.csrf.OAuth2LoginLogoutCSRFDisableRequestM
 @AutoConfiguration
 public class VaadinOAuth2AutoConfig
 {
+	@ConditionalOnBean(XHRReloadConfig.class)
 	@ConditionalOnMissingBean
 	@Bean
-	public VaadinOAuth2RefreshReloadCommunicator vaadinOAuth2RefreshReloadCommunicator()
+	public VaadinOAuth2RefreshReloadCommunicator vaadinOAuth2RefreshReloadCommunicator(final XHRReloadConfig config)
 	{
-		return new VaadinOAuth2RefreshReloadCommunicator();
+		return new VaadinOAuth2RefreshReloadCommunicator(config);
 	}
 	
 	@ConditionalOnMissingBean
