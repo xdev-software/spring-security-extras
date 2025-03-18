@@ -68,3 +68,7 @@ Contains a pre-defined [Content Security Policy](../csp/) for Vaadin.
 ### CSRF
 
 Whitelists CSRF requests that should not be processed by Vaadin.
+
+### XHR Reload
+
+Forces a page reload (for XHR requests) when the authentication expires (401).

@@ -20,11 +20,17 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
+import software.xdev.sse.vaadin.xhrreload.config.XHRReloadConfig;
 
 
 public class VaadinOAuth2RefreshReloadCommunicator implements OAuth2RefreshReloadCommunicator
 {
-	public static final String HEADER = "X-Force-Reload";
+	private final XHRReloadConfig config;
+	
+	public VaadinOAuth2RefreshReloadCommunicator(final XHRReloadConfig config)
+	{
+		this.config = config;
+	}
 	
 	@Override
 	public void communicate(final Source source, final ServletRequest request, final ServletResponse response)
@@ -32,7 +38,7 @@ public class VaadinOAuth2RefreshReloadCommunicator implements OAuth2RefreshReloa
 		// Redirect Vaadin's post/websocket requests otherwise UI hangs up and dies
 		if(response instanceof final HttpServletResponse httpResponse)
 		{
-			httpResponse.setHeader(HEADER, "1");
+			httpResponse.setHeader(this.config.getHeader(), "1");
 		}
 	}
 }

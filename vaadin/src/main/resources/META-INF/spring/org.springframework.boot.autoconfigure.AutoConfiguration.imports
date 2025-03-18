@@ -1,3 +1,4 @@
 software.xdev.sse.vaadin.auto.VaadinAutoConfig
 software.xdev.sse.vaadin.csp.auto.VaadinCSPAutoConfig
 software.xdev.sse.vaadin.oauth2.auto.VaadinOAuth2AutoConfig
+software.xdev.sse.vaadin.xhrreload.auto.XHRReloadAutoConfig
