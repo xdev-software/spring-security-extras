@@ -71,7 +71,9 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 		else
 		{
 			final OrRequestMatcher matcher = new OrRequestMatcher(vaadinCSRFDisableRequestMatchers);
-			http.csrf(c -> c.ignoringRequestMatchers(request -> !matcher.matches(request)));
+			// Using ignoringRequestMatchers is not working as it's joined (using AND)
+			// with CsrfFilter.DEFAULT_CSRF_MATCHER
+			http.csrf(c -> c.requireCsrfProtectionMatcher(matcher::matches));
 		}
 		
 		// NOTE: Creates session by default for redirect after auth
