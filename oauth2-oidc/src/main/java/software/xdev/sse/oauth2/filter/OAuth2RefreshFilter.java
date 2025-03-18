@@ -17,7 +17,12 @@ package software.xdev.sse.oauth2.filter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -58,6 +63,9 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	protected final OAuth2AuthChecker oAuth2AuthChecker;
 	protected final DynamicLazyBeanProvider<OAuth2RefreshHandler> refreshHandlersProvider;
 	protected final DynamicLazyBeanProvider<OAuth2RefreshReloadCommunicator> reloadCommunicatorsProvider;
+	
+	protected Map<OAuth2RefreshReloadCommunicator.Source, Set<OAuth2RefreshReloadCommunicator>>
+		applicableReloadCommunicatorsProviders;
 	
 	protected RequestMatcher ignoreRequestMatcher = r -> false;
 	
@@ -150,12 +158,42 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		return this.refreshHandlersProvider.get();
 	}
 	
+	protected synchronized void initApplicableReloadCommunicationProviders()
+	{
+		if(this.applicableReloadCommunicatorsProviders != null)
+		{
+			return;
+		}
+		this.applicableReloadCommunicatorsProviders = this.reloadCommunicatorsProvider.get().stream()
+			.flatMap(p ->
+				p.applicableSources().stream().map(s -> Map.entry(s, p)))
+			.collect(Collectors.groupingBy(
+				Map.Entry::getKey,
+				() -> new EnumMap<>(OAuth2RefreshReloadCommunicator.Source.class),
+				Collectors.mapping(Map.Entry::getValue, Collectors.toSet())));
+	}
+	
+	@Nullable
+	protected Set<OAuth2RefreshReloadCommunicator> getApplicableCommunicationProviders(
+		final OAuth2RefreshReloadCommunicator.Source source)
+	{
+		if(this.applicableReloadCommunicatorsProviders == null)
+		{
+			this.initApplicableReloadCommunicationProviders();
+		}
+		
+		return this.applicableReloadCommunicatorsProviders.get(source);
+	}
+	
 	protected void communicateReload(
 		final OAuth2RefreshReloadCommunicator.Source source,
 		final ServletRequest request,
 		final ServletResponse response)
 	{
-		this.reloadCommunicatorsProvider.get().forEach(
-			rc -> rc.communicate(source, request, response));
+		final Set<OAuth2RefreshReloadCommunicator> communicators = this.getApplicableCommunicationProviders(source);
+		if(communicators != null)
+		{
+			communicators.forEach(rc -> rc.communicate(source, request, response));
+		}
 	}
 }

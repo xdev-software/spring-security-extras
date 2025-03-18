@@ -15,12 +15,19 @@
  */
 package software.xdev.sse.oauth2.filter.reloadcom;
 
+import java.util.Set;
+
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
 
 public interface OAuth2RefreshReloadCommunicator
 {
+	default Set<Source> applicableSources()
+	{
+		return Set.of(Source.values());
+	}
+	
 	void communicate(Source source, ServletRequest request, ServletResponse response);
 	
 	enum Source
