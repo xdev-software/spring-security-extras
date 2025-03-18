@@ -17,14 +17,20 @@ package software.xdev.sse.vaadin;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -40,6 +46,14 @@ import software.xdev.sse.vaadin.csrf.VaadinCSRFDisableRequestMatcherProvider;
 @SuppressWarnings("java:S6813")
 public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 {
+	protected static final Set<String> DEFAULT_DO_NOT_RESPOND_UNAUTHORIZED_METHODS = Stream.of(
+			HttpMethod.GET,
+			HttpMethod.OPTIONS,
+			HttpMethod.HEAD,
+			HttpMethod.TRACE)
+		.map(HttpMethod::name)
+		.collect(Collectors.toSet());
+	
 	@Autowired
 	protected SecureVaadinRequestCache vaadinDefaultRequestCache;
 	
@@ -52,7 +66,10 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	{
 		// IMPORTANT - SECURITY
 		// Not using "super.configure(http)" here due to security problems, see below #configureAuthorizeHttpRequests
-		http.exceptionHandling(this::configureExceptionHandling);
+		http.exceptionHandling(cfg -> {
+			this.configureExceptionHandling(cfg);
+			this.addDefaultAuthenticationEntryPointFor(cfg);
+		});
 		
 		final List<RequestMatcher> vaadinCSRFDisableRequestMatchers =
 			this.vaadinCSRFDisableRequestMatcherProviders.stream()
@@ -90,6 +107,13 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	{
 		// Removed support for Hilla endpoints
 		cfg.accessDeniedHandler(this.createAccessDeniedHandler());
+	}
+	
+	protected void addDefaultAuthenticationEntryPointFor(final ExceptionHandlingConfigurer<HttpSecurity> cfg)
+	{
+		cfg.defaultAuthenticationEntryPointFor(
+			new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+			request -> !DEFAULT_DO_NOT_RESPOND_UNAUTHORIZED_METHODS.contains(request.getMethod()));
 	}
 	
 	protected void configureAuthorizeHttpRequests(
