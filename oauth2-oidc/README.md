@@ -9,7 +9,7 @@ Secures Spring Boot's OAuth2/OIDC.
 
 ### CheckAuth
 
-> [!INFO]
+> [!NOTE]
 > **Fixed the underlying problematic:**<br/>
 > By default Spring only logs the user in. Once logged in there is no re-check if the user is still valid at the OAuth2/OIDC server.<br/>
 > As long as the app is not restarted the user can potentially be logged in forever.
