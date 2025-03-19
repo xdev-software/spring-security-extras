@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1742372166900">
+    <module artifactId="web" groupId="software.xdev.sse" version="0.0.7"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/web/cookie/CookieSecureService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/cookie/DefaultCookieSecureService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/cookie/auto/CookieAutoConfiguration.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
