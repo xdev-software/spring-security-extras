@@ -1,3 +1,13 @@
+# 0.0.6
+
+* Vaadin
+    * Add Vaadin XHR Reload subsystem
+    * Fixes Vaadin being stuck in loops with POST or similar requests when authentification expires
+        * Fix wrong CSRF method being used, resulting in CSRF errors when these requests are encountered
+        * DO NOT redirect these requests to login
+* OAuth2/OIDC
+    * Make it possible to specify applicable sources for ``OAuth2RefreshReloadCommunicator`` 
+
 # 0.0.X
 
 _Initial preview version for internal integration tests and release management checks_

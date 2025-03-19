@@ -16,17 +16,20 @@
 package software.xdev.sse.vaadin.xhrreload.auto;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import software.xdev.sse.vaadin.oauth2.auto.VaadinOAuth2AutoConfig;
 import software.xdev.sse.vaadin.xhrreload.XHRReloadVaadinServiceInitListener;
 import software.xdev.sse.vaadin.xhrreload.config.XHRReloadConfig;
 
 
 @ConditionalOnProperty(value = "sse.vaadin.xhr-reload.enabled", matchIfMissing = true)
 @AutoConfiguration
+@AutoConfigureBefore(VaadinOAuth2AutoConfig.class)
 public class XHRReloadAutoConfig
 {
 	@ConditionalOnMissingBean
