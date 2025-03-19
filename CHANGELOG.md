@@ -1,3 +1,8 @@
+# 0.0.7
+
+* Vaadin
+    * Fix XHR Reload not working (header missing9 due to incorrect auto-configuration order
+
 # 0.0.6
 
 * Vaadin
