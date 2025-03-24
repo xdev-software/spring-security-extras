@@ -1,0 +1,67 @@
+name: Run integration tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+    paths-ignore: 
+      - '**.md'
+      - '.config/**'
+      - '.github/**'
+      - '.idea/**'
+      - 'assets/**'
+  pull_request:
+    branches: [ develop ]
+    paths-ignore: 
+      - '**.md'
+      - '.config/**'
+      - '.github/**'
+      - '.idea/**'
+      - 'assets/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  run-integration-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [21]
+        project: [webapp-it]
+        parallel: [2]
+        pre-start: [true]
+    runs-on: ubuntu-latest
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/')) }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: ${{ matrix.java }}
+        cache: 'maven'
+
+    - name: Test
+      run: |
+        ./mvnw -B test \
+        -pl "demo/${{ matrix.project }}" -am \
+        -P run-it \
+        ${{ matrix.pre-start && '-Dinfra-pre-start.enabled=1 ' || '' }} \
+        ${{ matrix.parallel > 0 && format('-Djunit.jupiter.execution.parallel.enabled=true -Djunit.jupiter.execution.parallel.mode.default=concurrent -Djunit.jupiter.execution.parallel.mode.classes.default=concurrent -Djunit.jupiter.execution.parallel.config.strategy=fixed -Djunit.jupiter.execution.parallel.config.fixed.parallelism=2 -Djunit.jupiter.execution.parallel.config.fixed.max-pool-size={0} ', matrix.parallel) || '' }}
+
+    # Replace '/' with '-'
+    - name: Normalize project name
+      if: failure()
+      env:
+        PROJECT: ${{ matrix.project }}
+      run: echo PROJECT_NORMALIZED=${PROJECT/\//-} >> $GITHUB_ENV
+
+    - name: Upload videos of test failures
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-fail-videos-${{ matrix.java }}-${{ env.PROJECT_NORMALIZED }}-${{ matrix.parallel }}-${{ matrix.pre-start }}
+        path: ${{ matrix.project }}/target/records
+        if-no-files-found: ignore
