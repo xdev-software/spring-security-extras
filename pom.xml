@@ -28,8 +28,6 @@
 		<module>web</module>
 		<module>web-sidecar-actuator</module>
 		<module>web-sidecar-common</module>
-
-		<module>demo</module>
 	</modules>
 
 	<properties>
