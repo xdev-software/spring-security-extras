@@ -1,5 +1,5 @@
 ## Development Infrastructure
-The webapp requires e.g. a database to work.
+The webapp-rest requires e.g. a database to work.
 
 The infrastructure contains the following:
 * [MariaDB container](https://hub.docker.com/_/mariadb) that automatically gets the last test-system database dump from Jenkins

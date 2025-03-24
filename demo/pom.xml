@@ -32,9 +32,9 @@
 		<module>tci-oidc</module>
 		<module>tci-selenium</module>
 		<module>tci-testcontainers</module>
-		<module>tci-webapp</module>
-		<module>webapp</module>
-		<module>webapp-it</module>
+		<module>tci-webapp-rest</module>
+		<module>webapp-rest</module>
+		<module>webapp-rest-it</module>
 	</modules>
 
 	<dependencyManagement>
@@ -78,7 +78,7 @@
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-webapp</artifactId>
+				<artifactId>tci-webapp-rest</artifactId>
 				<version>0.0.8-SNAPSHOT</version>
 			</dependency>
 

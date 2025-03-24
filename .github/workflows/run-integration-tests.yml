@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [21]
-        project: [webapp-it]
+        project: [webapp-rest-it]
         parallel: [2]
         pre-start: [true]
     runs-on: ubuntu-latest
