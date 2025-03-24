@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
+@SuppressWarnings("java:S119")
 public interface IntegrationTestDefaults<SELF extends BaseTest>
 {
 	@SuppressWarnings("unchecked")

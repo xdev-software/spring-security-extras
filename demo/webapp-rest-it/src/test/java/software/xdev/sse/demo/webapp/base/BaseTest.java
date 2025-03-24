@@ -41,6 +41,7 @@ import software.xdev.tci.network.LazyNetworkPool;
 import software.xdev.tci.tracing.TCITracer;
 
 
+@SuppressWarnings("java:S1117")
 @ExtendWith(BaseTest.WebclientTCSTSeleniumIntegrationTestExtension.class)
 abstract class BaseTest implements IntegrationTestDefaults<BaseTest>
 {
