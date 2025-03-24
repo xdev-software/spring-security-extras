@@ -38,13 +38,16 @@ public final class WebAppContainerBuilder
 					// Ignore git-folder, as it will be provided in the Dockerfile
 					".git/**",
 					// Ignore other unused folders and extensions
+					".github/**",
 					".iml",
 					".md",
+					".run",
 					"target/**",
 					".config/**",
 					".idea/**",
 					"_dev_infra/**",
 					"_resource_metrics/**",
+					"*/src/test/**",
 					// Ignore not required test-modules that may have changed
 					// sources only - otherwise the parent pom doesn't find the resources
 					"tci-*/src/**",
@@ -53,7 +56,7 @@ public final class WebAppContainerBuilder
 					// Ignore resources that are just used for development
 					"webapp-rest/src/main/resources-dev/**")
 				.withDockerFilePath(Paths.get("../tci-webapp-rest/Dockerfile"))
-				.withBaseDir(Paths.get("../"))
+				.withBaseDir(Paths.get("../../"))
 				// File is in root directory - we can't access it
 				.withBaseDirRelativeIgnoreFile(null);
 		

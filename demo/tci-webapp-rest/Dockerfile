@@ -51,12 +51,12 @@ RUN git config --global user.email "dynamic@build.local" \
   && git add . \
   && git commit -m "Init commit"
 
-ARG mavenbuildcmd='./mvnw -B clean package -pl "webapp" -am -Pprod,dev-log -T2C -Dmaven.test.skip'
+ARG mavenbuildcmd='./mvnw -B clean package -pl "demo/webapp-rest" -am -Pprod,dev-log -T2C -Dmaven.test.skip'
 
 RUN echo "Executing '$mavenbuildcmd'"
 RUN ${mavenbuildcmd}
 # See also https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html for further information
-RUN mv webapp/target/webapp-rest.jar app.jar \
+RUN mv demo/webapp-rest/target/webapp-rest.jar app.jar \
   && java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
 
