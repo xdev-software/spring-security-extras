@@ -46,7 +46,6 @@ public final class WebAppContainerBuilder
 					".idea/**",
 					".run/**",
 					"_dev_infra/**",
-					"_resource_metrics/**",
 					"src/test/**",
 					// Ignore not required test-modules that may have changed
 					// sources only - otherwise the parent pom doesn't find the resources
