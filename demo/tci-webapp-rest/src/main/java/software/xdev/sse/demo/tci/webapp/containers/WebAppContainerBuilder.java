@@ -38,13 +38,13 @@ public final class WebAppContainerBuilder
 					// Ignore git-folder, as it will be provided in the Dockerfile
 					".git/**",
 					// Ignore other unused folders and extensions
-					".github/**",
 					".iml",
 					".md",
-					".run",
 					"target/**",
 					".config/**",
+					".github/**",
 					".idea/**",
+					".run/**",
 					"_dev_infra/**",
 					"_resource_metrics/**",
 					"*/src/test/**",
