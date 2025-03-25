@@ -21,6 +21,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<!-- Dependency Version Groups -->
+		<com.vaadin.version>24.7.0</com.vaadin.version>
+
 		<org.springframework.boot.version>3.4.4</org.springframework.boot.version>
 	</properties>
 
@@ -35,6 +38,7 @@
 		<module>tci-webapp-rest</module>
 		<module>webapp-rest</module>
 		<module>webapp-rest-it</module>
+		<module>webapp-vaadin</module>
 	</modules>
 
 	<dependencyManagement>
@@ -103,6 +107,15 @@
 				<scope>import</scope>
 			</dependency>
 
+			<!-- Vaadin -->
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${com.vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>software.xdev</groupId>
 				<artifactId>spring-security-advanced-authentication-ui</artifactId>
@@ -113,6 +126,12 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>2.8.6</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
+				<version>3.0.0</version>
 			</dependency>
 
 			<!-- Tests -->

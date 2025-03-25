@@ -9,7 +9,7 @@
 		<artifactId>demo</artifactId>
 		<version>0.0.8-SNAPSHOT</version>
 	</parent>
-	<artifactId>webapp-rest</artifactId>
+	<artifactId>webapp-vaadin</artifactId>
 
 	<properties>
 		<mainClass>software.xdev.sse.demo.Application</mainClass>
@@ -21,6 +21,15 @@
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
 			<artifactId>persistence</artifactId>
+		</dependency>
+
+		<!-- Vaadin -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot-starter</artifactId>
+			<exclusions>
+
+			</exclusions>
 		</dependency>
 
 		<!-- Spring -->
@@ -93,7 +102,11 @@
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse</groupId>
-			<artifactId>oauth2-oidc</artifactId>
+			<artifactId>oauth2-oidc-remember-me</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>vaadin</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse</groupId>

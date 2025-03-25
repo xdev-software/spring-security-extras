@@ -10,6 +10,8 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class IdentifiableEntity
 {
+	static final int DEFAULT_STRING_LENGTH = 255;
+	
 	public static final String COL_ID = "id";
 	
 	@Id
