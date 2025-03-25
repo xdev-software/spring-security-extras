@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All in webapp-rest-it (p=2 + PreStart)" type="JUnit" factoryName="JUnit">
+  <configuration default="false" name="REST - All tests (p=2 + PreStart)" type="JUnit" factoryName="JUnit">
     <module name="webapp-rest-it" />
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
