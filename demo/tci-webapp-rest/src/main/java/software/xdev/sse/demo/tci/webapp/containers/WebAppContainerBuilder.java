@@ -47,12 +47,11 @@ public final class WebAppContainerBuilder
 					".run/**",
 					"_dev_infra/**",
 					"_resource_metrics/**",
-					"*/src/test/**",
+					"src/test/**",
 					// Ignore not required test-modules that may have changed
 					// sources only - otherwise the parent pom doesn't find the resources
 					"tci-*/src/**",
-					"persistence-it/src/**",
-					"webapp-rest-it/src/**",
+					"*-it/src/**",
 					// Ignore resources that are just used for development
 					"webapp-rest/src/main/resources-dev/**")
 				.withDockerFilePath(Paths.get("../tci-webapp-rest/Dockerfile"))
