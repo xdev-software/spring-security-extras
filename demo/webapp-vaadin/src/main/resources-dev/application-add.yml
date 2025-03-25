@@ -1,4 +1,11 @@
 sse:
+  auth:
+    remember-me:
+      payload-encryption:
+        standard: v1
+        chacha20:
+          v1:
+            nonce: JustForDev_1
   actuator:
     users:
       # username = password
