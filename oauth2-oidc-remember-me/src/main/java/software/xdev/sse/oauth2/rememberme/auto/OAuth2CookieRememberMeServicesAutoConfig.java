@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
@@ -46,6 +47,7 @@ import software.xdev.sse.oauth2.sidecar.compat.OtherWebSecurityPathsCompat;
 import software.xdev.sse.web.cookie.CookieSecureService;
 
 
+@EnableScheduling
 @AutoConfiguration
 public class OAuth2CookieRememberMeServicesAutoConfig
 {
