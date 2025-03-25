@@ -73,10 +73,10 @@ tsconfig.json
 types.d.ts
 vite.config.ts
 vite.generated.ts
-src/main/frontend/generated/
-src/main/frontend/index.html
-src/main/dev-bundle/
-src/main/bundles/
+/**/src/main/frontend/generated/
+/**/src/main/frontend/index.html
+/**/src/main/dev-bundle/
+/**/src/main/bundles/
 *.lock
 
 #custom
