@@ -235,12 +235,32 @@
 			</dependency>
 
 			<!-- SSE -->
+			<!-- DO NOT USE BOM HERE -->
+			<!-- Not working with mvn:version:set! -->
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
-				<artifactId>bom</artifactId>
-				<version>${project.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<artifactId>csp</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc-remember-me</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>vaadin</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>web-sidecar-actuator</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
