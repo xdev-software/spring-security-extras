@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>crypto-symmetric</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>crypto-symmetric</name>
@@ -112,7 +112,7 @@
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>4.6</version>
+				<version>5.0.0</version>
 				<configuration>
 					<properties>
 						<email>${project.organization.url}</email>

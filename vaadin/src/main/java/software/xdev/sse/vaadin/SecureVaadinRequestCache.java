@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 
 import com.vaadin.flow.router.RouteBaseData;
 import com.vaadin.flow.server.VaadinServlet;
+import com.vaadin.flow.server.VaadinServletService;
 import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
 
 
@@ -139,7 +140,14 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			return;
 		}
 		
-		final Set<String> allowedPaths = vaadinServlet.getService()
+		final VaadinServletService servletService = vaadinServlet.getService();
+		if(servletService == null)
+		{
+			LOG.info("No servletService in servlet - Not initialized yet?");
+			return;
+		}
+		
+		final Set<String> allowedPaths = servletService
 			.getRouter()
 			.getRegistry()
 			.getRegisteredRoutes()

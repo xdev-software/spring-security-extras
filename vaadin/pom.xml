@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>vaadin</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>vaadin</name>
@@ -89,7 +89,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>3.4.3</version>
+				<version>3.4.4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -97,7 +97,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>24.6.6</version>
+				<version>24.7.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -168,7 +168,7 @@
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>4.6</version>
+				<version>5.0.0</version>
 				<configuration>
 					<properties>
 						<email>${project.organization.url}</email>

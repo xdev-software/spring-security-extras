@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>root</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -35,6 +35,19 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Global ignored sonar rules -->
+		<sonar.issue.ignore.multicriteria>S1948,S6813</sonar.issue.ignore.multicriteria>
+		<!-- All Vaadin components are serializable however this is due to legacy reasons -->
+		<!-- Nested fields don't need to be serializable -->
+		<sonar.issue.ignore.multicriteria.S1948.ruleKey>java:S1948</sonar.issue.ignore.multicriteria.S1948.ruleKey>
+		<sonar.issue.ignore.multicriteria.S1948.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S1948.resourceKey>
+		<!-- Constructor injection just creates more overhead (factor x3) and achieves NOTHING -->
+		<!-- "It allows the creation of objects in an invalid state" Get a better injection framework for your tests -->
+		<sonar.issue.ignore.multicriteria.S6813.ruleKey>java:S6813</sonar.issue.ignore.multicriteria.S6813.ruleKey>
+		<sonar.issue.ignore.multicriteria.S6813.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S6813.resourceKey>
 	</properties>
 
 	<licenses>

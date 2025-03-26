@@ -17,6 +17,11 @@ However the most relevant modules are likely:
 * [web-sidecar-actuator](./web-sidecar-actuator/)
 * [web-sidecar-common](./web-sidecar-common/)
 
+## Usage
+Some example use-cases (with integration tests) are available in the [demo](./demo).
+
+Otherwise please have a look at the corresponding modules and their (Java) docs.
+
 ## Installation
 [Installation guide for the latest release](https://github.com/xdev-software/spring-security-extras/releases/latest#Installation)
 

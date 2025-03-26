@@ -1,5 +1,13 @@
-# 0.0.6
+# 1.0.0
+_Initial production ready release_
 
+* Added demo + integration tests
+
+# 0.0.7
+* Vaadin
+    * Fix XHR Reload not working (header missing) due to incorrect auto-configuration order
+
+# 0.0.6
 * Vaadin
     * Add Vaadin XHR Reload subsystem
     * Fixes Vaadin being stuck in loops with POST or similar requests when authentification expires
