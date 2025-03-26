@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [21]
-        project: [webapp-rest-it]
+        project: [webapp-rest-it, webapp-vaadin-it]
         parallel: [2]
         pre-start: [true]
     runs-on: ubuntu-latest
