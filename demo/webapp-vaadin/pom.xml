@@ -20,7 +20,7 @@
 		<!-- Internal -->
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
-			<artifactId>persistence</artifactId>
+			<artifactId>webapp-shared</artifactId>
 		</dependency>
 
 		<!-- Vaadin -->
@@ -92,74 +92,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-			<exclusions>
-				<!-- There is nothing that uses the log4j api so we don't need it -->
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j-to-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<exclusions>
-				<!-- Exclude default module so that dependency is properly removed -->
-				<exclusion>
-					<groupId>io.prometheus</groupId>
-					<artifactId>prometheus-metrics-exposition-formats</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>spring-security-advanced-authentication-ui</artifactId>
-		</dependency>
-
 		<!-- SSE -->
-		<dependency>
-			<groupId>software.xdev.sse</groupId>
-			<artifactId>csp</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse</groupId>
 			<artifactId>oauth2-oidc-remember-me</artifactId>
@@ -167,21 +100,6 @@
 		<dependency>
 			<groupId>software.xdev.sse</groupId>
 			<artifactId>vaadin</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>software.xdev.sse</groupId>
-			<artifactId>web-sidecar-actuator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		</dependency>
-
-		<!-- DB Impl -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -41,6 +41,7 @@
 		<module>webapp-it-base</module>
 		<module>webapp-rest</module>
 		<module>webapp-rest-it</module>
+		<module>webapp-shared</module>
 		<module>webapp-vaadin</module>
 		<module>webapp-vaadin-it</module>
 	</modules>
@@ -111,6 +112,12 @@
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>webapp-it-base</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>webapp-shared</artifactId>
 				<version>0.0.8-SNAPSHOT</version>
 			</dependency>
 
