@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1742986978366">
+    <module artifactId="oauth2-oidc" groupId="software.xdev.sse" version="1.0.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/EmailBasedOAuth2AuthCheckerUserService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/OAuth2AuthChecker.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/OAuth2ProviderOfflineManager.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/auto/OAuth2AuthCheckerAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/config/AuthProviderOfflineConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/disabledcheck/DefaultEmailOAuth2IsDisabledChecker.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/disabledcheck/OAuth2IsDisabledChecker.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/metrics/DefaultOAuth2ProviderOfflineManagerMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/checkauth/metrics/OAuth2ProviderOfflineManagerMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/OAuth2RefreshFilter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/auto/OAuth2RefreshFilterAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/handler/OAuth2RefreshHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/metrics/DefaultOAuth2RefreshFilterAuthCheckMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/metrics/DummyOAuth2RefreshFilterAuthCheckMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/metrics/OAuth2RefreshFilterAuthCheckMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/filter/reloadcom/OAuth2RefreshReloadCommunicator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberloginproviderredirect/CookieBasedRememberRedirectOAuth2LoginProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberloginproviderredirect/auto/CookieBasedRememberOAuth2LoginProviderAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberloginproviderredirect/config/CookieBasedRememberOAuth2LoginProviderConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/sidecar/DefaultOAuth2LoginLogoutPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/sidecar/OAuth2LoginLogoutPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/sidecar/auto/SidecarAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/sidecar/compat/DefaultOtherWebSecurityPathsCompat.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/sidecar/compat/OtherWebSecurityPathsCompat.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userenrichment/EnrichedOAuth2User.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userenrichment/EnrichedOIDCUser.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userenrichment/OAuth2UserEnricher.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userinfo/OidcUserRequestUtils.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userinfo/OidcUserService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/userinfo/package-info.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/util/DynamicLazyBeanProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/util/FastCookieFinder.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/util/OAuth2AuthenticationTokenUtil.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/util/OAuth2UserNameAttributeKeyExtractor.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/oauth2/checkauth/OAuth2ProviderOfflineManagerTest.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/oauth2/userinfo/OidcUserServiceCompatibilityTest.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/oauth2/util/OAuth2UserNameAttributeKeyExtractorTest.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
