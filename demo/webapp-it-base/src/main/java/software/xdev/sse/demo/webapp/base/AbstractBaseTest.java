@@ -41,7 +41,7 @@ import software.xdev.tci.network.LazyNetworkPool;
 import software.xdev.tci.tracing.TCITracer;
 
 
-@SuppressWarnings("java:S1117")
+@SuppressWarnings({"java:S1117", "java:S112"})
 @ExtendWith(AbstractBaseTest.TCSTSeleniumIntegrationTestExtension.class)
 public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements IntegrationTestDefaults<AbstractBaseTest<T>>
 {
@@ -139,10 +139,10 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		TRACE_START_BASE_INFRA.addMs(System.currentTimeMillis() - start);
 	}
 	
-	protected <T extends TCI<?>> void ensureDestroyAsyncStartingInfra(
-		final Supplier<T> getCurrentInfra,
-		final Consumer<T> setCurrentInfra,
-		final CompletableFuture<T> cfStartingInfra)
+	protected <X extends TCI<?>> void ensureDestroyAsyncStartingInfra(
+		final Supplier<X> getCurrentInfra,
+		final Consumer<X> setCurrentInfra,
+		final CompletableFuture<X> cfStartingInfra)
 	{
 		if(getCurrentInfra.get() != null // Infra was already started and set
 			|| cfStartingInfra == null) // Infra was never started

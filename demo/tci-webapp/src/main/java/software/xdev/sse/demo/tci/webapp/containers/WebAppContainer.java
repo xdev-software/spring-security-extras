@@ -16,7 +16,7 @@ public abstract class WebAppContainer<SELF extends WebAppContainer<SELF>> extend
 	
 	protected final boolean connectionlessStart;
 	
-	public WebAppContainer(final String dockerImageName, final boolean connectionlessStart)
+	protected WebAppContainer(final String dockerImageName, final boolean connectionlessStart)
 	{
 		super(dockerImageName);
 		this.connectionlessStart = connectionlessStart;
