@@ -270,6 +270,19 @@
 		</profile>
 		<profile>
 			<id>prod</id>
+			<dependencies>
+				<!-- Exclude development dependencies from production -->
+				<dependency>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-core</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>com.vaadin</groupId>
+							<artifactId>vaadin-dev</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
 			<build>
 				<resources>
 					<resource>
@@ -277,6 +290,19 @@
 					</resource>
 				</resources>
 				<plugins>
+					<plugin>
+						<groupId>com.vaadin</groupId>
+						<artifactId>vaadin-maven-plugin</artifactId>
+						<version>${com.vaadin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-frontend</goal>
+									<goal>build-frontend</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>

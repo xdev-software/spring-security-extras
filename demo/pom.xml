@@ -21,6 +21,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<!-- Global ignored sonar rules -->
+		<sonar.issue.ignore.multicriteria>S1948,S6813</sonar.issue.ignore.multicriteria>
+		<!-- All Vaadin components are serializable however this is due to legacy reasons -->
+		<!-- Nested fields don't need to be serializable -->
+		<sonar.issue.ignore.multicriteria.S1948.ruleKey>java:S1948</sonar.issue.ignore.multicriteria.S1948.ruleKey>
+		<sonar.issue.ignore.multicriteria.S1948.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S1948.resourceKey>
+		<!-- Constructor injection just creates more overhead (factor x3) and achieves NOTHING -->
+		<!-- "It allows the creation of objects in an invalid state" Get a better injection framework for your tests -->
+		<sonar.issue.ignore.multicriteria.S6813.ruleKey>java:S6813</sonar.issue.ignore.multicriteria.S6813.ruleKey>
+		<sonar.issue.ignore.multicriteria.S6813.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S6813.resourceKey>
+
 		<!-- Dependency Version Groups -->
 		<com.vaadin.version>24.7.0</com.vaadin.version>
 
@@ -35,10 +48,14 @@
 		<module>tci-oidc</module>
 		<module>tci-selenium</module>
 		<module>tci-testcontainers</module>
+		<module>tci-webapp</module>
 		<module>tci-webapp-rest</module>
+		<module>tci-webapp-vaadin</module>
+		<module>webapp-it-base</module>
 		<module>webapp-rest</module>
 		<module>webapp-rest-it</module>
 		<module>webapp-vaadin</module>
+		<module>webapp-vaadin-it</module>
 	</modules>
 
 	<dependencyManagement>
@@ -82,13 +99,31 @@
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>tci-webapp</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-webapp-rest</artifactId>
 				<version>0.0.8-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>tci-webapp-vaadin</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-testcontainers</artifactId>
+				<version>0.0.8-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>webapp-it-base</artifactId>
 				<version>0.0.8-SNAPSHOT</version>
 			</dependency>
 

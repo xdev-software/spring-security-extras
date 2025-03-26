@@ -9,12 +9,16 @@
 		<artifactId>demo</artifactId>
 		<version>0.0.8-SNAPSHOT</version>
 	</parent>
-	<artifactId>tci-webapp-rest</artifactId>
+	<artifactId>tci-webapp</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
-			<artifactId>tci-webapp</artifactId>
+			<artifactId>tci-testcontainers</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev</groupId>
+			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
 		</dependency>
 	</dependencies>
 </project>

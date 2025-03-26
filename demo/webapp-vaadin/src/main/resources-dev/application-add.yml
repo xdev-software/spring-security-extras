@@ -2,10 +2,14 @@ sse:
   auth:
     remember-me:
       payload-encryption:
-        standard: v1
+        standard: v2
         chacha20:
-          v1:
+          v2:
             nonce: JustForDev_1
+        aesgcm:
+          legacy:
+            init-vector: RandomInitIV
+            secret-key-length: 16
   actuator:
     users:
       # username = password

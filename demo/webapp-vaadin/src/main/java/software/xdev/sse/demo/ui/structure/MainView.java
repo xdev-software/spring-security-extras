@@ -33,6 +33,8 @@ public class MainView extends VerticalLayout
 	
 	public MainView()
 	{
+		this.addClassName("container");
+		
 		final Button logoutButton = new Button("Logout", SIGN_OUT.create());
 		final Anchor aLogout = new Anchor("/logout", logoutButton);
 		// IMPORTANT!

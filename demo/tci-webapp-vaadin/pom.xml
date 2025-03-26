@@ -9,7 +9,7 @@
 		<artifactId>demo</artifactId>
 		<version>0.0.8-SNAPSHOT</version>
 	</parent>
-	<artifactId>tci-webapp-rest</artifactId>
+	<artifactId>tci-webapp-vaadin</artifactId>
 
 	<dependencies>
 		<dependency>

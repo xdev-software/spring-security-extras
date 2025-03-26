@@ -9,7 +9,7 @@
 		<artifactId>demo</artifactId>
 		<version>0.0.8-SNAPSHOT</version>
 	</parent>
-	<artifactId>webapp-rest-it</artifactId>
+	<artifactId>webapp-vaadin-it</artifactId>
 
 	<properties>
 		<!-- by default run no tests -->
@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
-			<artifactId>tci-webapp-rest</artifactId>
+			<artifactId>tci-webapp-vaadin</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
