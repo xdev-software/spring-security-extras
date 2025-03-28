@@ -22,7 +22,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Dependency Version Groups -->
-		<com.vaadin.version>24.7.0</com.vaadin.version>
+		<com.vaadin.version>24.7.1</com.vaadin.version>
 
 		<org.springframework.boot.version>3.4.4</org.springframework.boot.version>
 	</properties>
