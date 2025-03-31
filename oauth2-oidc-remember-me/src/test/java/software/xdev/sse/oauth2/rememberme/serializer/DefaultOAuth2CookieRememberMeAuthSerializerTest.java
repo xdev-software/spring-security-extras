@@ -89,9 +89,9 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			new DefaultOAuth2CookieRememberMeAuthSerializer(false),
 			id,
 			List.of(
-				s -> s.equals("Unable to deserialize"),
-				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR),
-				s -> s.equals(AttackPerformer.SUCCESS_INDICATOR)));
+				"Unable to deserialize"::equals,
+				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR))
+		);
 		Assertions.assertTrue(attackSuccessIds.contains(id));
 	}
 	
@@ -103,7 +103,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			new DefaultOAuth2CookieRememberMeAuthSerializer(),
 			id,
 			List.of(
-				s -> s.equals("Unable to deserialize"),
+				"Unable to deserialize"::equals,
 				s -> s.startsWith("Could not resolve type id")
 					&& s.contains("$AttackPerformer' as a subtype of `java.lang.Object`: "
 					+ "Configured `PolymorphicTypeValidator`")));

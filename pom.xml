@@ -120,6 +120,9 @@
 							<rulesets>
 								<ruleset>.config/pmd/ruleset.xml</ruleset>
 							</rulesets>
+							<excludes>
+								<exclude>**/entities/**/*_.java</exclude>
+							</excludes>
 						</configuration>
 						<dependencies>
 							<dependency>

@@ -155,7 +155,7 @@ public class CookieBasedRememberRedirectOAuth2LoginProvider
 				OAuth2LoginConfigurer.class.getDeclaredField("authorizationEndpointConfig");
 			fAuthorizationEndpointConfig.setAccessible(true);
 			final OAuth2LoginConfigurer.AuthorizationEndpointConfig authorizationEndpointConfig =
-				((OAuth2LoginConfigurer.AuthorizationEndpointConfig)fAuthorizationEndpointConfig.get(c));
+				(OAuth2LoginConfigurer.AuthorizationEndpointConfig)fAuthorizationEndpointConfig.get(c);
 			
 			final Field fAuthorizationRequestBaseUri =
 				OAuth2LoginConfigurer.AuthorizationEndpointConfig.class.getDeclaredField(
