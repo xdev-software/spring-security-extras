@@ -17,7 +17,7 @@ CREATE TABLE `userdetail` (
   UNIQUE KEY `email_address` (`email_address`),
   KEY `idx_userdetail_created_at` (`created_at`),
   KEY `idx_userdetail_disabled_at` (`disabled_at`),
-  KEY `idx_userdetail_last_login_at` (`last_login_at`),
+  KEY `idx_userdetail_last_login_at` (`last_login_at`)
 );
 
 CREATE TABLE `auth_remember_me_secret` (
