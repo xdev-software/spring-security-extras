@@ -4,7 +4,7 @@
   "packageRules": [
     {
       "description": "Ignore project internal dependencies",
-      "packagePattern": "^software.xdev:template-placeholder",
+      "packagePattern": "^software.xdev.sse",
       "datasources": [
         "maven"
       ],
@@ -19,6 +19,40 @@
         "maven"
       ],
       "groupName": "net.sourceforge.pmd"
-    }
+    },
+    {
+      "description": "Ignore dependencies for JDK8",
+      "packagePattern": "^org.bsc.maven:maven-processor-plugin",
+      "datasources": [
+        "maven"
+      ],
+      "allowedVersions": "!/jdk8$/"
+    },
+    {
+      "description": "Java LTS 21",
+      "packagePattern": "^eclipse-temurin",
+      "datasources": [
+        "docker"
+      ],
+      "allowedVersions": "/^21\\-alpine$/"
+    },
+    {
+      "description": "Alpine - Ignore YYYYMMDD releases",
+      "packagePattern": "^alpine",
+      "datasources": [
+        "docker"
+      ],
+      "allowedVersions": "<=100"
+    },
+    {
+      "description": "Group com.vaadin",
+      "matchPackagePatterns": [
+        "^com.vaadin"
+      ],
+      "datasources": [
+        "maven"
+      ],
+      "groupName": "com.vaadin"
+    },
   ]
 }
