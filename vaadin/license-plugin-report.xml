@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1744371326924">
+    <module artifactId="vaadin" groupId="software.xdev.sse" version="1.0.1"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/vaadin/SecureVaadinRequestCache.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/TotalVaadinFlowWebSecurity.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/auto/VaadinAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/csp/VaadinDefaultCSPProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/csp/VaadinDevToolsCSPProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/csp/auto/VaadinCSPAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/csrf/VaadinCSRFDisableRequestMatcherProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/oauth2/VaadinOAuth2RefreshReloadCommunicator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/oauth2/allowedsources/DefaultVaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/oauth2/allowedsources/VaadinOAuth2RefreshCommunicatiorAllowedSourcesProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/oauth2/auto/VaadinOAuth2AutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/oauth2/csrf/OAuth2LoginLogoutCSRFDisableRequestMatcherProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/xhrreload/XHRReloadVaadinServiceInitListener.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/xhrreload/auto/XHRReloadAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/vaadin/xhrreload/config/XHRReloadConfig.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
