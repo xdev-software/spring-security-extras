@@ -131,7 +131,7 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-dependencies-bom</artifactId>
-				<version>4.30.0</version>
+				<version>4.31.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -345,7 +345,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>10.22.0</version>
+								<version>10.23.0</version>
 							</dependency>
 						</dependencies>
 						<configuration>
