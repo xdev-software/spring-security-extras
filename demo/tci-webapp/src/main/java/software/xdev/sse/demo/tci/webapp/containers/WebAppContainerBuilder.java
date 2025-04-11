@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import software.xdev.testcontainers.imagebuilder.AdvancedImageFromDockerFile;
 
 
+@SuppressWarnings("PMD.MoreThanOneLogger")
 public final class WebAppContainerBuilder
 {
 	private static final Logger LOG = LoggerFactory.getLogger(WebAppContainerBuilder.class);

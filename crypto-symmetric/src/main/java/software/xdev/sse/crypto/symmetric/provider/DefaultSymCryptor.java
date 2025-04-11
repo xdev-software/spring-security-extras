@@ -54,7 +54,7 @@ public abstract class DefaultSymCryptor implements SymCryptor
 			
 			return cipher.doFinal(value);
 		}
-		catch(final NullPointerException | IllegalBlockSizeException | BadPaddingException
+		catch(final IllegalBlockSizeException | BadPaddingException
 					| NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
 					| InvalidAlgorithmParameterException | IllegalArgumentException e)
 		{
@@ -73,7 +73,7 @@ public abstract class DefaultSymCryptor implements SymCryptor
 			
 			return cipher.doFinal(encrypted);
 		}
-		catch(final NullPointerException | IllegalBlockSizeException | BadPaddingException
+		catch(final IllegalBlockSizeException | BadPaddingException
 					| NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
 					| InvalidAlgorithmParameterException | IllegalArgumentException e)
 		{

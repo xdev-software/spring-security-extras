@@ -154,14 +154,14 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.stream()
 			.map(RouteBaseData::getTemplate)
 			.filter(s -> !s.isBlank())
-			.map(s -> s.replace("/:___url_parameter?", "/*"))
+			.map(this::handleUrlParameterInPath)
 			.map(s -> "/" + s)
 			.collect(Collectors.toSet());
 		
 		LOG.debug("Allowed paths: {}", allowedPaths);
 		
 		this.pathMaxLength = allowedPaths.stream()
-			.mapToInt(s -> s.length() + (s.endsWith("/*") ? this.defaultWildcardPathLengthAssumption : 0))
+			.mapToInt(s -> s.length() + (s.endsWith("*") ? this.defaultWildcardPathLengthAssumption : 0))
 			.max()
 			.orElse(this.defaultPathMaxLength);
 		
@@ -170,5 +170,21 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.map(AntPathRequestMatcher::new)
 			.map(RequestMatcher.class::cast)
 			.toList());
+	}
+	
+	protected String handleUrlParameterInPath(final String path)
+	{
+		final String urlParamIdentifier = "/:___url_parameter";
+		final int urlParamIndex = path.indexOf(urlParamIdentifier);
+		if(urlParamIndex == -1)
+		{
+			return path;
+		}
+		
+		final String substring = path.substring(0, urlParamIndex);
+		return substring + "/*"
+			// Do a full level wildcard if there is more stuff (excluding the optional ?)
+			// behind the path-part
+			+ (path.length() - substring.length() - urlParamIdentifier.length() <= 1 ? "" : "*");
 	}
 }

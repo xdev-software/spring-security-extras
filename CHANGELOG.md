@@ -1,3 +1,7 @@
+# 1.0.1
+* Vaadin
+  * Fix ``SecureVaadinRequestCache`` ignoring non-optional url parameters
+
 # 1.0.0
 _Initial production ready release_
 

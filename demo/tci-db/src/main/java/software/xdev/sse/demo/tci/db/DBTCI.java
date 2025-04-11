@@ -1,14 +1,8 @@
 package software.xdev.sse.demo.tci.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -18,7 +12,6 @@ import org.mariadb.jdbc.Driver;
 import org.mariadb.jdbc.MariaDbDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.GenericContainer;
 
 import software.xdev.sse.demo.persistence.FlywayInfo;
 import software.xdev.sse.demo.persistence.FlywayMigration;
@@ -180,80 +173,5 @@ public class DBTCI extends TCI<DBContainer>
 			conf.dataSource(this.createDataSource());
 			conf.locations(locations);
 		});
-	}
-	
-	public void logDataBaseInfo()
-	{
-		if(Optional.ofNullable(this.getContainer()).map(GenericContainer::getContainerId).isPresent())
-		{
-			return;
-		}
-		
-		final Logger logger = LoggerFactory.getLogger(DBTCI.class.getName() + ".sqlstatus");
-		if(!logger.isInfoEnabled())
-		{
-			return;
-		}
-		
-		logger.info("===== SERVER INFO =====");
-		try(final Connection conn = this.createDataSource().getConnection();
-			final Statement stmt = conn.createStatement())
-		{
-			logger.info("> SHOW PROCESSLIST <");
-			this.printDatabaseInfo(stmt.executeQuery("SHOW PROCESSLIST"), logger);
-			
-			if(logger.isTraceEnabled())
-			{
-				logger.info("> SHOW STATUS (TRACE) <");
-				this.printDatabaseInfo(stmt.executeQuery("SHOW STATUS"), logger);
-			}
-			else if(logger.isDebugEnabled())
-			{
-				logger.info("> SHOW STATUS LIKE '%onn%' (DEBUG) <");
-				this.printDatabaseInfo(stmt.executeQuery("SHOW STATUS LIKE '%onn%'"), logger);
-			}
-		}
-		catch(final Exception ex)
-		{
-			logger.warn("Unable to print database info", ex);
-		}
-		finally
-		{
-			logger.info("=======================");
-		}
-	}
-	
-	@SuppressWarnings("java:S2629") // is already checked when invoked
-	private void printDatabaseInfo(final ResultSet rs, final Logger logger) throws SQLException
-	{
-		final int colCount = rs.getMetaData().getColumnCount();
-		
-		logger.info(
-			IntStream.range(1, colCount + 1).mapToObj(id ->
-			{
-				try
-				{
-					return rs.getMetaData().getColumnName(id);
-				}
-				catch(final SQLException e)
-				{
-					return "--Exception--";
-				}
-			}).collect(Collectors.joining(",")));
-		while(rs.next())
-		{
-			logger.info(
-				IntStream.range(1, colCount + 1).mapToObj(id ->
-				{
-					try
-					{
-						return rs.getString(id);
-					}
-					catch(final SQLException e)
-					{
-						return "--Exception--";
-					}
-				}).collect(Collectors.joining(",")));
-		}
 	}
 }

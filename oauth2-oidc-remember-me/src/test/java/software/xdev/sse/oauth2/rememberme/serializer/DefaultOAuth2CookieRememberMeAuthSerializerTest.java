@@ -89,9 +89,10 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			new DefaultOAuth2CookieRememberMeAuthSerializer(false),
 			id,
 			List.of(
-				s -> s.equals("Unable to deserialize"),
+				"Unable to deserialize"::equals,
 				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR),
-				s -> s.equals(AttackPerformer.SUCCESS_INDICATOR)));
+				AttackPerformer.SUCCESS_INDICATOR::equals)
+		);
 		Assertions.assertTrue(attackSuccessIds.contains(id));
 	}
 	
@@ -103,7 +104,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			new DefaultOAuth2CookieRememberMeAuthSerializer(),
 			id,
 			List.of(
-				s -> s.equals("Unable to deserialize"),
+				"Unable to deserialize"::equals,
 				s -> s.startsWith("Could not resolve type id")
 					&& s.contains("$AttackPerformer' as a subtype of `java.lang.Object`: "
 					+ "Configured `PolymorphicTypeValidator`")));
@@ -113,7 +114,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 	void performAttack(
 		final DefaultOAuth2CookieRememberMeAuthSerializer serializer,
 		final String id,
-		final List<Predicate<String>> messageChecks)
+		final List<Predicate<String>> exceptionCauseMessageChecks)
 	{
 		final Map<String, Object> data = Map.of("test", new AttackPerformer(id));
 		final IllegalStateException ex = Assertions.assertThrows(
@@ -125,7 +126,8 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 		while(current != null)
 		{
 			Assertions.assertTrue(
-				i < messageChecks.size() && messageChecks.get(i).test(current.getMessage()),
+				i < exceptionCauseMessageChecks.size()
+					&& exceptionCauseMessageChecks.get(i).test(current.getMessage()),
 				"Invalid exception message at nested=" + i + ": " + current.getMessage()
 					+ "\nSOURCE EXCEPTION:\n"
 					+ ExceptionUtils.getStackTrace(ex));
