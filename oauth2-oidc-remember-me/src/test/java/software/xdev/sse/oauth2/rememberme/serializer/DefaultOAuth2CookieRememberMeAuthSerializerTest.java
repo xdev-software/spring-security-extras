@@ -90,7 +90,8 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			id,
 			List.of(
 				"Unable to deserialize"::equals,
-				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR))
+				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR),
+				s -> s.equals(AttackPerformer.SUCCESS_INDICATOR))
 		);
 		Assertions.assertTrue(attackSuccessIds.contains(id));
 	}
@@ -113,7 +114,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 	void performAttack(
 		final DefaultOAuth2CookieRememberMeAuthSerializer serializer,
 		final String id,
-		final List<Predicate<String>> messageChecks)
+		final List<Predicate<String>> exceptionCauseMessageChecks)
 	{
 		final Map<String, Object> data = Map.of("test", new AttackPerformer(id));
 		final IllegalStateException ex = Assertions.assertThrows(
@@ -125,7 +126,8 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 		while(current != null)
 		{
 			Assertions.assertTrue(
-				i < messageChecks.size() && messageChecks.get(i).test(current.getMessage()),
+				i < exceptionCauseMessageChecks.size()
+					&& exceptionCauseMessageChecks.get(i).test(current.getMessage()),
 				"Invalid exception message at nested=" + i + ": " + current.getMessage()
 					+ "\nSOURCE EXCEPTION:\n"
 					+ ExceptionUtils.getStackTrace(ex));
