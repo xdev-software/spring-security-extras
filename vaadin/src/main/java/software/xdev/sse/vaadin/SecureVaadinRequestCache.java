@@ -154,14 +154,27 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.stream()
 			.map(RouteBaseData::getTemplate)
 			.filter(s -> !s.isBlank())
-			.map(s -> s.replace("/:___url_parameter?", "/*"))
+			.map(s -> {
+				final String urlParamIdentifier = "/:___url_parameter";
+				final int urlParamIndex = s.indexOf(urlParamIdentifier);
+				if(urlParamIndex == -1)
+				{
+					return s;
+				}
+				
+				final String substring = s.substring(0, urlParamIndex);
+				return substring + "/*"
+					// Do a full level wildcard if there is more stuff (excluding the optional ?)
+					// behind the path-part
+					+ (s.length() - substring.length() - urlParamIdentifier.length() <= 1 ? "" : "*");
+			})
 			.map(s -> "/" + s)
 			.collect(Collectors.toSet());
 		
 		LOG.debug("Allowed paths: {}", allowedPaths);
 		
 		this.pathMaxLength = allowedPaths.stream()
-			.mapToInt(s -> s.length() + (s.endsWith("/*") ? this.defaultWildcardPathLengthAssumption : 0))
+			.mapToInt(s -> s.length() + (s.endsWith("*") ? this.defaultWildcardPathLengthAssumption : 0))
 			.max()
 			.orElse(this.defaultPathMaxLength);
 		
