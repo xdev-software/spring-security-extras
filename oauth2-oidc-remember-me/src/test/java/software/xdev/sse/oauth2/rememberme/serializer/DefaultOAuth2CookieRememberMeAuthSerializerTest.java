@@ -91,7 +91,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 			List.of(
 				"Unable to deserialize"::equals,
 				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR),
-				s -> s.equals(AttackPerformer.SUCCESS_INDICATOR))
+				AttackPerformer.SUCCESS_INDICATOR::equals)
 		);
 		Assertions.assertTrue(attackSuccessIds.contains(id));
 	}

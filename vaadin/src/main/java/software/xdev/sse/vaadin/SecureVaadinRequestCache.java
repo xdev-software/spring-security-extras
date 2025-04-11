@@ -154,20 +154,7 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.stream()
 			.map(RouteBaseData::getTemplate)
 			.filter(s -> !s.isBlank())
-			.map(s -> {
-				final String urlParamIdentifier = "/:___url_parameter";
-				final int urlParamIndex = s.indexOf(urlParamIdentifier);
-				if(urlParamIndex == -1)
-				{
-					return s;
-				}
-				
-				final String substring = s.substring(0, urlParamIndex);
-				return substring + "/*"
-					// Do a full level wildcard if there is more stuff (excluding the optional ?)
-					// behind the path-part
-					+ (s.length() - substring.length() - urlParamIdentifier.length() <= 1 ? "" : "*");
-			})
+			.map(this::handleUrlParameterInPath)
 			.map(s -> "/" + s)
 			.collect(Collectors.toSet());
 		
@@ -183,5 +170,21 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.map(AntPathRequestMatcher::new)
 			.map(RequestMatcher.class::cast)
 			.toList());
+	}
+	
+	protected String handleUrlParameterInPath(final String path)
+	{
+		final String urlParamIdentifier = "/:___url_parameter";
+		final int urlParamIndex = path.indexOf(urlParamIdentifier);
+		if(urlParamIndex == -1)
+		{
+			return path;
+		}
+		
+		final String substring = path.substring(0, urlParamIndex);
+		return substring + "/*"
+			// Do a full level wildcard if there is more stuff (excluding the optional ?)
+			// behind the path-part
+			+ (path.length() - substring.length() - urlParamIdentifier.length() <= 1 ? "" : "*");
 	}
 }
