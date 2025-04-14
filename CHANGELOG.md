@@ -1,6 +1,12 @@
+# 1.0.2
+* Vaadin
+    * ``XHRReloadVaadinServiceInitListener``
+        * Improved performance by not building element every request and cloning it instead
+        * If an error occurs while the script is added to the document the error is now logged (once at WARN; all subsequent ones at DEBUG)
+
 # 1.0.1
 * Vaadin
-  * Fix ``SecureVaadinRequestCache`` ignoring non-optional url parameters
+    * Fix ``SecureVaadinRequestCache`` ignoring non-optional url parameters
 
 # 1.0.0
 _Initial production ready release_

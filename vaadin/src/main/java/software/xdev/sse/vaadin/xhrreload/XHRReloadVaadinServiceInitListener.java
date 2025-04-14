@@ -18,14 +18,17 @@ package software.xdev.sse.vaadin.xhrreload;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import com.vaadin.flow.server.ServiceInitEvent;
+import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.server.communication.IndexHtmlRequestListener;
 
@@ -36,7 +39,8 @@ public class XHRReloadVaadinServiceInitListener implements VaadinServiceInitList
 {
 	private static final Logger LOG = LoggerFactory.getLogger(XHRReloadVaadinServiceInitListener.class);
 	
-	protected final String scriptContents;
+	protected final Element scriptElement;
+	protected boolean scriptAttachErrorAlreadyLogged;
 	
 	public XHRReloadVaadinServiceInitListener(final XHRReloadConfig config)
 	{
@@ -48,11 +52,21 @@ public class XHRReloadVaadinServiceInitListener implements VaadinServiceInitList
 			}
 			
 			// Remove comments
-			this.scriptContents = Pattern.compile(
+			final String scriptContents = Pattern.compile(
 					"\\/\\*[\\s\\S]*?\\*\\/|(?<=[^:])\\/\\/.*|^\\/\\/.*")
 				.matcher(new String(is.readAllBytes()))
 				.replaceAll("")
 				.trim();
+			
+			if(scriptContents.isBlank())
+			{
+				LOG.error("Script loaded from {} is empty", config.getResourceLocation());
+			}
+			
+			this.scriptElement = new Element("script")
+				.attr("type", "text/javascript")
+				.html(scriptContents);
+			LOG.trace("Built scriptElement: {}", this.scriptElement);
 		}
 		catch(final IOException e)
 		{
@@ -65,11 +79,32 @@ public class XHRReloadVaadinServiceInitListener implements VaadinServiceInitList
 	{
 		event.addIndexHtmlRequestListener((IndexHtmlRequestListener)resp -> {
 			final Document document = resp.getDocument();
-			
 			final Element body = document.body();
-			body.prependElement("script")
-				.attr("type", "text/javascript")
-				.html(this.scriptContents);
+			
+			try
+			{
+				body.prependChild(this.scriptElement.clone());
+			}
+			catch(final Exception ex)
+			{
+				LOG.atLevel(this.scriptAttachErrorAlreadyLogged
+						? Level.DEBUG
+						: Level.WARN)
+					.setMessage(
+						"Failed to attach XHRReloadScript. {}"
+							+ "Details: path={} body={}")
+					.addArgument(!this.scriptAttachErrorAlreadyLogged
+						? "Subsequent errors will be logged at DEBUG. "
+						: "")
+					.addArgument(() ->
+						Optional.ofNullable(resp.getVaadinRequest())
+							.map(VaadinRequest::getPathInfo)
+							.orElse("?"))
+					.addArgument(body)
+					.addArgument(ex)
+					.log();
+				this.scriptAttachErrorAlreadyLogged = true;
+			}
 		});
 		
 		LOG.debug("Applied serviceInit");
