@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1744623238131">
+    <module artifactId="crypto-symmetric-managed" groupId="software.xdev.sse" version="1.0.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/SymCryptManager.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/SymCryptManagerConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/SymCryptManagerProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/auto/SymCryptAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/SymCryptorProviderConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/SymCryptorProviderInstantiator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/aesgcm/AESGCMSymCryptorProviderConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/aesgcm/AESGCMSymCryptorProviderInstantiator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/chacha20/ChaCha20SymCryptorProviderConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/manager/provider/chacha20/ChaCha20SymCryptorProviderInstantiator.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
