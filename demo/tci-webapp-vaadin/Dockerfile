@@ -1,4 +1,4 @@
-# Note: This Dockerfile is used by the selenium tests for compiling Timeline when there was no Image supplied
+# Note: This Dockerfile is used by the integration tests for compiling the app when there was no image was supplied
 ARG JAVA_VERSION=21
 FROM eclipse-temurin:${JAVA_VERSION}-jre-alpine AS jre-base
 
