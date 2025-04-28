@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>software.xdev.sse.demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>1.0.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>entities-metamodel</artifactId>
+
+	<properties>
+		<metamodel.sourceDir>${project.basedir}/../entities/src/main/java</metamodel.sourceDir>
+		<project.generated.sources>${project.basedir}/src/gen/java/</project.generated.sources>
+		<!-- Ignore auto generated code -->
+		<sonar.exclusions>
+			src/gen/java/**
+		</sonar.exclusions>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>software.xdev.sse.demo</groupId>
+			<artifactId>entities</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source-metamodel</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.generated.sources}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceDirectory>${metamodel.sourceDir}</sourceDirectory>
+							<outputDirectory>${project.generated.sources}</outputDirectory>
+							<!-- Fix javac implicit warning by setting default value -->
+							<!-- https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html#BHCJJJAJ -->
+							<!-- Disable @Generated otherwise it tries to use javax because some plugins contain javax.annotation.Generated -->
+							<!-- https://hibernate.atlassian.net/browse/HHH-15877 -->
+							<!-- @formatter:off DO NOT INTRODUCE LINE BREAK -->
+							<compilerArguments>
+								-implicit:class -AfullyAnnotationConfigured=true -AaddGeneratedAnnotation=false -Aindex=false
+							</compilerArguments>
+							<!-- @formatter:on -->
+							<processors>
+								<processor>org.hibernate.processor.HibernateProcessor</processor>
+							</processors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Can be removed once fix for https://hibernate.atlassian.net/browse/HHH-18863 is released -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
+					<!-- Workaround for https://hibernate.atlassian.net/browse/HHH-18873 -->
+					<execution>
+						<id>wipe-hibernate-entity-index</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<excludeDefaultDirectories>true</excludeDefaultDirectories>
+							<filesets>
+								<fileset>
+									<directory>${project.generated.sources}/entity</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
