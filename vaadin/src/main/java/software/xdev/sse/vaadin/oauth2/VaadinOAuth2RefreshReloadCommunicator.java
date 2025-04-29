@@ -39,6 +39,7 @@ public class VaadinOAuth2RefreshReloadCommunicator implements OAuth2RefreshReloa
 		if(response instanceof final HttpServletResponse httpResponse)
 		{
 			httpResponse.setHeader(this.config.getHeader(), "1");
+			httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 	}
 }

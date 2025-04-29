@@ -23,6 +23,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -32,6 +33,8 @@ import io.micrometer.core.instrument.MeterRegistry;
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
 import software.xdev.sse.oauth2.checkauth.auto.OAuth2AuthCheckerAutoConfig;
 import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
+import software.xdev.sse.oauth2.filter.deauth.DeAuthApplier;
+import software.xdev.sse.oauth2.filter.deauth.DefaultDeAuthApplier;
 import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.DefaultOAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.metrics.DummyOAuth2RefreshFilterAuthCheckMetrics;
@@ -55,6 +58,7 @@ public class OAuth2RefreshFilterAutoConfig
 		// Some injections need to be lazy for connectionless start
 		@Lazy final OAuth2AuthorizedClientService clientService,
 		@Lazy final OAuth2AuthChecker oAuth2AuthChecker,
+		final DeAuthApplier deAuthApplier,
 		@Autowired(required = false) final OtherWebSecurityPathsCompat otherWebSecurityPaths,
 		final ApplicationContext context
 	)
@@ -63,6 +67,7 @@ public class OAuth2RefreshFilterAutoConfig
 			metrics != null ? metrics : new DummyOAuth2RefreshFilterAuthCheckMetrics(),
 			clientService,
 			oAuth2AuthChecker,
+			deAuthApplier,
 			new DynamicLazyBeanProvider<>(context, OAuth2RefreshHandler.class),
 			new DynamicLazyBeanProvider<>(context, OAuth2RefreshReloadCommunicator.class));
 		
@@ -84,11 +89,32 @@ public class OAuth2RefreshFilterAutoConfig
 		return filter;
 	}
 	
+	// Disable default registration as this needs to be done manually
+	// Otherwise the filter is registered twice
+	// https://stackoverflow.com/a/28428154
+	// https://docs.spring.io/spring-boot/how-to/webserver.html#howto.webserver.add-servlet-filter-listener
+	@ConditionalOnBean(OAuth2RefreshFilter.class)
+	@Bean
+	public FilterRegistrationBean<OAuth2RefreshFilter> oAuth2RefreshFilterFilterRegistration(
+		final OAuth2RefreshFilter filter)
+	{
+		final FilterRegistrationBean<OAuth2RefreshFilter> registration = new FilterRegistrationBean<>(filter);
+		registration.setEnabled(false);
+		return registration;
+	}
+	
 	@ConditionalOnBean(MeterRegistry.class)
 	@ConditionalOnMissingBean
 	@Bean
 	public OAuth2RefreshFilterAuthCheckMetrics oAuth2RefreshFilterAuthCheckMetrics(final MeterRegistry meterRegistry)
 	{
 		return new DefaultOAuth2RefreshFilterAuthCheckMetrics(meterRegistry);
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public DeAuthApplier deAuthApplier()
+	{
+		return new DefaultDeAuthApplier();
 	}
 }

@@ -41,6 +41,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
 import software.xdev.sse.oauth2.checkauth.OAuth2AuthChecker;
+import software.xdev.sse.oauth2.filter.deauth.DeAuthApplier;
 import software.xdev.sse.oauth2.filter.handler.OAuth2RefreshHandler;
 import software.xdev.sse.oauth2.filter.metrics.OAuth2RefreshFilterAuthCheckMetrics;
 import software.xdev.sse.oauth2.filter.reloadcom.OAuth2RefreshReloadCommunicator;
@@ -61,6 +62,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	protected final OAuth2RefreshFilterAuthCheckMetrics metrics;
 	protected final OAuth2AuthorizedClientService clientService;
 	protected final OAuth2AuthChecker oAuth2AuthChecker;
+	protected final DeAuthApplier deAuthApplier;
 	protected final DynamicLazyBeanProvider<OAuth2RefreshHandler> refreshHandlersProvider;
 	protected final DynamicLazyBeanProvider<OAuth2RefreshReloadCommunicator> reloadCommunicatorsProvider;
 	
@@ -73,12 +75,14 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 		final OAuth2RefreshFilterAuthCheckMetrics metrics,
 		final OAuth2AuthorizedClientService clientService,
 		final OAuth2AuthChecker oAuth2AuthChecker,
+		final DeAuthApplier deAuthApplier,
 		final DynamicLazyBeanProvider<OAuth2RefreshHandler> refreshHandlersProvider,
 		final DynamicLazyBeanProvider<OAuth2RefreshReloadCommunicator> reloadCommunicatorsProvider)
 	{
 		this.metrics = metrics;
 		this.clientService = clientService;
 		this.oAuth2AuthChecker = oAuth2AuthChecker;
+		this.deAuthApplier = deAuthApplier;
 		this.refreshHandlersProvider = refreshHandlersProvider;
 		this.reloadCommunicatorsProvider = reloadCommunicatorsProvider;
 		
@@ -140,7 +144,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 				this.oAuth2RefreshHandlers().forEach(h ->
 					h.logout(httpRequest, httpResponse, auth));
 			}
-			SecurityContextHolder.getContext().setAuthentication(null);
+			this.deAuthApplier.deAuth(request, response, auth);
 			
 			LOG.debug("De-Authenticated '{}'", auth.getName());
 			

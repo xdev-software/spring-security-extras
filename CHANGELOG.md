@@ -1,3 +1,13 @@
+# 1.0.3
+* Vaadin
+    * Fix ``VaadinOAuth2RefreshReloadCommunicator`` not always setting status code ``401`` (which causes ``xhrAdapter.js`` to ignore the response)
+        * This should only affect applications with anonymous auth enabled
+* OAuth2-OIDC
+    * Do not register ``OAuth2RefreshFilter`` twice
+    * DeAuth
+        * Apply correctly
+        * Make it possible to customize application
+
 # 1.0.2
 * Vaadin
     * ``XHRReloadVaadinServiceInitListener``
