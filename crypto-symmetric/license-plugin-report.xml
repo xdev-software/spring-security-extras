@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1745926874166">
+    <module artifactId="crypto-symmetric" groupId="software.xdev.sse" version="1.0.4"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/DefaultSymCryptor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/SymCryptor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/SymCryptorException.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/SymCryptorProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/aesgcm/AESGCMSymCryptor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/aesgcm/AESGCMSymCryptorProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/chacha20/ChaCha20SymCryptor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/crypto/symmetric/provider/chacha20/ChaCha20SymCryptorProvider.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/crypto/symmetric/provider/aesgcm/TestAESGCMSymCryptor.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/crypto/symmetric/provider/chacha20/TestChaCha20SymCryptor.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
