@@ -1,3 +1,7 @@
+# 1.0.4
+* OAuth2-OIDC
+    * ``DefaultDeAuthApplier``: Use already present request/response if possible
+
 # 1.0.3
 * Vaadin
     * Fix ``VaadinOAuth2RefreshReloadCommunicator`` not always setting status code ``401`` (which causes ``xhrAdapter.js`` to ignore the response)
