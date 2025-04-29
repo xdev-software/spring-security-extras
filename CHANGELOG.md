@@ -4,13 +4,13 @@
         * This should only affect applications with anonymous auth enabled
 * OAuth2-OIDC
     * Do not register ``OAuth2RefreshFilter`` twice
-    * DeAuth
+    * DeAuth JS-556
         * Apply correctly
         * Make it possible to customize application
 
 # 1.0.2
 * Vaadin
-    * ``XHRReloadVaadinServiceInitListener``
+    * ``XHRReloadVaadinServiceInitListener`` #45
         * Improved performance by not building element every request and cloning it instead
         * If an error occurs while the script is added to the document the error is now logged (once at WARN; all subsequent ones at DEBUG)
 
