@@ -21,7 +21,7 @@ public class SeleniumBrowserWebDriverContainer
 	}
 	
 	@Override
-	public Set<Integer> getAdditionalPortsForFixedExposing()
+	public Set<Integer> getAdditionalTCPPortsForFixedExposing()
 	{
 		final Set<Integer> ports = new HashSet<>(Set.of(SELENIUM_PORT));
 		if(!this.disableVNC)
