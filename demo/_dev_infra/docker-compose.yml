@@ -1,0 +1,82 @@
+services:
+  db:
+    container_name: "db"
+    image: mariadb:11
+    env_file: db.env
+    ports:
+      - "3306:3306"
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+  
+  # Docs: https://docs.duendesoftware.com
+  oidc-server-mock:
+    container_name: oidc-server-mock
+    image: xdevsoftware/oidc-server-mock:1
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      SERVER_OPTIONS_INLINE: |
+        {
+          "AccessTokenJwtType": "JWT",
+          "Discovery": {
+            "ShowKeySet": true
+          },
+          "Authentication": {
+            "CookieSameSiteMode": "Lax",
+            "CheckSessionCookieSameSiteMode": "Lax"
+          }
+        }
+      LOGIN_OPTIONS_INLINE: |
+        {
+          "AllowRememberLogin": false
+        }
+      LOGOUT_OPTIONS_INLINE: |
+        {
+          "AutomaticRedirectAfterSignOut": true
+        }
+      USERS_CONFIGURATION_PATH: /tmp/config/oidc-user-config.json
+      CLIENTS_CONFIGURATION_INLINE: |
+        [
+          {
+              "ClientId": "client-id",
+              "ClientSecrets": [
+                  "client-secret"
+              ],
+              "Description": "AppDesc",
+              "AllowedGrantTypes": [
+                  "authorization_code",
+                  "refresh_token"
+              ],
+              "RedirectUris": [
+                  "*"
+              ],
+              "AllowedScopes": [
+                  "openid",
+                  "profile",
+                  "email",
+                  "offline_access"
+              ],
+              "AlwaysIncludeUserClaimsInIdToken": true,
+              "AllowOfflineAccess": true,
+              "RequirePkce": false
+          }
+        ]
+      ASPNET_SERVICES_OPTIONS_INLINE: |
+        {
+          "ForwardedHeadersOptions": {
+            "ForwardedHeaders" : "All"
+          }
+        }
+    volumes:
+      - ./oidc-user-config.json:/tmp/config/oidc-user-config.json:ro
+    ports:
+      - '4011:8080'
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+networks:
+    default:
+        driver: bridge
