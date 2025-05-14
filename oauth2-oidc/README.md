@@ -22,7 +22,8 @@ Also provides a [OAuth2/OIDC server "is offline" fallback](./src/main/java/softw
 
 #### Requirements
 
-* The OAuth2/OIDC Server should provide a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) (to recheck authentication).<br/>Usually this can be achieved with the [``offline_access`` scope](https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess).
+* The OAuth2/OIDC Server should provide a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) (to recheck authentication).<br/>Usually this can be achieved with the [``offline_access`` scope](https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess) but it's highly dependent on the OIDC Provider. 
+For example IdentityServer requires it, while KeyCloak must not use it at all (as the UI otherwise asks every time for a login) and requires a different setting.
 
 #### Usage
 
