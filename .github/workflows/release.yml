@@ -4,9 +4,6 @@ on:
   push:
     branches: [ master ]
 
-env:
-  PRIMARY_MAVEN_MODULE: ${{ github.event.repository.name }}
-
 permissions:
   contents: write
   pull-requests: write
@@ -74,10 +71,9 @@ jobs:
     - name: Get version
       id: version
       run: |
-        version=$(../mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+        version=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo "release=$version" >> $GITHUB_OUTPUT
         echo "releasenumber=${version//[!0-9]/}" >> $GITHUB_OUTPUT
-      working-directory: ${{ env.PRIMARY_MAVEN_MODULE }}
   
     - name: Commit and Push
       run: |
@@ -102,11 +98,13 @@ jobs:
           Add the following lines to your pom:
           ```XML
           <dependency>
-             <groupId>software.xdev</groupId>
-             <artifactId>${{ env.PRIMARY_MAVEN_MODULE }}</artifactId>
+             <groupId>software.xdev.sse</groupId>
+             <artifactId>corresponding_module</artifactId>
              <version>${{ steps.version.outputs.release }}</version>
           </dependency>
           ```
+
+          You can also use the [BOM](https://github.com/${{ github.repository }}/tree/develop/bom) for easier dependency management.
 
   publish-maven:
     runs-on: ubuntu-latest
@@ -133,12 +131,17 @@ jobs:
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
     - name: Publish to OSSRH
-      run: ../mvnw -B deploy -Possrh -DskipTests
+      run: |
+        modules=("bom")
+        dependency_management_block=$(grep -ozP '<dependencyManagement>(\r|\n|.)*<\/dependencyManagement>' 'bom/pom.xml' | tr -d '\0')
+        modules+=($(echo $dependency_management_block | grep -oP '(?<=<artifactId>)[^<]+'))
+        printf -v modules_joined '%s,' "${modules[@]}"
+        modules_arg=$(echo "${modules_joined%,}")
+        ./mvnw -B deploy -pl "$modules_arg" -am -T2C -Possrh -DskipTests
       env:
         MAVEN_CENTRAL_USERNAME: ${{ secrets.S01_OSS_SONATYPE_MAVEN_USERNAME }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.S01_OSS_SONATYPE_MAVEN_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-      working-directory: ${{ env.PRIMARY_MAVEN_MODULE }}
 
   publish-pages:
     runs-on: ubuntu-latest
@@ -161,14 +164,22 @@ jobs:
         cache: 'maven'
 
     - name: Build site
-      run: ../mvnw -B compile site -DskipTests -T2C
-      working-directory: ${{ env.PRIMARY_MAVEN_MODULE }}
+      run: ./mvnw -B compile site -DskipTests -T2C
+    
+    - name: Aggregate site
+      run: |
+        modules=($(grep -ozP '(?<=module>)[^<]+' 'pom.xml' | tr -d '\0'))
+        for m in "${modules[@]}"
+        do
+            echo "$m/target/site -> ./target/site/$m"
+            cp -r $m/target/site ./target/site/$m
+        done
 
     - name: Deploy to Github pages
       uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./${{ env.PRIMARY_MAVEN_MODULE }}/target/site
+        publish_dir: ./target/site
         force_orphan: true
 
   after-release:
