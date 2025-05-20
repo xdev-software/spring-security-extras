@@ -1,3 +1,7 @@
+# 1.0.5
+* Migrated deployment to _Sonatype Maven Central Portal_ [#155](https://github.com/xdev-software/standard-maven-template/issues/155)
+* Updated dependencies
+
 # 1.0.4
 * OAuth2-OIDC
     * ``DefaultDeAuthApplier``: Use already present request/response if possible

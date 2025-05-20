@@ -9,8 +9,8 @@ import org.testcontainers.containers.wait.strategy.WaitAllStrategy;
 
 import software.xdev.sse.demo.tci.oidc.OIDCTCI;
 import software.xdev.sse.demo.tci.oidc.containers.OIDCServerContainer;
-import software.xdev.sse.demo.tci.util.ContainerMemory;
 import software.xdev.tci.factory.prestart.PreStartableTCIFactory;
+import software.xdev.tci.misc.ContainerMemory;
 
 
 public class OIDCTCIFactory extends PreStartableTCIFactory<OIDCServerContainer, OIDCTCI>
