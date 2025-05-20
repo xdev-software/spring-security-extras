@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse.demo</groupId>
 	<artifactId>demo</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -52,73 +52,73 @@
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>entities</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>entities-metamodel</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>persistence</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-db</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-oidc</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-selenium</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-webapp</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-webapp-rest</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-webapp-vaadin</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>tci-testcontainers</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>webapp-it-base</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>webapp-shared</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
@@ -240,27 +240,27 @@
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>csp</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc-remember-me</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>vaadin</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>web-sidecar-actuator</artifactId>
-				<version>1.0.5-SNAPSHOT</version>
+				<version>1.0.6-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
