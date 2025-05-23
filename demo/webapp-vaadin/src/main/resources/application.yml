@@ -24,11 +24,6 @@ management:
     heapdump:
       access: unrestricted
 
-  health:
-    # Kubernetes probes
-    probes:
-      enabled: true
-
 server:
   # https://stackoverflow.com/questions/69403837/how-to-use-tomcat-remoteipfilter-in-spring-boot
   # https://docs.spring.io/spring-security/reference/features/exploits/http.html#http-proxy-server
