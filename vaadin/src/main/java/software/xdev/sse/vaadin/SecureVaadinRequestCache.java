@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
@@ -167,7 +167,7 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 		
 		this.allowedMatcher = new OrRequestMatcher(allowedPaths
 			.stream()
-			.map(AntPathRequestMatcher::new)
+			.map(PathPatternRequestMatcher.withDefaults()::matcher)
 			.map(RequestMatcher.class::cast)
 			.toList());
 	}
