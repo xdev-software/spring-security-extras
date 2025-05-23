@@ -108,8 +108,6 @@ public class ActuatorWebSecurity
 	
 	protected AuthenticationProvider createActuatorAuthProvider()
 	{
-		final DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		
 		final List<UserDetails> users = this.config.getUsers()
 			.stream()
 			.map(au -> User.builder()
@@ -121,7 +119,8 @@ public class ActuatorWebSecurity
 					.toArray(String[]::new))
 				.build())
 			.toList();
-		daoAuthenticationProvider.setUserDetailsService(new InMemoryUserDetailsManager(users));
+		final DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(
+			new InMemoryUserDetailsManager(users));
 		
 		final int passwordMaxLength = this.config.getPasswordMaxLength();
 		daoAuthenticationProvider.setPasswordEncoder(new PasswordEncoder()

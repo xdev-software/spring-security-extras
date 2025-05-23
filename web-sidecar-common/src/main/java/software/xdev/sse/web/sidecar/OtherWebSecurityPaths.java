@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -49,7 +49,7 @@ public class OtherWebSecurityPaths
 	public OrRequestMatcher requestMatcher(final boolean withLogin)
 	{
 		return new OrRequestMatcher(this.all(withLogin).stream()
-			.map(AntPathRequestMatcher::new)
+			.map(PathPatternRequestMatcher.withDefaults()::matcher)
 			.map(RequestMatcher.class::cast)
 			.toList());
 	}

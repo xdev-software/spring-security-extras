@@ -18,8 +18,9 @@ package software.xdev.sse.oauth2.sidecar;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 
@@ -52,6 +53,6 @@ public class DefaultOAuth2LoginLogoutPathsProvider implements OAuth2LoginLogoutP
 	@Override
 	public RequestMatcher logoutCSRFRequestMatcher()
 	{
-		return new AntPathRequestMatcher(LOGOUT, "POST");
+		return PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, LOGOUT);
 	}
 }
