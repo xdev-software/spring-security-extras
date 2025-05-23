@@ -16,6 +16,7 @@ import software.xdev.spring.security.web.authentication.ui.advanced.AdvancedLogi
 import software.xdev.sse.csp.CSPGenerator;
 import software.xdev.sse.demo.ui.structure.MainView;
 import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
+import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 import software.xdev.sse.vaadin.TotalVaadinFlowWebSecurity;
@@ -38,6 +39,9 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 	
 	@Autowired
 	protected CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider;
+	
+	@Autowired
+	protected OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter;
 	
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception
@@ -63,6 +67,7 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);
 				this.rememberLoginProvider.configureOAuth2Login(c);
+				this.oAuth2LoginUrlStoreAdapter.postProcess(c);
 			})
 			.logout(this.rememberLoginProvider::configureOAuth2Logout)
 			.addFilterBefore(this.oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);

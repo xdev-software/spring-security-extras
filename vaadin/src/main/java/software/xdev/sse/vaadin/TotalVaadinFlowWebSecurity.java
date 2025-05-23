@@ -37,6 +37,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 
 import software.xdev.sse.vaadin.csrf.VaadinCSRFDisableRequestMatcherProvider;
+import software.xdev.sse.web.loginurl.LoginUrlStore;
 
 
 /**
@@ -59,6 +60,9 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 	
 	@Autowired
 	protected List<VaadinCSRFDisableRequestMatcherProvider> vaadinCSRFDisableRequestMatcherProviders;
+	
+	@Autowired(required = false)
+	protected LoginUrlStore loginUrlStore;
 	
 	@SuppressWarnings("java:S4502") // Vaadin brings its own CSRF
 	@Override
@@ -101,6 +105,8 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 		http.authorizeHttpRequests(this::configureAuthorizeHttpRequests);
 		
 		this.getNavigationAccessControl().setEnabled(this.enableNavigationAccessControl());
+		
+		this.configureLoginViewFromLoginUrlStore();
 	}
 	
 	protected void configureExceptionHandling(final ExceptionHandlingConfigurer<HttpSecurity> cfg)
@@ -131,6 +137,16 @@ public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 		
 		// ALL VAADIN REQUESTS REQUIRE AUTHENTICATION
 		urlRegistry.anyRequest().authenticated();
+	}
+	
+	protected void configureLoginViewFromLoginUrlStore()
+	{
+		if(this.loginUrlStore != null)
+		{
+			// This is usually only needed when the authentication is anonymous
+			// and navigation to a view that requires non-anonymous authentication happens
+			this.getNavigationAccessControl().setLoginView(this.loginUrlStore.getLoginUrl());
+		}
 	}
 	
 	// Copied from super (as it's private) and removed hilla

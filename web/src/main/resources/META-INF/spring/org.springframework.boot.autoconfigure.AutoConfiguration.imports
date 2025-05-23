@@ -1,1 +1,2 @@
-software.xdev.sse.web.cookie.auto.CookieAutoConfiguration
+software.xdev.sse.web.cookie.auto.CookieAutoConfig
+software.xdev.sse.web.loginurl.auto.LoginUrlStoreAutoConfig

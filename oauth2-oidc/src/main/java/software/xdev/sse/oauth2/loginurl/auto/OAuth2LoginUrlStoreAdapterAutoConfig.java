@@ -13,33 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.sse.web.cookie.auto;
+package software.xdev.sse.oauth2.loginurl.auto;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 
-import software.xdev.sse.web.cookie.CookieSecureService;
-import software.xdev.sse.web.cookie.DefaultCookieSecureService;
+import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
+import software.xdev.sse.web.loginurl.LoginUrlStore;
+import software.xdev.sse.web.loginurl.auto.LoginUrlStoreAutoConfig;
 
 
-@ConditionalOnProperty(value = "sse.web.cookie.enabled", matchIfMissing = true)
-@AutoConfiguration
-public class CookieAutoConfiguration
+@ConditionalOnProperty(value = "sse.oauth2.oauth2-login-url-store-adapter.enabled", matchIfMissing = true)
+@AutoConfiguration(after = LoginUrlStoreAutoConfig.class)
+public class OAuth2LoginUrlStoreAdapterAutoConfig
 {
 	@ConditionalOnMissingBean
 	@Bean
-	public CookieSecureService cookieSecureService()
+	@ConditionalOnBean(LoginUrlStore.class)
+	public OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter(final LoginUrlStore loginUrlStore)
 	{
-		return new DefaultCookieSecureService();
-	}
-	
-	@ConditionalOnMissingBean
-	@Bean
-	public CookieSameSiteSupplier fallbackCookieSameSiteSupplier()
-	{
-		return CookieSameSiteSupplier.ofLax();
+		return new OAuth2LoginUrlStoreAdapter(loginUrlStore);
 	}
 }
