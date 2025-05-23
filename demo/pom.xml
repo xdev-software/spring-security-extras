@@ -213,7 +213,7 @@
 			<dependency>
 				<groupId>software.xdev</groupId>
 				<artifactId>flyway-core-slim</artifactId>
-				<version>1.0.1</version>
+				<version>1.1.0</version>
 			</dependency>
 
 			<!-- Utility for proxies in tests -->
