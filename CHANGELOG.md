@@ -1,3 +1,13 @@
+# 1.2.0
+* Added ``LoginUrlStore``
+    * Stores the login url so that it can be used inside other parts of applications to e.g. display dedicated login components
+    * Enabled by default, can be disabled with ``sse.web.login-url-store.enabled=false``
+* OAuth2-OIDC
+    * Added ``OAuth2LoginUrlStoreAdapter`` to determine the login url
+* Vaadin
+    * Now handles ``LoginUrlStore`` if present and set's the value to ``NavigationAccessControl#setLoginView``
+        * This is usually only needed when the authentication is anonymous and navigation to a view that requires non-anonymous authentication happens
+
 # 1.1.0
 * Updated to Spring Boot 3.5
 

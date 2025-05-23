@@ -35,6 +35,9 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
     @Autowired
     protected CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider;
     
+    @Autowired
+    protected OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter;
+    
     @Override
     protected void configure(final HttpSecurity http) throws Exception
     {
@@ -48,6 +51,7 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
             .oauth2Login(c -> {
                 c.defaultSuccessUrl("/" + WorkdayView.NAV);
                 this.rememberLoginProvider.configureOAuth2Login(c);
+                this.oAuth2LoginUrlStoreAdapter.postProcess(c);
             })
             .logout(this.rememberLoginProvider::configureOAuth2Logout)
             .addFilterBefore(this.oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
