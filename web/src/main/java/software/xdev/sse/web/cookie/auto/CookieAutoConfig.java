@@ -27,7 +27,7 @@ import software.xdev.sse.web.cookie.DefaultCookieSecureService;
 
 @ConditionalOnProperty(value = "sse.web.cookie.enabled", matchIfMissing = true)
 @AutoConfiguration
-public class CookieAutoConfiguration
+public class CookieAutoConfig
 {
 	@ConditionalOnMissingBean
 	@Bean
