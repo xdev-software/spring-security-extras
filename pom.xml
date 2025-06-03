@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>software.xdev</groupId>
-	<artifactId>template-placeholder-root</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<groupId>software.xdev.sse</groupId>
+	<artifactId>root</artifactId>
+	<version>1.2.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -15,13 +15,39 @@
 	</organization>
 
 	<modules>
-		<module>template-placeholder</module>
-		<module>template-placeholder-demo</module>
+		<module>bom</module>
+		<module>client-storage</module>
+		<module>codec-sha256</module>
+		<module>crypto-symmetric</module>
+		<module>crypto-symmetric-managed</module>
+		<module>csp</module>
+		<module>metrics</module>
+		<module>oauth2-oidc</module>
+		<module>oauth2-oidc-remember-me</module>
+		<module>vaadin</module>
+		<module>web</module>
+		<module>web-sidecar-actuator</module>
+		<module>web-sidecar-common</module>
+
+		<module>demo</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Global ignored sonar rules -->
+		<sonar.issue.ignore.multicriteria>S1948,S6813</sonar.issue.ignore.multicriteria>
+		<!-- All Vaadin components are serializable however this is due to legacy reasons -->
+		<!-- Nested fields don't need to be serializable -->
+		<sonar.issue.ignore.multicriteria.S1948.ruleKey>java:S1948</sonar.issue.ignore.multicriteria.S1948.ruleKey>
+		<sonar.issue.ignore.multicriteria.S1948.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S1948.resourceKey>
+		<!-- Constructor injection just creates more overhead (factor x3) and achieves NOTHING -->
+		<!-- "It allows the creation of objects in an invalid state" Get a better injection framework for your tests -->
+		<sonar.issue.ignore.multicriteria.S6813.ruleKey>java:S6813</sonar.issue.ignore.multicriteria.S6813.ruleKey>
+		<sonar.issue.ignore.multicriteria.S6813.resourceKey>**/*.java
+		</sonar.issue.ignore.multicriteria.S6813.resourceKey>
 	</properties>
 
 	<licenses>
@@ -31,6 +57,23 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>4.0.0-M16</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>3.9.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 	<profiles>
 		<profile>
@@ -77,6 +120,9 @@
 							<rulesets>
 								<ruleset>.config/pmd/ruleset.xml</ruleset>
 							</rulesets>
+							<excludes>
+								<exclude>**/entities/**/*_.java</exclude>
+							</excludes>
 						</configuration>
 						<dependencies>
 							<dependency>
