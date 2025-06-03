@@ -14,6 +14,7 @@ However the most relevant modules are likely:
 * [oauth2-oidc](./oauth2-oidc/)
 * [oauth2-oidc-remember-me](./oauth2-oidc-remember-me/)
 * [vaadin](./vaadin/)
+* [web](./web/)
 * [web-sidecar-actuator](./web-sidecar-actuator/)
 * [web-sidecar-common](./web-sidecar-common/)
 
