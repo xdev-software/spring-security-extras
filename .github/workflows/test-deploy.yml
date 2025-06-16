@@ -3,9 +3,6 @@ name: Test Deployment
 on:
   workflow_dispatch:
 
-env:
-  PRIMARY_MAVEN_MODULE: ${{ github.event.repository.name }}
-
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
@@ -25,8 +22,13 @@ jobs:
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
     - name: Publish to Central Portal
-      run: ../mvnw -B deploy -P publish-sonatype-central-portal -DskipTests
-      working-directory: ${{ env.PRIMARY_MAVEN_MODULE }}
+      run: |
+        modules=("bom")
+        dependency_management_block=$(grep -ozP '<dependencyManagement>(\r|\n|.)*<\/dependencyManagement>' 'bom/pom.xml' | tr -d '\0')
+        modules+=($(echo $dependency_management_block | grep -oP '(?<=<artifactId>)[^<]+'))
+        printf -v modules_joined '%s,' "${modules[@]}"
+        modules_arg=$(echo "${modules_joined%,}")
+        ./mvnw -B deploy -pl "$modules_arg" -am -T2C -P publish-sonatype-central-portal -DskipTests
       env:
         MAVEN_CENTRAL_USERNAME: ${{ secrets.SONATYPE_MAVEN_CENTRAL_PORTAL_USERNAME }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.SONATYPE_MAVEN_CENTRAL_PORTAL_TOKEN }}
