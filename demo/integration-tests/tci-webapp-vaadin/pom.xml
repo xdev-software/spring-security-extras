@@ -5,20 +5,16 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>software.xdev.sse.demo</groupId>
-		<artifactId>demo</artifactId>
+		<groupId>software.xdev.sse.demo.it</groupId>
+		<artifactId>integration-tests</artifactId>
 		<version>1.2.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>tci-webapp</artifactId>
+	<artifactId>tci-webapp-vaadin</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev.sse.demo</groupId>
-			<artifactId>tci-testcontainers</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
+			<groupId>software.xdev.sse.demo.it</groupId>
+			<artifactId>tci-webapp</artifactId>
 		</dependency>
 	</dependencies>
 </project>

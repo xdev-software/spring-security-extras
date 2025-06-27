@@ -30,20 +30,11 @@
 	<modules>
 		<module>entities</module>
 		<module>entities-metamodel</module>
+		<module>integration-tests</module>
 		<module>persistence</module>
-		<module>tci-db</module>
-		<module>tci-oidc</module>
-		<module>tci-selenium</module>
-		<module>tci-testcontainers</module>
-		<module>tci-webapp</module>
-		<module>tci-webapp-rest</module>
-		<module>tci-webapp-vaadin</module>
-		<module>webapp-it-base</module>
 		<module>webapp-rest</module>
-		<module>webapp-rest-it</module>
 		<module>webapp-shared</module>
 		<module>webapp-vaadin</module>
-		<module>webapp-vaadin-it</module>
 	</modules>
 
 	<dependencyManagement>
@@ -69,71 +60,8 @@
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-db</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-oidc</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-selenium</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-webapp</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-webapp-rest</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-webapp-vaadin</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>tci-testcontainers</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
-				<artifactId>webapp-it-base</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>webapp-shared</artifactId>
 				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev</groupId>
-				<artifactId>tci-base</artifactId>
-				<version>1.1.3</version>
-			</dependency>
-
-			<!-- Selenium -->
-			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-dependencies-bom</artifactId>
-				<version>4.33.0</version>
-				<type>pom</type>
-				<scope>import</scope>
 			</dependency>
 
 			<!-- Vaadin -->
@@ -173,30 +101,6 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!-- Test Containers -->
-			<dependency>
-				<groupId>software.xdev</groupId>
-				<artifactId>testcontainers-selenium</artifactId>
-				<version>1.2.3</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev</groupId>
-				<artifactId>testcontainers-junit4-mock</artifactId>
-				<version>1.0.2</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev</groupId>
-				<artifactId>testcontainers-advanced-imagebuilder</artifactId>
-				<version>1.1.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>testcontainers-bom</artifactId>
-				<version>1.21.2</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
 			<!-- DB -->
 			<dependency>
 				<groupId>org.mariadb.jdbc</groupId>
@@ -214,13 +118,6 @@
 				<groupId>software.xdev</groupId>
 				<artifactId>flyway-core-slim</artifactId>
 				<version>1.1.0</version>
-			</dependency>
-
-			<!-- Utility for proxies in tests -->
-			<dependency>
-				<groupId>org.javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>3.30.2-GA</version>
 			</dependency>
 
 			<!-- Spring Boot -->

@@ -5,22 +5,20 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>software.xdev.sse.demo</groupId>
-		<artifactId>demo</artifactId>
+		<groupId>software.xdev.sse.demo.it</groupId>
+		<artifactId>integration-tests</artifactId>
 		<version>1.2.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>tci-testcontainers</artifactId>
+	<artifactId>tci-webapp</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>tci-base</artifactId>
+			<groupId>software.xdev.sse.demo.it</groupId>
+			<artifactId>tci-testcontainers</artifactId>
 		</dependency>
-
-		<!-- Redirect container logs -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
+			<groupId>software.xdev</groupId>
+			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
 		</dependency>
 	</dependencies>
 </project>
