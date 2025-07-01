@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import software.xdev.testcontainers.imagebuilder.AdvancedImageFromDockerFile;
+import software.xdev.testcontainers.imagebuilder.compat.DockerfileCOPYParentsEmulator;
 
 
 @SuppressWarnings("PMD.MoreThanOneLogger")
@@ -35,30 +36,32 @@ public final class WebAppContainerBuilder
 		final AdvancedImageFromDockerFile builder =
 			new AdvancedImageFromDockerFile(module + "-local", false)
 				.withLoggerForBuild(LOG_CONTAINER_BUILD)
-				.withAdditionalIgnoreLines(
+				.withPostGitIgnoreLines(
 					// Ignore git-folder, as it will be provided in the Dockerfile
 					".git/**",
 					// Ignore other unused folders and extensions
-					".iml",
-					".md",
-					"target/**",
+					"*.iml",
+					"*.cmd",
+					"*.md",
 					".config/**",
 					".github/**",
 					".idea/**",
 					".run/**",
 					"_dev_infra/**",
-					"src/test/**",
+					// Ignore other Dockerfiles (our required file will always be transferred)
+					"Dockerfile",
 					// Ignore not required test-modules that may have changed
 					// sources only - otherwise the parent pom doesn't find the resources
-					"tci-*/src/**",
-					"webapp-it-base/src/**",
-					"*-it/src/**",
+					"demo/integration-tests/*/src/**",
+					"**/src/test/**",
 					// Ignore resources that are just used for development
-					"webapp-rest/src/main/resources-dev/**")
-				.withDockerFilePath(Paths.get("../" + module + "/Dockerfile"))
-				.withBaseDir(Paths.get("../../"))
-				// File is in root directory - we can't access it
-				.withBaseDirRelativeIgnoreFile(null);
+					"demo/webapp-rest/src/main/resources-dev/**",
+					// Most files from these folders need to be ignored -> Down there for highest prio
+					"node_modules",
+					"target")
+				.withDockerFilePath(Paths.get("../../../demo/integration-tests/" + module + "/Dockerfile"))
+				.withBaseDir(Paths.get("../../../"))
+				.withDockerFileLinesModifier(new DockerfileCOPYParentsEmulator());
 		
 		try
 		{

@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1-labs
 # Note: This Dockerfile is used by the integration tests for compiling the app when there was no image was supplied
 ARG JAVA_VERSION=21
 FROM eclipse-temurin:${JAVA_VERSION}-jre-alpine AS jre-base
@@ -47,7 +48,18 @@ RUN node --version \
 
 WORKDIR /builder
 
-# Copying is prepared by ITC
+# Copy & Cache wrapper
+COPY --parents mvnw .mvn/** ./
+RUN ./mvnw --version
+
+# Copy & Cache poms/dependencies
+COPY --parents **/pom.xml ./
+# Resolve jars so that they can be cached and don't need to be downloaded when a Java file changes
+ARG MAVEN_GO_OFFLINE_COMMAND='./mvnw -B dependency:go-offline -pl demo/webapp-vaadin -am -Pprod,dev-log -DincludeScope=runtime -T2C'
+RUN echo "Executing '$MAVEN_GO_OFFLINE_COMMAND'"
+RUN ${MAVEN_GO_OFFLINE_COMMAND}
+
+# Copying all other files
 COPY . ./
 
 # A valid Git repo is required for the build
@@ -57,10 +69,10 @@ RUN git config --global user.email "dynamic@build.local" \
   && git add . \
   && git commit -m "Init commit"
 
-ARG mavenbuildcmd='./mvnw -B clean package -pl "demo/webapp-vaadin" -am -Pprod,dev-log -T2C -Dmaven.test.skip'
+ARG MAVEN_BUILD_COMMAND='./mvnw -B package -pl demo/webapp-vaadin -am -Pprod,dev-log -T2C -Dmaven.test.skip'
+RUN echo "Executing '$MAVEN_BUILD_COMMAND'"
+RUN ${MAVEN_BUILD_COMMAND}
 
-RUN echo "Executing '$mavenbuildcmd'"
-RUN ${mavenbuildcmd}
 # See also https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html for further information
 RUN mv demo/webapp-vaadin/target/webapp-vaadin.jar app.jar \
   && java -Djarmode=tools -jar app.jar extract --layers --destination extracted
