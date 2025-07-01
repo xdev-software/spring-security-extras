@@ -168,9 +168,7 @@ jobs:
     
     - name: Aggregate site
       run: |
-        modules=("bom")
-        dependency_management_block=$(grep -ozP '<dependencyManagement>(\r|\n|.)*<\/dependencyManagement>' 'bom/pom.xml' | tr -d '\0')
-        modules+=($(echo $dependency_management_block | grep -oP '(?<=<artifactId>)[^<]+'))
+        modules=($(grep -ozP '(?<=module>)[^<]+' 'pom.xml' | tr -d '\0'))
         for m in "${modules[@]}"
         do
             echo "$m/target/site -> ./target/site/$m"
