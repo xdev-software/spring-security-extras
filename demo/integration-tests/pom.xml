@@ -17,9 +17,6 @@
 
 	<modules>
 		<module>tci-db</module>
-		<module>tci-oidc</module>
-		<module>tci-selenium</module>
-		<module>tci-testcontainers</module>
 		<module>tci-webapp</module>
 		<module>tci-webapp-rest</module>
 		<module>tci-webapp-vaadin</module>
@@ -34,18 +31,6 @@
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>tci-db</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo.it</groupId>
-				<artifactId>tci-oidc</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo.it</groupId>
-				<artifactId>tci-selenium</artifactId>
 				<version>1.2.1-SNAPSHOT</version>
 			</dependency>
 
@@ -69,20 +54,8 @@
 
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
-				<artifactId>tci-testcontainers</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>webapp-it-base</artifactId>
 				<version>1.2.1-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>software.xdev</groupId>
-				<artifactId>tci-base</artifactId>
-				<version>1.1.3</version>
 			</dependency>
 
 			<!-- Selenium -->
@@ -112,11 +85,6 @@
 			</dependency>
 			<dependency>
 				<groupId>software.xdev</groupId>
-				<artifactId>testcontainers-junit4-mock</artifactId>
-				<version>1.0.2</version>
-			</dependency>
-			<dependency>
-				<groupId>software.xdev</groupId>
 				<artifactId>testcontainers-advanced-imagebuilder</artifactId>
 				<version>2.0.1</version>
 			</dependency>
@@ -128,11 +96,12 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!-- Utility for proxies in tests -->
 			<dependency>
-				<groupId>org.javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>3.30.2-GA</version>
+				<groupId>software.xdev.tci</groupId>
+				<artifactId>bom</artifactId>
+				<version>2.1.0</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

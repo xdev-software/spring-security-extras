@@ -12,7 +12,7 @@ import org.rnorth.ducttape.unreliables.Unreliables;
 import software.xdev.sse.demo.persistence.jpa.dao.ProductDAO;
 import software.xdev.sse.demo.rest.base.InfraPerCaseTest;
 import software.xdev.sse.demo.rest.datageneration.ProductDG;
-import software.xdev.sse.demo.tci.selenium.TestBrowser;
+import software.xdev.tci.selenium.TestBrowser;
 
 
 class ProductTest extends InfraPerCaseTest

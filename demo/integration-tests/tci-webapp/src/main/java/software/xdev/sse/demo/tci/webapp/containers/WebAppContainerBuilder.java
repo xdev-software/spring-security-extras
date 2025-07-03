@@ -47,7 +47,7 @@ public final class WebAppContainerBuilder
 					".github/**",
 					".idea/**",
 					".run/**",
-					"_dev_infra/**",
+					"demo/_dev_infra/**",
 					// Ignore other Dockerfiles (our required file will always be transferred)
 					"Dockerfile",
 					// Ignore not required test-modules that may have changed

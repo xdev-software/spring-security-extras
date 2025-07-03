@@ -17,12 +17,12 @@
 			<artifactId>tci-db</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>software.xdev.sse.demo.it</groupId>
-			<artifactId>tci-oidc</artifactId>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>oidc-server-mock</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>software.xdev.sse.demo.it</groupId>
-			<artifactId>tci-selenium</artifactId>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>selenium</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse.demo.it</groupId>

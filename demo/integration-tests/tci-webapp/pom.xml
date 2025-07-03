@@ -13,8 +13,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev.sse.demo.it</groupId>
-			<artifactId>tci-testcontainers</artifactId>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>base</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev</groupId>

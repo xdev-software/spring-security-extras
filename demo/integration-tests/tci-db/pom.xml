@@ -13,12 +13,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev.sse.demo.it</groupId>
-			<artifactId>tci-testcontainers</artifactId>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>db-jdbc-orm</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
 			<artifactId>persistence</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>software.xdev</groupId>
+			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
 		</dependency>
 
 		<!-- Test Infrastructure -->

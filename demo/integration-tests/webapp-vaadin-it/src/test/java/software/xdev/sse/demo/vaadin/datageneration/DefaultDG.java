@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 
 import software.xdev.sse.demo.entities.UserDetail;
 import software.xdev.sse.demo.tci.db.datageneration.AbstractDBDataGenerator;
-import software.xdev.sse.demo.tci.oidc.OIDCTCI;
+import software.xdev.tci.oidc.OIDCTCI;
 
 
 public class DefaultDG extends AbstractDBDataGenerator

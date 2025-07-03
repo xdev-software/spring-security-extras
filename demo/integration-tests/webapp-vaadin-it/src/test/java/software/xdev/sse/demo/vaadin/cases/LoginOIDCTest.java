@@ -10,9 +10,9 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import software.xdev.sse.demo.entities.UserDetail;
 import software.xdev.sse.demo.persistence.jpa.dao.UserDetailDAO;
-import software.xdev.sse.demo.tci.selenium.TestBrowser;
 import software.xdev.sse.demo.vaadin.base.InfraPerCaseTest;
 import software.xdev.sse.demo.vaadin.datageneration.DefaultDG;
+import software.xdev.tci.selenium.TestBrowser;
 
 
 class LoginOIDCTest extends InfraPerCaseTest

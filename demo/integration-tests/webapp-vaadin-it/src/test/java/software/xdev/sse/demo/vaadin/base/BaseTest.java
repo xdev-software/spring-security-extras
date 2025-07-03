@@ -1,10 +1,10 @@
 package software.xdev.sse.demo.vaadin.base;
 
 import software.xdev.sse.demo.tci.db.DBTCI;
-import software.xdev.sse.demo.tci.oidc.OIDCTCI;
 import software.xdev.sse.demo.tci.webapp.VaadinWebAppTCI;
 import software.xdev.sse.demo.tci.webapp.factory.VaadinWebAppTCIFactory;
 import software.xdev.sse.demo.webapp.base.AbstractBaseTest;
+import software.xdev.tci.oidc.OIDCTCI;
 
 
 @SuppressWarnings("java:S1117")

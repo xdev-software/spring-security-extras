@@ -25,19 +25,18 @@ import org.testcontainers.containers.Network;
 
 import software.xdev.sse.demo.tci.db.DBTCI;
 import software.xdev.sse.demo.tci.db.factory.DBTCIFactory;
-import software.xdev.sse.demo.tci.oidc.OIDCTCI;
-import software.xdev.sse.demo.tci.oidc.factory.OIDCTCIFactory;
-import software.xdev.sse.demo.tci.selenium.BrowserTCI;
-import software.xdev.sse.demo.tci.selenium.TestBrowser;
-import software.xdev.sse.demo.tci.selenium.factory.BrowsersTCIFactory;
-import software.xdev.sse.demo.tci.selenium.testbase.SeleniumIntegrationTestExtension;
-import software.xdev.sse.demo.tci.util.ContainerLoggingUtil;
 import software.xdev.sse.demo.tci.webapp.WebAppTCI;
 import software.xdev.tci.TCI;
 import software.xdev.tci.factory.prestart.PreStartableTCIFactory;
 import software.xdev.tci.factory.registry.TCIFactoryRegistry;
 import software.xdev.tci.leakdetection.LeakDetectionAsyncReaper;
 import software.xdev.tci.network.LazyNetworkPool;
+import software.xdev.tci.oidc.OIDCTCI;
+import software.xdev.tci.oidc.factory.OIDCTCIFactory;
+import software.xdev.tci.selenium.BrowserTCI;
+import software.xdev.tci.selenium.TestBrowser;
+import software.xdev.tci.selenium.factory.BrowsersTCIFactory;
+import software.xdev.tci.selenium.testbase.SeleniumRecordingExtension;
 import software.xdev.tci.tracing.TCITracer;
 
 
@@ -81,8 +80,6 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 	@BeforeAll
 	public static void setup()
 	{
-		ContainerLoggingUtil.redirectJULtoSLF4J();
-		
 		LAZY_NETWORK_POOL.managePoolAsync();
 		
 		TCIFactoryRegistry.instance().warmUp();
@@ -288,7 +285,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 	}
 	
 	public static class TCSTSeleniumIntegrationTestExtension
-		extends SeleniumIntegrationTestExtension
+		extends SeleniumRecordingExtension
 		implements BeforeTestExecutionCallback
 	{
 		private static final Logger LOG = LoggerFactory.getLogger(TCSTSeleniumIntegrationTestExtension.class);
