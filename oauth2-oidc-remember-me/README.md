@@ -13,7 +13,7 @@ When a client/user tries to migrate to another instance of the webapp, e.g.
 * after it/the server was restarted
 * after being redirected to another node inside the cluster
 
-it no longer recognizes the session and with that all authentification data.
+it no longer recognizes the session and with that all authentication data.
 
 ## Existing options
 
