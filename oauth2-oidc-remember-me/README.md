@@ -49,7 +49,7 @@ However are still some problem with that:
   * The data is stored on the client which the attacker cannot access easily
   * An attacker has to get both: The server encryption key (stored on server) and the client encryption keys (stored in database)
   * The encryption keys can easily be rotated (just create a new payload-encryption version, see example configuration below)
-* Most logic after the deserialization is not needed; Re-Validation is only required if the client was not seen for a longer time
+* Most logic after the deserialization is not needed.<br/>Re-Validation is only required if the client was not seen for a longer time
 
 ## How it works
 
