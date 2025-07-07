@@ -5,8 +5,6 @@ Provides a persistent Remember Me mechanism for [OAuth2/OIDC](../oauth2-oidc/) t
 > [!NOTE]
 > Primarily designed for OIDC and E-Mails
 
-<details><summary>Detailed explanation of why this exists</summary>
-
 ## The problem
 
 When a client/user tries to migrate to another instance of the webapp, e.g.
@@ -52,8 +50,6 @@ However are still some problem with that:
   * An attacker has to get both: The server encryption key (stored on server) and the client encryption keys (stored in database)
   * The encryption keys can easily be rotated (just create a new payload-encryption version, see example configuration below)
 * Most logic after the deserialization is not needed; Re-Validation is only required if the client was not seen for a longer time
-
-</details>
 
 ## How it works
 
