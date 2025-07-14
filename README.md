@@ -32,7 +32,7 @@ Please note that more detailed descriptions are available in the individual modu
     * Determines if Cookies should be secured
 * [web-sidecar-actuator](./web-sidecar-actuator/)
     * Secures Spring Boot's Actuator
-    * Multi-User
+    * Multi-User support
     * Allows securing different endpoint per user
     * Only password hashes are stored on the server side
 * [web-sidecar-common](./web-sidecar-common/)
