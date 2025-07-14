@@ -4,7 +4,7 @@
 
 # Extras for Spring Security (SSE)
 
-This framework provides various libraries which make it easier and safer to create or manage various security solution in Spring apps, especially in distributed systems.<br/>
+This framework provides various modules which make it easier and safer to create or manage various security solution in Spring apps, especially in distributed systems.<br/>
 It adds features like remembering the user’s last identity provider, automatic logout checks, improved OAuth2/OIDC management, smoother frontend integration and remembering the login after a server restart.<br/>
 It also secures system endpoints, avoids unnecessary sessions and comes with built-in metrics.
 
