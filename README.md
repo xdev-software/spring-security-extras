@@ -4,19 +4,41 @@
 
 # Extras for Spring Security (SSE)
 
-A framework with various security solutions - mostly for Spring Security.
+This framework provides various libraries which make it easier and safer to create or manage various security solution in Spring apps, especially in distributed systems.<br/>
+It adds features like remembering the user’s last identity provider, automatic logout checks, improved OAuth2/OIDC management, smoother frontend integration and remembering the login after a server restart.<br/>
+It also secures system endpoints, avoids unnecessary sessions and comes with built-in metrics.
 
 Nearly everything can be overridden with a custom implementation or disabled if required.
 
-More detailed descriptions are available in the individual modules.<br/>
-However the most relevant modules are likely:
+## Modules
+
+Please note that more detailed descriptions are available in the individual modules.
+
 * [bom](./bom/)
+    * Bill of Materials for easier version management
 * [oauth2-oidc](./oauth2-oidc/)
+    * Revalidates the login periodically
+    * Communicates logouts to the frontend
+    * Makes it possible to automatically reselect the last login provider
 * [oauth2-oidc-remember-me](./oauth2-oidc-remember-me/)
+    * Stores, manages and encrypts OIDC login information safely in a distributed system
 * [vaadin](./vaadin/)
+    * Full Spring Security control before Vaadin handles requests
+    * Creates Vaadin sessions only when needed
+    * CSRF request whitelisting
+    * Built-in Content Security Policy
 * [web](./web/)
+    * Stores the used login url
+    * Determines if Cookies should be secured
 * [web-sidecar-actuator](./web-sidecar-actuator/)
+    * Secures Spring Boot's Actuator
+    * Multi-User
+    * Allows securing different endpoint per user
+    * Only password hashes are stored on the server side
 * [web-sidecar-common](./web-sidecar-common/)
+    * Host static resources without creating sessions
+    * Completely prevent requests from reaching the underlying app/servlet
+    * Ensures that error pages are accessible
 
 ## Usage
 Some example use-cases (with integration tests) are available in the [demo](./demo).

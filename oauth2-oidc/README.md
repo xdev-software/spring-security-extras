@@ -16,7 +16,7 @@ Secures Spring Boot's OAuth2/OIDC.
 
 Used for checking if the used OAuth2/OIDC token is still valid.
 
-Once the token is no longer valid it's recheck.
+Once the token is no longer valid it's rechecked.
 
 Also provides a [OAuth2/OIDC server "is offline" fallback](./src/main/java/software/xdev/sse/oauth2/checkauth/OAuth2ProviderOfflineManager.java), which means that the user is still considered valid when the server can't be reached for some time (default: 3h).
 
