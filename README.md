@@ -37,7 +37,7 @@ Please note that more detailed descriptions are available in the individual modu
     * Only password hashes are stored on the server side
 * [web-sidecar-common](./web-sidecar-common/)
     * Host static resources without creating sessions
-    * Completely prevent requests from reaching the underlying app/servlet
+    * Prevent unwanted requests from reaching the underlying app/servlet
     * Ensures that error pages are accessible
 
 ## Usage
