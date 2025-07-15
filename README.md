@@ -2,7 +2,7 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/xdev-software/spring-security-extras/check-build.yml?branch=develop)](https://github.com/xdev-software/spring-security-extras/actions/workflows/check-build.yml?query=branch%3Adevelop)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xdev-software_spring-security-extras&metric=alert_status)](https://sonarcloud.io/dashboard?id=xdev-software_spring-security-extras)
 
-# Extras for Spring Security (SSE)
+# Extras for Spring Security / XDEV SSE
 
 This framework provides various modules which make it easier and safer to create or manage various security solution in Spring apps, especially in distributed systems.<br/>
 It adds features like remembering the user’s last identity provider, automatic logout checks, improved OAuth2/OIDC management, smoother frontend integration and remembering the login after a server restart.<br/>
