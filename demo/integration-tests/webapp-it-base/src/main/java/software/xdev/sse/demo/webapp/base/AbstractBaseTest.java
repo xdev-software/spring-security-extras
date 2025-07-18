@@ -1,10 +1,7 @@
 package software.xdev.sse.demo.webapp.base;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.WeakHashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -29,7 +26,6 @@ import software.xdev.sse.demo.tci.webapp.WebAppTCI;
 import software.xdev.tci.TCI;
 import software.xdev.tci.factory.prestart.PreStartableTCIFactory;
 import software.xdev.tci.factory.registry.TCIFactoryRegistry;
-import software.xdev.tci.leakdetection.LeakDetectionAsyncReaper;
 import software.xdev.tci.network.LazyNetworkPool;
 import software.xdev.tci.oidc.OIDCTCI;
 import software.xdev.tci.oidc.factory.OIDCTCIFactory;
@@ -45,9 +41,6 @@ import software.xdev.tci.tracing.TCITracer;
 public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements IntegrationTestDefaults<AbstractBaseTest<T>>
 {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractBaseTest.class);
-	
-	static final Set<CompletableFuture<?>> REAP_CFS =
-		Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>()));
 	
 	private static final TCITracer.Timed TRACE_START_BASE_INFRA = new TCITracer.Timed();
 	private static final TCITracer.Timed TRACE_START_WEB_DRIVER = new TCITracer.Timed();
@@ -191,7 +184,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		final RemoteWebDriver remoteWebDriver = this.remoteWebDriver;
 		final BrowserTCI browserInfra = this.browserInfra;
 		
-		REAP_CFS.add(CompletableFuture.runAsync(() -> {
+		CompletableFuture.runAsync(() -> {
 			try
 			{
 				if(remoteWebDriver != null && remoteWebDriver.getSessionId() != null)
@@ -206,7 +199,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 			{
 				LOG.warn("Failed to stop WebDriver(async)", ex);
 			}
-		}));
+		});
 		
 		this.remoteWebDriver = null;
 		this.browserInfra = null;
@@ -222,7 +215,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		
 		final Network network = this.network;
 		
-		REAP_CFS.add(CompletableFuture.runAsync(() -> {
+		CompletableFuture.runAsync(() -> {
 			try
 			{
 				Stream.<Runnable>concat(
@@ -240,7 +233,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 			{
 				LOG.error("Failed to stop everything(async)", ex);
 			}
-		}));
+		});
 		
 		this.appInfra = null;
 		this.oidcInfra = null;
@@ -313,18 +306,6 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 			executionExceptionOpt.ifPresent(throwable -> LOG.error("Test-Failure", throwable));
 			
 			super.afterTestExecution(context);
-		}
-	}
-	
-	
-	public static class BaseTestReaper implements LeakDetectionAsyncReaper
-	{
-		@Override
-		public void blockUntilReaped()
-		{
-			AbstractBaseTest.REAP_CFS.stream()
-				.filter(Objects::nonNull)
-				.forEach(CompletableFuture::join);
 		}
 	}
 	
