@@ -36,6 +36,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
 
+@SuppressWarnings("all")
 public class DummyHttpServletRequest implements HttpServletRequest
 {
 	@Override
@@ -197,13 +198,11 @@ public class DummyHttpServletRequest implements HttpServletRequest
 	@Override
 	public void login(final String username, final String password) throws ServletException
 	{
-	
 	}
 	
 	@Override
 	public void logout() throws ServletException
 	{
-	
 	}
 	
 	@Override
@@ -246,7 +245,6 @@ public class DummyHttpServletRequest implements HttpServletRequest
 	@Override
 	public void setCharacterEncoding(final String encoding) throws UnsupportedEncodingException
 	{
-	
 	}
 	
 	@Override
@@ -342,13 +340,11 @@ public class DummyHttpServletRequest implements HttpServletRequest
 	@Override
 	public void setAttribute(final String name, final Object o)
 	{
-	
 	}
 	
 	@Override
 	public void removeAttribute(final String name)
 	{
-	
 	}
 	
 	@Override
