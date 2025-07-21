@@ -42,8 +42,19 @@ public class OAuth2ProviderOfflineManager
 		final AuthProviderOfflineConfig config,
 		final List<OAuth2ProviderOfflineManagerMetricsHandler> metricsHandlers)
 	{
+		this(config, metricsHandlers, false);
+	}
+	
+	protected OAuth2ProviderOfflineManager(
+		final AuthProviderOfflineConfig config,
+		final List<OAuth2ProviderOfflineManagerMetricsHandler> metricsHandlers,
+		final boolean silent)
+	{
 		this.config = config;
-		LOG.info("Instantiated with {}", this.config);
+		if(!silent)
+		{
+			LOG.info("Instantiated with {}", this.config);
+		}
 		
 		metricsHandlers.stream()
 			.filter(OAuth2ProviderOfflineManagerMetricsHandler::enabled)

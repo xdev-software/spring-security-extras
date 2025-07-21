@@ -1,3 +1,7 @@
+# 1.2.1
+* Added more tests
+* Updated dependencies
+
 # 1.2.0
 * Added ``LoginUrlStore``
     * Stores the login url so that it can be used inside other parts of applications to e.g. display dedicated login components

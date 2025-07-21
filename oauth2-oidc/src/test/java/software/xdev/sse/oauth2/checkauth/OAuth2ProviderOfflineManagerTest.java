@@ -22,7 +22,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
@@ -78,24 +77,5 @@ class OAuth2ProviderOfflineManagerTest
 	private static Instant from(final int minute)
 	{
 		return Instant.from(OffsetDateTime.of(2000, 1, 1, 1, minute, 0, 0, ZoneOffset.UTC));
-	}
-	
-	public static class MockOAuth2ProviderOfflineManager extends OAuth2ProviderOfflineManager
-	{
-		private final AtomicReference<Instant> nowRef;
-		
-		public MockOAuth2ProviderOfflineManager(
-			final AuthProviderOfflineConfig config,
-			final AtomicReference<Instant> nowRef)
-		{
-			super(config, List.of());
-			this.nowRef = nowRef;
-		}
-		
-		@Override
-		protected Instant now()
-		{
-			return this.nowRef.get();
-		}
 	}
 }

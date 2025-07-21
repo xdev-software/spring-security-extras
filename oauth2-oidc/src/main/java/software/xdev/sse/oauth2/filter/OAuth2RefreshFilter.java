@@ -104,7 +104,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 	}
 	
 	@SuppressWarnings("java:S3626") // Incorrect
-	private void checkAuth(final ServletRequest request, final ServletResponse response)
+	protected void checkAuth(final ServletRequest request, final ServletResponse response)
 	{
 		if(request instanceof final HttpServletRequest httpRequest
 			&& this.ignoreRequestMatcher.matches(httpRequest))
@@ -113,7 +113,7 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 			return;
 		}
 		
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		final Authentication authentication = this.getCurrentAuth(request, response);
 		if(!(authentication instanceof final OAuth2AuthenticationToken auth))
 		{
 			this.communicateReload(OAuth2RefreshReloadCommunicator.Source.NO_AUTH, request, response);
@@ -121,7 +121,6 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 			return;
 		}
 		
-		// Client may be null on initial login -> Do not log out
 		final OAuth2AuthChecker.AuthCheckResult authCheckResult =
 			this.oAuth2AuthChecker.check(auth, this.clientService::loadAuthorizedClient);
 		this.metrics.authCheckMetricsIncrement(authCheckResult.outcome());
@@ -155,6 +154,12 @@ public class OAuth2RefreshFilter extends GenericFilterBean
 			this.oAuth2RefreshHandlers().forEach(h ->
 				h.tryWritePendingCookieSave(request, response, auth));
 		}
+	}
+	
+	@SuppressWarnings("java:S1172")
+	protected Authentication getCurrentAuth(final ServletRequest request, final ServletResponse response)
+	{
+		return SecurityContextHolder.getContext().getAuthentication();
 	}
 	
 	protected Collection<OAuth2RefreshHandler> oAuth2RefreshHandlers()
