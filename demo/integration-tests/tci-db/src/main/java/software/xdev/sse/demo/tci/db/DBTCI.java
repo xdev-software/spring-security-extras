@@ -16,8 +16,8 @@ import software.xdev.sse.demo.persistence.FlywayMigration;
 import software.xdev.sse.demo.persistence.config.DefaultJPAConfig;
 import software.xdev.sse.demo.tci.db.containers.DBContainer;
 import software.xdev.tci.db.BaseDBTCI;
-import software.xdev.tci.db.persistence.EntityManagerControllerFactory;
-import software.xdev.tci.db.persistence.classfinder.CachedEntityAnnotatedClassNameFinder;
+import software.xdev.tci.db.persistence.classfinder.DynamicClassFinder;
+import software.xdev.tci.db.persistence.hibernate.HibernateEntityManagerControllerFactory;
 
 
 public class DBTCI extends BaseDBTCI<DBContainer>
@@ -38,9 +38,8 @@ public class DBTCI extends BaseDBTCI<DBContainer>
 			container,
 			networkAlias,
 			migrateAndInitializeEMC,
-			() -> new EntityManagerControllerFactory(new CachedEntityAnnotatedClassNameFinder(
-				DefaultJPAConfig.ENTITY_PACKAGE,
-				Entity.class)));
+			() -> new HibernateEntityManagerControllerFactory(new DynamicClassFinder()
+				.withSearchForAnnotatedClasses(DefaultJPAConfig.ENTITY_PACKAGE, Entity.class)));
 		this.withDatabase(DB_DATABASE)
 			.withUsername(DB_USERNAME)
 			.withPassword(DB_PASSWORD);

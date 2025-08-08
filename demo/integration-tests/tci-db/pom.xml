@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>software.xdev.tci</groupId>
-			<artifactId>db-jdbc-orm</artifactId>
+			<artifactId>db-jdbc-spring-orm-hibernate</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
