@@ -1,3 +1,6 @@
+# 1.2.2
+* Updated dependencies
+
 # 1.2.1
 * Added more tests
 * Updated dependencies
