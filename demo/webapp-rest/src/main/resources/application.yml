@@ -20,20 +20,21 @@ sse:
     remember-login-provider-redirect:
       enabled: false
 
+# READ https://docs.spring.io/spring-boot/reference/actuator/endpoints.html BEFORE CHANGING ANYTHING HERE!
+# Pledge of allegiance you sign when commiting this: I know that I'm responsible for security problems when I did not
+# read the docs and I will be sentenced to debug Voyager 1 memory problems (YcUycQoz0zg) or similar complex things
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-        # Env is potentially security sensitive so better hide it
-        exclude: "env"
   endpoint:
+    env:
+      access: none
     health:
-      show-details: "when-authorized"
-  health:
-    # Kubernetes probes
-    probes:
-      enabled: true
+      show-details: when-authorized
+    heapdump:
+      access: unrestricted
 
 server:
   # https://stackoverflow.com/questions/69403837/how-to-use-tomcat-remoteipfilter-in-spring-boot
