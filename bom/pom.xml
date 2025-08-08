@@ -129,13 +129,13 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>publish-sonatype-central-portal</id>
+			<id>publish</id>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>flatten-maven-plugin</artifactId>
-						<version>1.7.0</version>
+						<version>1.7.2</version>
 						<configuration>
 							<flattenMode>bom</flattenMode>
 						</configuration>
@@ -152,7 +152,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>3.2.7</version>
+						<version>3.2.8</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -171,11 +171,17 @@
 							</execution>
 						</executions>
 					</plugin>
-
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>publish-sonatype-central-portal</id>
+			<build>
+				<plugins>
 					<plugin>
 						<groupId>org.sonatype.central</groupId>
 						<artifactId>central-publishing-maven-plugin</artifactId>
-						<version>0.7.0</version>
+						<version>0.8.0</version>
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>sonatype-central-portal</publishingServerId>

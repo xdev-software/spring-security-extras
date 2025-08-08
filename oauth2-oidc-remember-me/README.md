@@ -5,15 +5,13 @@ Provides a persistent Remember Me mechanism for [OAuth2/OIDC](../oauth2-oidc/) t
 > [!NOTE]
 > Primarily designed for OIDC and E-Mails
 
-<details><summary>Detailed explanation of why this exists</summary>
-
 ## The problem
 
 When a client/user tries to migrate to another instance of the webapp, e.g.
 * after it/the server was restarted
 * after being redirected to another node inside the cluster
 
-it no longer recognizes the session and with that all authentification data.
+it no longer recognizes the session and with that all authentication data.
 
 ## Existing options
 
@@ -51,9 +49,7 @@ However are still some problem with that:
   * The data is stored on the client which the attacker cannot access easily
   * An attacker has to get both: The server encryption key (stored on server) and the client encryption keys (stored in database)
   * The encryption keys can easily be rotated (just create a new payload-encryption version, see example configuration below)
-* Most logic after the deserialization is not needed; Re-Validation is only required if the client was not seen for a longer time
-
-</details>
+* Most logic after the deserialization is not needed.<br/>Re-Validation is only required if the client was not seen for a longer time
 
 ## How it works
 

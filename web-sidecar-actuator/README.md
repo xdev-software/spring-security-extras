@@ -4,6 +4,11 @@ Secures [Spring Boot's Actuator endpoints](https://docs.spring.io/spring-boot/re
 
 For more details about sidecars please have a look at [``../web-sidecar-common``](../web-sidecar-common).
 
+### Features
+* Allows for multiple users
+* Allows only specific endpoints per user
+* Only the password hashes are stored on the server side
+
 Example configuration:
 ```yml
 sse:

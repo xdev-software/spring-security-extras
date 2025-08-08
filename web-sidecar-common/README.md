@@ -70,7 +70,7 @@ It's main use-case is to prevent the requests from reaching the main application
 
 > [!NOTE]
 > ``favicon.ico`` is [blocked by default](./src/main/java/software/xdev/sse/web/sidecar/blackholing/FaviconBlackHolingPathsProvider.java).
-> This can be [undone when configured](./src/main/java/software/xdev/sse/web/sidecar/blackholing/BlackHolingSecurity.java).
+> This can be [disabled in the configuration](./src/main/java/software/xdev/sse/web/sidecar/blackholing/BlackHolingSecurity.java).
 
 ### Error page compatibility
 

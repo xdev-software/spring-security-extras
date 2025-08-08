@@ -64,6 +64,17 @@
         "maven"
       ],
       "groupName": "org.junit"
+    },
+    {
+      "description": "Group org.springframework.boot",
+      "matchPackagePatterns": [
+        "^org.springframework.boot:spring-boot-dependencies",
+        "^org.springframework.boot:spring-boot-maven-plugin"
+      ],
+      "datasources": [
+        "maven"
+      ],
+      "groupName": "org.springframework.boot"
     }
   ]
 }
