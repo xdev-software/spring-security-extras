@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>software.xdev.sse.demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>webapp-shared</artifactId>
+
+	<dependencies>
+		<!-- Internal -->
+		<dependency>
+			<groupId>software.xdev.sse.demo</groupId>
+			<artifactId>persistence</artifactId>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<exclusions>
+				<!-- There is nothing that uses the log4j api so we don't need it -->
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-to-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>software.xdev</groupId>
+			<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<exclusions>
+				<!-- Exclude default module so that dependency is properly removed -->
+				<exclusion>
+					<groupId>io.prometheus</groupId>
+					<artifactId>prometheus-metrics-exposition-formats</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>software.xdev</groupId>
+			<artifactId>spring-security-advanced-authentication-ui</artifactId>
+		</dependency>
+
+		<!-- SSE -->
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>csp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>oauth2-oidc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>web-sidecar-actuator</artifactId>
+		</dependency>
+
+		<!-- DB Impl -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+		</dependency>
+	</dependencies>
+</project>
