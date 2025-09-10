@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1757513435575">
+    <module artifactId="web" groupId="software.xdev.sse" version="1.2.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/web/cookie/CookieSecureService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/cookie/DefaultCookieSecureService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/cookie/auto/CookieAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/loginurl/DefaultLoginUrlStore.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/loginurl/LoginUrlStore.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/loginurl/auto/LoginUrlStoreAutoConfig.java" result="NOOP"/>
+    </files>
+</licensePluginReport>

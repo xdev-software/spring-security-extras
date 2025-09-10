@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1757513610796">
+    <module artifactId="web-sidecar-actuator" groupId="software.xdev.sse" version="1.2.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/ActuatorBlackHolingPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/ActuatorWebSecurity.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/NoErrorBasicAuthenticationEntryPoint.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/auto/ActuatorWebSecurityAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/config/ActuatorSecurityConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/config/ActuatorUserConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/metrics/ActuatorSecurityMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/metrics/DefaultActuatorSecurityMetricsHandler.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/web/sidecar/actuator/NoErrorBasicAuthenticationEntryPointTest.java" result="NOOP"/>
+    </files>
+</licensePluginReport>

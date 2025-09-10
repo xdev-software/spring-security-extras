@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1757513624895">
+    <module artifactId="oauth2-oidc-remember-me" groupId="software.xdev.sse" version="1.2.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/EnsureNonConcurrentExec.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/OAuth2CookieRememberMeServices.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/OAuth2CookieRememberMeServicesCleaner.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/auto/OAuth2CookieRememberMeServicesAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/clientstorage/RememberMeClientStorageProcessor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/clientstorage/RememberMeClientStorageProcessorProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/clientstorage/auto/RememberMeClientStorageProcessorAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/clientstorage/auto/RememberMeClientStorageProcessorProviderAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/config/OAuth2CookieRememberMeServicesCleanupScheduleConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/config/OAuth2CookieRememberMeServicesConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/RememberMeSymCryptManager.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/RememberMeSymCryptor.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/RememberMeSymCryptorProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/auto/RememberMeSymCryptAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/auto/RememberMeSymCryptManagerAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/auto/RememberMeSymCryptorAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/crypt/auto/RememberMeSymCryptorProviderAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/metrics/AutoLoginMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/metrics/DefaultAutoLoginMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/metrics/DummyAutoLoginMetrics.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/secrets/AuthRememberMeSecret.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/secrets/AuthRememberMeSecretService.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/secrets/DefaultAuthRememberMeSecret.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/serializer/DefaultOAuth2CookieRememberMeAuthSerializer.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/serializer/OAuth2CookieRememberMeAuthSerializer.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/oauth2/rememberme/userenrichment/OAuth2RememberMeUserEnricher.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/oauth2/rememberme/serializer/DefaultOAuth2CookieRememberMeAuthSerializerTest.java" result="NOOP"/>
+    </files>
+</licensePluginReport>

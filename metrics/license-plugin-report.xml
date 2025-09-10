@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1757513435567">
+    <module artifactId="metrics" groupId="software.xdev.sse" version="1.2.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/metrics/DefaultMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/metrics/MetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/metrics/SSESharedMetrics.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
