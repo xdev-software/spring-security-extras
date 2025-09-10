@@ -1,3 +1,7 @@
+# 1.2.2
+* Minor code cleanup
+* Updated dependencies
+
 # 1.2.1
 * Added more tests
 * Updated dependencies

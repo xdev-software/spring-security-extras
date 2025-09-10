@@ -54,7 +54,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>3.5.4</version>
+				<version>3.5.5</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -143,7 +143,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.11.2</version>
+				<version>3.11.3</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -250,7 +250,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>11.0.0</version>
+								<version>11.0.1</version>
 							</dependency>
 						</dependencies>
 						<configuration>
