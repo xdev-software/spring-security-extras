@@ -15,11 +15,8 @@
  */
 package software.xdev.sse.web.cookie;
 
-import jakarta.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 
 public class DefaultCookieSecureService implements CookieSecureService
@@ -33,12 +30,11 @@ public class DefaultCookieSecureService implements CookieSecureService
 	 * https://www.baeldung.com/spring-security-session
 	 * </a>
 	 */
-	@Value("${server.servlet.session.cookie.secure:true}")
-	private boolean secure;
+	private final boolean secure;
 	
-	@PostConstruct
-	protected void postConstruct()
+	public DefaultCookieSecureService(final boolean secure)
 	{
+		this.secure = secure;
 		if(!this.secure)
 		{
 			LOG.info("Cookies will NOT be secured (as defined in 'server.servlet.session.cookie.secure')");

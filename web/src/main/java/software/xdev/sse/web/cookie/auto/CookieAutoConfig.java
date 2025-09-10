@@ -15,6 +15,7 @@
  */
 package software.xdev.sse.web.cookie.auto;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,9 +32,10 @@ public class CookieAutoConfig
 {
 	@ConditionalOnMissingBean
 	@Bean
-	public CookieSecureService cookieSecureService()
+	public CookieSecureService cookieSecureService(
+		@Value("${server.servlet.session.cookie.secure:true}") final boolean secure)
 	{
-		return new DefaultCookieSecureService();
+		return new DefaultCookieSecureService(secure);
 	}
 	
 	@ConditionalOnMissingBean
