@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application
 {
+	@SuppressWarnings("PMD.AvoidSystemSetterCall")
 	public static void main(final String[] args)
 	{
 		System.setProperty(

@@ -22,6 +22,7 @@ import com.vaadin.flow.spring.annotation.EnableVaadin;
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class Application
 {
+	@SuppressWarnings("PMD.AvoidSystemSetterCall")
 	public static void main(final String[] args)
 	{
 		System.setProperty(
