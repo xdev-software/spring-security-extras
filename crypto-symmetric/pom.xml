@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>crypto-symmetric</artifactId>
-	<version>1.2.2-SNAPSHOT</version>
+	<version>1.2.2</version>
 	<packaging>jar</packaging>
 
 	<name>crypto-symmetric</name>
