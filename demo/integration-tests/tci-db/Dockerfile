@@ -1,4 +1,4 @@
-FROM mariadb:11.8
+FROM mariadb:12.0
 
 SHELL ["/bin/bash", "-c"]
 

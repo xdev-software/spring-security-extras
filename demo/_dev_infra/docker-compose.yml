@@ -1,7 +1,7 @@
 services:
   db:
     container_name: "db"
-    image: mariadb:11
+    image: mariadb:12
     env_file: db.env
     ports:
       - "3306:3306"
