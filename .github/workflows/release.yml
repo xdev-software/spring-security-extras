@@ -77,7 +77,7 @@ jobs:
         echo "release=$version" >> $GITHUB_OUTPUT
         echo "releasenumber=${version//[!0-9]/}" >> $GITHUB_OUTPUT
 
-        - name: Commit and Push
+    - name: Commit and Push
       run: |
         git add -A
         git commit -m "Release ${{ steps.version.outputs.release }}"
