@@ -30,6 +30,9 @@ import software.xdev.sse.web.sidecar.actuator.ActuatorWebSecurity;
 import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 import software.xdev.sse.web.sidecar.actuator.metrics.DefaultActuatorSecurityMetricsHandler;
+import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.PasswordHashCache;
+import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.UnchachedPasswordHashCache;
+import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.sha256.DefaultSHA256PasswordHasher;
 
 
 @ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
@@ -61,5 +64,22 @@ public class ActuatorWebSecurityAutoConfig
 		final WebEndpointProperties webEndpointProperties)
 	{
 		return new ActuatorBlackHolingPathsProvider(webEndpointProperties);
+	}
+	
+	@ConditionalOnProperty(
+		value = "sse.sidecar.actuator.password-hash.hasher." + DefaultSHA256PasswordHasher.ID + ".enabled",
+		matchIfMissing = true)
+	@ConditionalOnMissingBean
+	@Bean
+	public DefaultSHA256PasswordHasher defaultSHA256PasswordHasher()
+	{
+		return new DefaultSHA256PasswordHasher();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public PasswordHashCache passwordHashCache()
+	{
+		return new UnchachedPasswordHashCache();
 	}
 }

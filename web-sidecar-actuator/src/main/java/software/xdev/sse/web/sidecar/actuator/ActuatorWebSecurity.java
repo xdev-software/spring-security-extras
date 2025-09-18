@@ -42,9 +42,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import software.xdev.sse.codec.hash.SHA256Hashing;
 import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
+import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.PasswordHashCache;
+import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.PasswordHasher;
 
 
 @ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
@@ -55,13 +56,23 @@ public class ActuatorWebSecurity
 	private static final Logger LOG = LoggerFactory.getLogger(ActuatorWebSecurity.class);
 	
 	protected final ActuatorSecurityConfig config;
+	protected final PasswordHasher passwordHasher;
+	protected final PasswordHashCache passwordHashCache;
 	protected final List<ActuatorSecurityMetricsHandler> metricsHandlers;
 	
 	public ActuatorWebSecurity(
 		final ActuatorSecurityConfig config,
+		final List<PasswordHasher> allAvailablePasswordHashers,
+		final PasswordHashCache passwordHashCache,
 		final List<ActuatorSecurityMetricsHandler> metricsHandlers)
 	{
 		this.config = config;
+		this.passwordHasher = allAvailablePasswordHashers.stream()
+			.filter(h -> config.getPasswordHasherId().equals(h.id()))
+			.findFirst()
+			.orElseThrow(() ->
+				new IllegalStateException("Failed to find PasswordHasher for " + config.getPasswordHasherId()));
+		this.passwordHashCache = passwordHashCache;
 		this.metricsHandlers = metricsHandlers.stream()
 			.filter(ActuatorSecurityMetricsHandler::enabled)
 			.toList();
@@ -74,7 +85,15 @@ public class ActuatorWebSecurity
 		final WebEndpointProperties actuatorWebEndpointProperties,
 		final HttpSecurity http) throws Exception
 	{
-		LOG.info("Building SecurityFilterChain with {}", this.config);
+		LOG.info(
+			"Building SecurityFilterChain with {} [passwordHasher={},passwordHashCache={},metricHandlers={}]",
+			this.config,
+			this.passwordHasher.getClass().getSimpleName(),
+			this.passwordHashCache.getClass().getSimpleName(),
+			this.metricsHandlers.stream()
+				.map(ActuatorSecurityMetricsHandler::getClass)
+				.map(Class::getSimpleName)
+				.toList());
 		
 		final Set<String> alUserEndpoints = this.config.getUsers()
 			.stream()
@@ -112,7 +131,7 @@ public class ActuatorWebSecurity
 			.stream()
 			.map(au -> User.builder()
 				.username(au.getUsername())
-				.password(au.getPasswordSha256())
+				.password(au.getPasswordHash())
 				.roles((au.getAllowedEndpoints().isEmpty()
 					? Stream.of(this.config.getDefaultRoleName())
 					: au.getAllowedEndpoints().stream().map(this::endpointToRole))
@@ -123,31 +142,24 @@ public class ActuatorWebSecurity
 			new InMemoryUserDetailsManager(users));
 		
 		final int passwordMaxLength = this.config.getPasswordMaxLength();
-		daoAuthenticationProvider.setPasswordEncoder(new PasswordEncoder()
-		{
-			@Override
-			public boolean matches(final CharSequence rawPassword, final String encodedPassword)
-			{
+		daoAuthenticationProvider.setPasswordEncoder((MatchingOnlyPasswordEncoder)
+			(rawPassword, encodedPassword) -> {
 				if(rawPassword == null || rawPassword.isEmpty() || rawPassword.length() > passwordMaxLength)
 				{
-					ActuatorWebSecurity.this.metrics(ActuatorSecurityMetricsHandler::loginFailed);
+					this.metrics(ActuatorSecurityMetricsHandler::loginFailed);
 					return false;
 				}
 				
-				final boolean success = SHA256Hashing.hash(rawPassword.toString()).equals(encodedPassword);
-				ActuatorWebSecurity.this.metrics(success
+				final boolean success = this.passwordHashCache.computeIfAbsent(
+						rawPassword.toString(),
+						this.passwordHasher::hash)
+					.equals(encodedPassword);
+				this.metrics(success
 					? ActuatorSecurityMetricsHandler::loginSuccess
 					: ActuatorSecurityMetricsHandler::loginFailed);
 				
 				return success;
-			}
-			
-			@Override
-			public String encode(final CharSequence rawPassword)
-			{
-				return rawPassword.toString();
-			}
-		});
+			});
 		
 		return daoAuthenticationProvider;
 	}
@@ -155,5 +167,18 @@ public class ActuatorWebSecurity
 	protected void metrics(final Consumer<ActuatorSecurityMetricsHandler> consumer)
 	{
 		this.metricsHandlers.forEach(consumer);
+	}
+	
+	@FunctionalInterface
+	protected interface MatchingOnlyPasswordEncoder extends PasswordEncoder
+	{
+		@Override
+		boolean matches(CharSequence rawPassword, String encodedPassword);
+		
+		@Override
+		default String encode(final CharSequence rawPassword)
+		{
+			return rawPassword.toString();
+		}
 	}
 }
