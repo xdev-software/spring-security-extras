@@ -32,7 +32,7 @@ Please note that more detailed descriptions are available in the individual modu
 * [web-sidecar-actuator](./web-sidecar-actuator/)
     * Secures Spring Boot's Actuator
     * Multi-User support
-    * Allows securing different endpoint per user
+    * Allows securing different endpoints per user
     * Only password hashes are stored on the server side
 * [web-sidecar-common](./web-sidecar-common/)
     * Host static resources without creating sessions
