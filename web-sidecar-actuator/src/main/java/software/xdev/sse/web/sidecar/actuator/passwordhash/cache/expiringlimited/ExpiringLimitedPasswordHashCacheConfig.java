@@ -15,51 +15,12 @@
  */
 package software.xdev.sse.web.sidecar.actuator.passwordhash.cache.expiringlimited;
 
-import java.time.Duration;
-
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
+
+import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.CommonPasswordHashCacheConfig;
 
 
 @Validated
-public class ExpiringLimitedPasswordHashCacheConfig
+public class ExpiringLimitedPasswordHashCacheConfig extends CommonPasswordHashCacheConfig
 {
-	@NotNull
-	private Duration expiration = Duration.ofHours(1);
-	@Min(1)
-	private int maxSize = 100;
-	
-	public Duration getExpiration()
-	{
-		return this.expiration;
-	}
-	
-	public void setExpiration(final Duration expiration)
-	{
-		this.expiration = expiration;
-	}
-	
-	public int getMaxSize()
-	{
-		return this.maxSize;
-	}
-	
-	public void setMaxSize(final int maxSize)
-	{
-		this.maxSize = maxSize;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return this.getClass().getSimpleName()
-			+ " ["
-			+ "expiration="
-			+ this.expiration
-			+ ", maxSize="
-			+ this.maxSize
-			+ "]";
-	}
 }
