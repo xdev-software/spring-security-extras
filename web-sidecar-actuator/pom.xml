@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>software.xdev</groupId>
 			<artifactId>expiring-limited-cache</artifactId>
-			<version>2.2.0</version>
+			<version>2.2.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
