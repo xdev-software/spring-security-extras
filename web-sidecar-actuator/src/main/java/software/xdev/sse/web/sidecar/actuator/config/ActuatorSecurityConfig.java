@@ -24,6 +24,8 @@ import jakarta.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.sha256.DefaultSHA256PasswordHasher;
+
 
 @Validated
 public class ActuatorSecurityConfig
@@ -33,6 +35,9 @@ public class ActuatorSecurityConfig
 	
 	@Min(1)
 	private int passwordMaxLength = 200;
+	
+	@NotBlank
+	private String passwordHasherId = DefaultSHA256PasswordHasher.ID;
 	
 	@NotNull
 	private Set<ActuatorUserConfig> users = new HashSet<>();
@@ -57,6 +62,16 @@ public class ActuatorSecurityConfig
 	public int getPasswordMaxLength()
 	{
 		return this.passwordMaxLength;
+	}
+	
+	public String getPasswordHasherId()
+	{
+		return this.passwordHasherId;
+	}
+	
+	public void setPasswordHasherId(final String passwordHasherId)
+	{
+		this.passwordHasherId = passwordHasherId;
 	}
 	
 	public Set<ActuatorUserConfig> getUsers()
@@ -88,6 +103,8 @@ public class ActuatorSecurityConfig
 			+ this.defaultRoleName
 			+ ", passwordMaxLength="
 			+ this.passwordMaxLength
+			+ ", passwordHasherId="
+			+ this.passwordHasherId
 			+ ", users="
 			+ this.users
 			+ ", defaultMetricsEnabled="

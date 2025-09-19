@@ -1,3 +1,18 @@
+# 1.3.0
+* Actuator
+  * Added support for custom password hashers
+    * The default built-in password-hasher is still using `SHA-256`
+  * `ActuatorUserConfig#passwordSha256` was renamed to `passwordHash`
+    * `passwordSha256` is deprecated and will be removed in a future release
+  * Now utilizes password hash caching if possible
+    * The cache defaults to a maximum size of 100 and a cached duration of 1h
+    * Enabled when one of the following libraries is detected on the class-path:
+      * [caffeine](https://github.com/ben-manes/caffeine) 
+      * [expiring-limited-cache](https://github.com/xdev-software/expiring-limited-cache)
+    * Can be disabled with `sse.sidecar.actuator.password-hash.cache.enabled` if required
+    * See source code for details configuration options
+* Updated dependencies
+
 # 1.2.2
 * Minor code cleanup
 * Updated dependencies

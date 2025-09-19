@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>codec-sha256</artifactId>
-	<version>1.2.3-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>codec-sha256</name>
@@ -150,7 +150,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.3</version>
+				<version>3.5.4</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -268,12 +268,12 @@
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-core</artifactId>
-								<version>7.16.0</version>
+								<version>7.17.0</version>
 							</dependency>
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-java</artifactId>
-								<version>7.16.0</version>
+								<version>7.17.0</version>
 							</dependency>
 						</dependencies>
 					</plugin>

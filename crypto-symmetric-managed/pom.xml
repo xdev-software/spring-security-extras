@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse</groupId>
 	<artifactId>crypto-symmetric-managed</artifactId>
-	<version>1.2.3-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>crypto-symmetric-managed</name>
@@ -54,7 +54,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>3.5.5</version>
+				<version>3.5.6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -287,12 +287,12 @@
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-core</artifactId>
-								<version>7.16.0</version>
+								<version>7.17.0</version>
 							</dependency>
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-java</artifactId>
-								<version>7.16.0</version>
+								<version>7.17.0</version>
 							</dependency>
 						</dependencies>
 					</plugin>

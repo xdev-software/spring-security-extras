@@ -37,7 +37,7 @@ Spring Boot provides [Remember-Me authentication](https://docs.spring.io/spring-
 
 This is a lot better than using serializing the session, as it doesn't requires lots of serialization and data-storage.
 
-However are still some problem with that:
+However there are still some problem with that:
 * You need to revalidate if the client is still allowed to login
     * This means communicating with the OIDC server, to get relevant information
         * If the OIDC server is down you have a problem because you can't get the required data

@@ -67,7 +67,7 @@ public abstract class WebAppContainer<SELF extends WebAppContainer<SELF>> extend
 	public SELF withActuator(final String username, final String hash)
 	{
 		return this.withEnv("SSE_ACTUATOR_USERS_0_USERNAME", username)
-			.withEnv("SSE_ACTUATOR_USERS_0_PASSWORD-SHA-256", hash);
+			.withEnv("SSE_ACTUATOR_USERS_0_PASSWORD-HASH", hash);
 	}
 	
 	public SELF withDisableHTTPS()
