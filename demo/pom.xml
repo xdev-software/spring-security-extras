@@ -6,7 +6,7 @@
 
 	<groupId>software.xdev.sse.demo</groupId>
 	<artifactId>demo</artifactId>
-	<version>1.2.3-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -43,25 +43,25 @@
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>entities</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>entities-metamodel</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>persistence</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo</groupId>
 				<artifactId>webapp-shared</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 
 			<!-- Vaadin -->
@@ -89,6 +89,18 @@
 				<groupId>software.xdev</groupId>
 				<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
 				<version>3.0.1</version>
+			</dependency>
+
+			<!-- Caching for actuator -->
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>expiring-limited-cache</artifactId>
+				<version>2.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>3.2.2</version>
 			</dependency>
 
 			<!-- Tests -->
@@ -137,27 +149,27 @@
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>csp</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>oauth2-oidc-remember-me</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>vaadin</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
 				<artifactId>web-sidecar-actuator</artifactId>
-				<version>1.2.3-SNAPSHOT</version>
+				<version>1.3.0-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

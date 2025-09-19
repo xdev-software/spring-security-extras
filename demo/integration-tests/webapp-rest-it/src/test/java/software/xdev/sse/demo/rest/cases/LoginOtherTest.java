@@ -124,7 +124,9 @@ class LoginOtherTest extends InfraPerClassTest
 			ALL_SUPPORTED_HTTP_METHODS.stream()
 				.map(method -> Arguments.of(false, false, method, HttpStatus.SC_UNAUTHORIZED)),
 			// TRACE is not supported by Spring Boot
-			Stream.of(Arguments.of(false, false, HttpTrace.METHOD_NAME, HttpStatus.SC_BAD_REQUEST))
+			Stream.of(false, true)
+				.map(existingPath ->
+					Arguments.of(false, existingPath, HttpTrace.METHOD_NAME, HttpStatus.SC_METHOD_NOT_ALLOWED))
 		).flatMap(Function.identity());
 	}
 	
