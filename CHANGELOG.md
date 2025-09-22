@@ -1,3 +1,10 @@
+# 1.3.1
+* Actuator
+  * Disabled caching by default
+  * `SHA-256` is usually faster than utilizing a cache
+    * This heavily depends on the used hardware, however most systems have hardware acceleration for `SHA-256`
+  * Removed `expiring-limited-cache` cacher as it provides no advantage
+
 # 1.3.0
 * Actuator
   * Added support for custom password hashers

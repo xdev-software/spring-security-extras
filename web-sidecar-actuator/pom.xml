@@ -89,12 +89,6 @@
 
 		<!-- Autoconfigured caching libs for SHA256 password hasher -->
 		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>expiring-limited-cache</artifactId>
-			<version>2.2.3</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
 			<version>3.2.2</version>
@@ -157,7 +151,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.0</version>
+				<version>3.14.1</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
 					<compilerArgs>
@@ -168,7 +162,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.11.3</version>
+				<version>3.12.0</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -213,7 +207,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>flatten-maven-plugin</artifactId>
-						<version>1.7.2</version>
+						<version>1.7.3</version>
 						<configuration>
 							<flattenMode>ossrh</flattenMode>
 						</configuration>

@@ -32,7 +32,6 @@ public class CaffeinePasswordHashCache implements PasswordHashCache
 		this.cache = Caffeine.newBuilder()
 			.softValues()
 			.maximumSize(config.getMaxSize())
-			.expireAfterAccess(config.getExpiration())
 			.build();
 	}
 	
