@@ -1,0 +1,4 @@
+software.xdev.sse.web.sidecar.actuator.auto.passwordhash.cache.caffeine.CaffeinePasswordHashCacheAutoConfig
+software.xdev.sse.web.sidecar.actuator.auto.passwordhash.cache.expiringlimited.ExpiringLimitedPasswordHashCacheAutoConfig
+software.xdev.sse.web.sidecar.actuator.auto.ActuatorWebSecurityAutoConfig
+software.xdev.sse.web.sidecar.actuator.ActuatorWebSecurity

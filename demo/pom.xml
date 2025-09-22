@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>software.xdev.sse.demo</groupId>
+	<artifactId>demo</artifactId>
+	<version>1.3.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<organization>
+		<name>XDEV Software</name>
+		<url>https://xdev.software</url>
+	</organization>
+
+	<properties>
+		<javaVersion>17</javaVersion>
+		<maven.compiler.release>${javaVersion}</maven.compiler.release>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Dependency Version Groups -->
+		<com.vaadin.version>24.8.8</com.vaadin.version>
+
+		<org.springframework.boot.version>3.5.6</org.springframework.boot.version>
+	</properties>
+
+	<modules>
+		<module>entities</module>
+		<module>entities-metamodel</module>
+		<module>integration-tests</module>
+		<module>persistence</module>
+		<module>webapp-rest</module>
+		<module>webapp-shared</module>
+		<module>webapp-vaadin</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Internal -->
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>entities</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>entities-metamodel</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>persistence</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev.sse.demo</groupId>
+				<artifactId>webapp-shared</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+
+			<!-- Vaadin -->
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${com.vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>spring-security-advanced-authentication-ui</artifactId>
+				<version>2.1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>2.8.13</version>
+			</dependency>
+
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+
+			<!-- Caching for actuator -->
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>expiring-limited-cache</artifactId>
+				<version>2.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>3.2.2</version>
+			</dependency>
+
+			<!-- Tests -->
+			<!-- Unit-Tests -->
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.13.4</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- DB -->
+			<dependency>
+				<groupId>org.mariadb.jdbc</groupId>
+				<artifactId>mariadb-java-client</artifactId>
+				<version>3.5.6</version>
+				<!-- https://mariadb.com/kb/en/about-mariadb-connector-j/#size-consideration -->
+				<exclusions>
+					<exclusion>
+						<groupId>com.github.waffle</groupId>
+						<artifactId>waffle-jna</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev</groupId>
+				<artifactId>flyway-core-slim</artifactId>
+				<version>1.1.0</version>
+			</dependency>
+
+			<!-- Spring Boot -->
+			<!-- This bom provides versions for ~500 dependencies -->
+			<!-- Nearly at the end so that it doesn't accidentally overwrite other versions -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${org.springframework.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- SSE -->
+			<!-- DO NOT USE BOM HERE -->
+			<!-- Not working with mvn:version:set! -->
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>csp</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc-remember-me</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>vaadin</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>web-sidecar-actuator</artifactId>
+				<version>1.3.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Unit tests are in nearly all projects -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.5.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.14.0</version>
+					<configuration>
+						<release>${maven.compiler.release}</release>
+						<compilerArgs>
+							<arg>-proc:none</arg>
+						</compilerArgs>
+					</configuration>
+				</plugin>
+
+				<!-- Required for generating JPA classes -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.6.1</version>
+				</plugin>
+
+				<!-- Required for generating JPA classes -->
+				<plugin>
+					<groupId>org.bsc.maven</groupId>
+					<artifactId>maven-processor-plugin</artifactId>
+					<version>5.1</version>
+				</plugin>
+
+				<!-- Spring -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${org.springframework.boot.version}</version>
+				</plugin>
+
+				<!-- Generate Git commit file -->
+				<plugin>
+					<groupId>io.github.git-commit-id</groupId>
+					<artifactId>git-commit-id-maven-plugin</artifactId>
+					<version>9.0.2</version>
+				</plugin>
+
+				<plugin>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-maven-plugin</artifactId>
+					<version>${com.vaadin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>checkstyle</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>3.6.0</version>
+						<dependencies>
+							<dependency>
+								<groupId>com.puppycrawl.tools</groupId>
+								<artifactId>checkstyle</artifactId>
+								<version>11.0.1</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<configLocation>../.config/checkstyle/checkstyle.xml</configLocation>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>pmd</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>3.27.0</version>
+						<configuration>
+							<analysisCache>true</analysisCache>
+							<includeTests>true</includeTests>
+							<printFailingErrors>true</printFailingErrors>
+							<rulesets>
+								<ruleset>.config/pmd/java/ruleset.xml</ruleset>
+							</rulesets>
+							<excludes>
+								<exclude>**/entities/**/*_.java</exclude>
+							</excludes>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>net.sourceforge.pmd</groupId>
+								<artifactId>pmd-core</artifactId>
+								<version>7.17.0</version>
+							</dependency>
+							<dependency>
+								<groupId>net.sourceforge.pmd</groupId>
+								<artifactId>pmd-java</artifactId>
+								<version>7.17.0</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+			<reporting>
+				<plugins>
+					<!-- Required for reporting -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+						<version>3.6.0</version>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+	</profiles>
+</project>
