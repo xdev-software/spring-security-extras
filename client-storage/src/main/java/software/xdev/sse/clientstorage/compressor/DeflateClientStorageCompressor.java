@@ -31,6 +31,7 @@ import java.util.zip.InflaterInputStream;
  */
 public class DeflateClientStorageCompressor implements ClientStorageCompressor
 {
+	@SuppressWarnings("PMD.AvoidInMemoryStreamingDefaultConstructor")
 	@Override
 	public byte[] compress(final byte[] input)
 	{

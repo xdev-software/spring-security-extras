@@ -167,6 +167,7 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 		}
 	}
 	
+	@SuppressWarnings("PMD.ReplaceJavaUtilDate")
 	void serializeAndDeserialize(
 		final DefaultOAuth2CookieRememberMeAuthSerializer serializer,
 		final Map<String, Object> additionalClaims)
