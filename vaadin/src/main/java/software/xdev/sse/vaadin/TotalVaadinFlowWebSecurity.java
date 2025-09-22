@@ -43,7 +43,10 @@ import software.xdev.sse.web.loginurl.LoginUrlStore;
 /**
  * Override of {@link VaadinWebSecurity} that doesn't allow any VaadinSession to be created without previous
  * authentication.
+ * @deprecated Vaadin has decided that they will remove {@link VaadinWebSecurity}.
+ * Use {@link TotalVaadinFlowSecurityConfigurer} instead.
  */
+@Deprecated(forRemoval = true)
 @SuppressWarnings("java:S6813")
 public abstract class TotalVaadinFlowWebSecurity extends VaadinWebSecurity
 {
