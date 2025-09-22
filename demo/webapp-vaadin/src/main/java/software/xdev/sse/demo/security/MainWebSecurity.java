@@ -5,10 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
@@ -19,12 +22,12 @@ import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
 import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
-import software.xdev.sse.vaadin.TotalVaadinFlowWebSecurity;
+import software.xdev.sse.vaadin.TotalVaadinFlowSecurityConfigurer;
 
 
 @EnableWebSecurity
 @Configuration
-public class MainWebSecurity extends TotalVaadinFlowWebSecurity
+public class MainWebSecurity
 {
 	private static final Logger LOG = LoggerFactory.getLogger(MainWebSecurity.class);
 	
@@ -43,8 +46,8 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 	@Autowired
 	protected OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter;
 	
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception
+	@Bean
+	protected SecurityFilterChain httpSecurityFilterChain(final HttpSecurity http) throws Exception
 	{
 		http
 			.with(new AdvancedLoginPageAdapter<>(http), c -> c
@@ -61,9 +64,6 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
 				.referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
-			.sessionManagement(c ->
-				// Limit maximum session per user
-				c.sessionConcurrency(sc -> sc.maximumSessions(5)))
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);
 				this.rememberLoginProvider.configureOAuth2Login(c);
@@ -74,8 +74,12 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 		
 		this.cookieRememberMeServices.install(http);
 		
-		super.configure(http);
+		final DefaultSecurityFilterChain build = http
+			.with(new TotalVaadinFlowSecurityConfigurer(), Customizer.withDefaults())
+			.build();
 		
 		LOG.info("Configuration finished - {} is spooled up and operational", this.getClass().getSimpleName());
+		
+		return build;
 	}
 }
