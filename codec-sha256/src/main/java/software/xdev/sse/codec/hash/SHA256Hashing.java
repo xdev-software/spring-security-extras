@@ -46,7 +46,7 @@ public final class SHA256Hashing
 	/**
 	 * @apiNote Note that SHA256 gets slower the longer the input is. Ensure that the input length is limited.
 	 */
-	@SuppressWarnings("checkstyle:MagicNumber")
+	@SuppressWarnings({"checkstyle:MagicNumber", "PMD.AvoidStringBuilderOrBuffer"})
 	public static String hash(final byte[] input)
 	{
 		if(input == null)
