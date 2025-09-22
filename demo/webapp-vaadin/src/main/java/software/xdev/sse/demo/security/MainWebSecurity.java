@@ -61,9 +61,6 @@ public class MainWebSecurity extends TotalVaadinFlowWebSecurity
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
 				.referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
-			.sessionManagement(c ->
-				// Limit maximum session per user
-				c.sessionConcurrency(sc -> sc.maximumSessions(5)))
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);
 				this.rememberLoginProvider.configureOAuth2Login(c);

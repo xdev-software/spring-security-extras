@@ -51,9 +51,6 @@ public class MainWebSecurity
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
 				.contentSecurityPolicy(csp -> csp.policyDirectives(cspGenerator.buildCSP())))
-			.sessionManagement(c ->
-				// Limit maximum session per user
-				c.sessionConcurrency(sc -> sc.maximumSessions(5)))
 			.oauth2Login(c -> c.defaultSuccessUrl("/"))
 			// Disable CSRF for REST API for demo purposes
 			.csrf(c -> c.ignoringRequestMatchers("/api/**"))
