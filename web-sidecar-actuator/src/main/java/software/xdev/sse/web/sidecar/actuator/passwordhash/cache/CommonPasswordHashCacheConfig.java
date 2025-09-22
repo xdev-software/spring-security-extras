@@ -15,10 +15,7 @@
  */
 package software.xdev.sse.web.sidecar.actuator.passwordhash.cache;
 
-import java.time.Duration;
-
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -26,20 +23,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public abstract class CommonPasswordHashCacheConfig
 {
-	@NotNull
-	private Duration expiration = Duration.ofHours(1);
 	@Min(1)
 	private int maxSize = 100;
-	
-	public Duration getExpiration()
-	{
-		return this.expiration;
-	}
-	
-	public void setExpiration(final Duration expiration)
-	{
-		this.expiration = expiration;
-	}
 	
 	public int getMaxSize()
 	{
@@ -53,9 +38,7 @@ public abstract class CommonPasswordHashCacheConfig
 	
 	protected String propertiesToString()
 	{
-		return "expiration="
-			+ this.expiration
-			+ ", maxSize="
+		return "maxSize="
 			+ this.maxSize;
 	}
 	

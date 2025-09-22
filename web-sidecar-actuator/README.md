@@ -9,10 +9,10 @@ For more details about sidecars please have a look at [``../web-sidecar-common``
 * Allows only specific endpoints per user
 * Only the password hashes are stored on the server side
 * The default built-in password-hasher is using `SHA-256`
-* Utilizes password hash caching if possible
-  * Enabled when one of the following libraries is detected on the class-path:
+* Option to utilize password hash caching
+  * This might be helpful in environments with no `SHA-256` hardware acceleration
+  * One of the following libraries is required on the class-path:
     * [caffeine](https://github.com/ben-manes/caffeine) 
-    * [expiring-limited-cache](https://github.com/xdev-software/expiring-limited-cache)
 
 Example configuration:
 ```yml

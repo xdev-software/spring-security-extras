@@ -31,9 +31,7 @@ import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.caffeine.Caffei
 
 @ConditionalOnClass(name = "com.github.benmanes.caffeine.cache.Caffeine")
 @ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
-@ConditionalOnProperty(
-	value = "sse.sidecar.actuator.password-hash.cache.enabled",
-	matchIfMissing = true)
+@ConditionalOnProperty(value = "sse.sidecar.actuator.password-hash.cache.enabled")
 @ConditionalOnProperty(
 	value = "sse.sidecar.actuator.password-hash.cache.caffeine.enabled",
 	matchIfMissing = true)
