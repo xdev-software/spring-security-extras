@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import software.xdev.sse.demo.entities.UserDetail;
 import software.xdev.sse.demo.persistence.jpa.dao.UserDetailDAO;
@@ -45,6 +47,25 @@ class LoginOIDCTest extends InfraPerCaseTest
 		
 		assertNotNull(user);
 		assertEquals(this.oidcInfra().getDefaultUserName(), user.getFullName());
+	}
+	
+	@DisplayName("Re-Login should keep url")
+	@ParameterizedTest
+	@EnumSource(TestBrowser.class)
+	void checkReLoginShouldKeepUrl(final TestBrowser browser)
+	{
+		this.startAll(browser, dbCtrl -> dbCtrl.useNewEntityManager(em -> new DefaultDG(em).generateAll()));
+		
+		this.loginAndGotoMainSite();
+		this.navigateTo("another");
+		
+		// Delete all cookies of the CURRENT domain
+		this.getWebDriver().manage().deleteAllCookies();
+		this.getWebDriver().navigate().refresh();
+		
+		// Should be restored to the same path/view
+		Assertions.assertDoesNotThrow(() ->
+			this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another?continue")));
 	}
 	
 	@DisplayName("Check Login works when OIDC offline")
