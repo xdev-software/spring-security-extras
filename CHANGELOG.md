@@ -1,3 +1,9 @@
+# 1.4.0
+* Vaadin
+  * Deprecated `TotalVaadinFlowWebSecurity` because `VaadinWebSecurity` is deprecated
+  * Added wrapper for Vaadin's new `TotalVaadinFlowSecurityConfigurer` #196
+    * Updated the demo accordingly
+
 # 1.3.1
 * Actuator
   * Disabled caching by default
