@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1758555731169">
+    <module artifactId="codec-sha256" groupId="software.xdev.sse" version="1.4.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/codec/hash/SHA256Hashing.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/codec/hash/SHA256HashingTest.java" result="NOOP"/>
+    </files>
+</licensePluginReport>

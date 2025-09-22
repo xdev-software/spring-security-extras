@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1758555731177">
+    <module artifactId="csp" groupId="software.xdev.sse" version="1.4.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/csp/CSPGenerator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/csp/CSPProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/csp/auto/CSPAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/csp/package-info.java" result="NOOP"/>
+    </files>
+</licensePluginReport>

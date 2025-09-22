@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1758555890163">
+    <module artifactId="web-sidecar-actuator" groupId="software.xdev.sse" version="1.4.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/ActuatorBlackHolingPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/ActuatorWebSecurity.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/NoErrorBasicAuthenticationEntryPoint.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/auto/ActuatorWebSecurityAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/auto/passwordhash/cache/caffeine/CaffeinePasswordHashCacheAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/config/ActuatorSecurityConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/config/ActuatorUserConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/metrics/ActuatorSecurityMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/metrics/DefaultActuatorSecurityMetricsHandler.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/cache/CommonPasswordHashCacheConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/cache/PasswordHashCache.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/cache/UnchachedPasswordHashCache.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/cache/caffeine/CaffeinePasswordHashCache.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/cache/caffeine/CaffeinePasswordHashCacheConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/hasher/PasswordHasher.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/actuator/passwordhash/hasher/sha256/DefaultSHA256PasswordHasher.java" result="NOOP"/>
+        <file path="src/test/java/software/xdev/sse/web/sidecar/actuator/NoErrorBasicAuthenticationEntryPointTest.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
