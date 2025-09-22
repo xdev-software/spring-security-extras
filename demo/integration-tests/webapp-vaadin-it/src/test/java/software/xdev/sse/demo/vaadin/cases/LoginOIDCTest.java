@@ -68,6 +68,25 @@ class LoginOIDCTest extends InfraPerCaseTest
 			this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another?continue")));
 	}
 	
+	@DisplayName("Re-Login should not keep url if view does not exist")
+	@ParameterizedTest
+	@EnumSource(TestBrowser.class)
+	void checkReLoginShouldNOTKeepUrlIfViewDoesNotExist(final TestBrowser browser)
+	{
+		this.startAll(browser, dbCtrl -> dbCtrl.useNewEntityManager(em -> new DefaultDG(em).generateAll()));
+		
+		this.loginAndGotoMainSite();
+		this.navigateTo("anotherThatDoesNotExist");
+		
+		// Delete all cookies of the CURRENT domain
+		this.getWebDriver().manage().deleteAllCookies();
+		this.getWebDriver().navigate().refresh();
+		
+		// Should be restored to the same path/view
+		Assertions.assertDoesNotThrow(() ->
+			this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/main")));
+	}
+	
 	@DisplayName("Check Login works when OIDC offline")
 	@ParameterizedTest
 	@EnumSource(TestBrowser.class)
