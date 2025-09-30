@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [21]
+        java: [25]
         project: [webapp-rest-it, webapp-vaadin-it]
         parallel: [2]
         pre-start: [true]
