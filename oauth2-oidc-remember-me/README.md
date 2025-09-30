@@ -66,7 +66,7 @@ For more detailed docs have a look at [the javadoc of ``OAuth2CookieRememberMeSe
 * **You need to implement [``OAuth2RememberMeUserEnricher``](./src/main/java/software/xdev/sse/oauth2/rememberme/userenrichment/OAuth2RememberMeUserEnricher.java) and [``AuthRememberMeSecretService``](./src/main/java/software/xdev/sse/oauth2/rememberme/secrets/AuthRememberMeSecretService.java)**
 * Inside your main ``WebSecurity#configure`` add:
     ```java
-    this.cookieRememberMeServices.install(http);
+    cookieRememberMeServices.install(http);
     ```
 
 ## Example configuration
