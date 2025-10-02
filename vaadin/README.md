@@ -21,7 +21,7 @@ The overall goal is to
 public class MainWebSecurity
 {
     @Bean
-    protected SecurityFilterChain httpSecurityFilterChain(
+    protected SecurityFilterChain mainSecurityFilterChain(
         final HttpSecurity http,
         final OAuth2CookieRememberMeServices cookieRememberMeServices,
         final OAuth2RefreshFilter oAuth2RefreshFilter,

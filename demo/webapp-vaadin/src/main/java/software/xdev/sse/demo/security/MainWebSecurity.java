@@ -31,7 +31,7 @@ public class MainWebSecurity
 	private static final Logger LOG = LoggerFactory.getLogger(MainWebSecurity.class);
 	
 	@Bean
-	protected SecurityFilterChain httpSecurityFilterChain(
+	protected SecurityFilterChain mainSecurityFilterChain(
 		final HttpSecurity http,
 		final OAuth2CookieRememberMeServices cookieRememberMeServices,
 		final OAuth2RefreshFilter oAuth2RefreshFilter,
@@ -64,12 +64,12 @@ public class MainWebSecurity
 		
 		cookieRememberMeServices.install(http);
 		
-		final DefaultSecurityFilterChain build = http
+		final DefaultSecurityFilterChain chain = http
 			.with(new TotalVaadinFlowSecurityConfigurer(), Customizer.withDefaults())
 			.build();
 		
 		LOG.info("Configuration finished - {} is spooled up and operational", this.getClass().getSimpleName());
 		
-		return build;
+		return chain;
 	}
 }
