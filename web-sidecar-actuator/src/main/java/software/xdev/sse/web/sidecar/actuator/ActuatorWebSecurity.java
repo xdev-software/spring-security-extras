@@ -43,6 +43,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
+import software.xdev.sse.web.sidecar.actuator.httpsecurity.ActuatorHttpSecMCustomizerContainer;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.PasswordHashCache;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.PasswordHasher;
@@ -82,6 +83,7 @@ public class ActuatorWebSecurity
 	@Order(1)
 	@SuppressWarnings("java:S4502")
 	public SecurityFilterChain configureActuator(
+		final ActuatorHttpSecMCustomizerContainer httpSecurityMatcherCustomizerContainer,
 		final WebEndpointProperties actuatorWebEndpointProperties,
 		final HttpSecurity http) throws Exception
 	{
@@ -102,8 +104,9 @@ public class ActuatorWebSecurity
 			.filter(s -> !s.isBlank())
 			.collect(Collectors.toSet());
 		
-		return http
-			.securityMatcher(actuatorWebEndpointProperties.getBasePath() + "/**")
+		return httpSecurityMatcherCustomizerContainer.apply(
+				http,
+				List.of(actuatorWebEndpointProperties.getBasePath() + "/**"))
 			.authorizeHttpRequests(registry -> {
 				alUserEndpoints.forEach(endpoint ->
 					registry.requestMatchers("/actuator/" + endpoint)

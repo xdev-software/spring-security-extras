@@ -29,7 +29,12 @@ import software.xdev.sse.web.sidecar.OtherWebSecurityPaths;
 import software.xdev.sse.web.sidecar.OtherWebSecurityPathsProvider;
 import software.xdev.sse.web.sidecar.blackholing.BlackHolingSecurity;
 import software.xdev.sse.web.sidecar.errorpage.ErrorPageCompatibilityPathsProvider;
+import software.xdev.sse.web.sidecar.httpsecurity.DefaultHttpSecurityMatcherPatternApplier;
+import software.xdev.sse.web.sidecar.httpsecurity.DefaultHttpSecurityMatcherPatternCreator;
+import software.xdev.sse.web.sidecar.httpsecurity.HttpSecurityMatcherPatternApplier;
+import software.xdev.sse.web.sidecar.httpsecurity.HttpSecurityMatcherPatternCreator;
 import software.xdev.sse.web.sidecar.public_stateless.PublicStatelessWebSecurity;
+import software.xdev.sse.web.sidecar.public_stateless.httpsecurity.PublicStaticStatelessHttpSecMCustomizerContainer;
 
 
 @AutoConfiguration
@@ -52,5 +57,28 @@ public class CommonSidecarsAutoConfig
 		@Autowired(required = false) final ErrorPageRegistry registry)
 	{
 		return new ErrorPageCompatibilityPathsProvider(registry);
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public HttpSecurityMatcherPatternApplier httpSecurityMatcherPatternApplier()
+	{
+		return new DefaultHttpSecurityMatcherPatternApplier();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public HttpSecurityMatcherPatternCreator httpSecurityMatcherPatternCreator()
+	{
+		return new DefaultHttpSecurityMatcherPatternCreator();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public PublicStaticStatelessHttpSecMCustomizerContainer publicStaticStatelessHttpSecMCustomizerContainer(
+		final HttpSecurityMatcherPatternApplier applier,
+		final HttpSecurityMatcherPatternCreator creator)
+	{
+		return new PublicStaticStatelessHttpSecMCustomizerContainer(applier, creator);
 	}
 }

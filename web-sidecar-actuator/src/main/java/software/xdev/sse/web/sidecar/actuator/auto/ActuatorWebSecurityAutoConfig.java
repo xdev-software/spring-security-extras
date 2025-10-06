@@ -28,11 +28,14 @@ import io.micrometer.core.instrument.MeterRegistry;
 import software.xdev.sse.web.sidecar.actuator.ActuatorBlackHolingPathsProvider;
 import software.xdev.sse.web.sidecar.actuator.ActuatorWebSecurity;
 import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
+import software.xdev.sse.web.sidecar.actuator.httpsecurity.ActuatorHttpSecMCustomizerContainer;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 import software.xdev.sse.web.sidecar.actuator.metrics.DefaultActuatorSecurityMetricsHandler;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.PasswordHashCache;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.UnchachedPasswordHashCache;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.sha256.DefaultSHA256PasswordHasher;
+import software.xdev.sse.web.sidecar.httpsecurity.HttpSecurityMatcherPatternApplier;
+import software.xdev.sse.web.sidecar.httpsecurity.HttpSecurityMatcherPatternCreator;
 
 
 @ConditionalOnProperty(value = "sse.sidecar.actuator.enabled", matchIfMissing = true)
@@ -81,5 +84,14 @@ public class ActuatorWebSecurityAutoConfig
 	public PasswordHashCache passwordHashCache()
 	{
 		return new UnchachedPasswordHashCache();
+	}
+	
+	@ConditionalOnMissingBean
+	@Bean
+	public ActuatorHttpSecMCustomizerContainer actuatorHttpSecMCustomizerContainer(
+		final HttpSecurityMatcherPatternApplier applier,
+		final HttpSecurityMatcherPatternCreator creator)
+	{
+		return new ActuatorHttpSecMCustomizerContainer(applier, creator);
 	}
 }
