@@ -22,6 +22,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -230,13 +231,19 @@ public class TotalVaadinFlowSecurityConfigurer
 	@SuppressWarnings("java:S1172") // API: Might be required downstream
 	protected void configureLoginViewFromLoginUrlStore(final HttpSecurity http)
 	{
-		final LoginUrlStore loginUrlStore = this.getSharedObject(LoginUrlStore.class);
-		if(loginUrlStore != null)
+		final LoginUrlStore loginUrlStore;
+		try
 		{
-			// This is usually only needed when the authentication is anonymous
-			// and navigation to a view that requires non-anonymous authentication happens
-			this.getSharedObject(NavigationAccessControl.class).setLoginView(loginUrlStore.getLoginUrl());
+			loginUrlStore = this.getApplicationContext().getBean(LoginUrlStore.class);
 		}
+		catch(final NoSuchBeanDefinitionException ignored)
+		{
+			return;
+		}
+		
+		// This is usually only needed when the authentication is anonymous
+		// and navigation to a view that requires non-anonymous authentication happens
+		this.getSharedObject(NavigationAccessControl.class).setLoginView(loginUrlStore.getLoginUrl());
 	}
 	// endregion
 	
