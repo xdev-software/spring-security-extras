@@ -1,9 +1,11 @@
 # 1.5.0
-* Made the way `HttpSecurity#securityMatcher` is applied in Sidecars customizable #221
-  * By default `PathPatternRequestMatcher` is now used instead of `MvcRequestMatcher` or `AntPathRequestMatcher`
-  * This fixes problems where the app/servlet utilizes an existing `urlMapping` that could result in incorrect path interception.
-  * Further details can be found in `software.xdev.sse.web.sidecar.httpsecurity`
-* Fix incorrect lookup of `LoginUrlStore` in `TotalVaadinFlowSecurityConfigurer#configureLoginViewFromLoginUrlStore`
+* Vaadin
+  * Made the way `HttpSecurity#securityMatcher` is applied in Sidecars customizable #221
+    * By default `PathPatternRequestMatcher` is now used instead of `MvcRequestMatcher` or `AntPathRequestMatcher`
+    * This fixes problems where the app/servlet utilizes an existing `urlMapping` that could result in incorrect path interception.
+    * Further details can be found in `software.xdev.sse.web.sidecar.httpsecurity`
+  * Fix incorrect lookup of `LoginUrlStore` in `TotalVaadinFlowSecurityConfigurer#configureLoginViewFromLoginUrlStore`
+  * `TotalVaadinFlowSecurityConfigurer` make it possible to enable/disable certain configurations
 * Updated dependencies
 
 # 1.4.0

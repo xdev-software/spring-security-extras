@@ -76,6 +76,12 @@ public class TotalVaadinFlowSecurityConfigurer
 	
 	protected Consumer<VaadinSecurityConfigurer> customizeVaadinSecurityConfigurer;
 	
+	protected boolean enableExceptionHandling = true;
+	protected boolean enableCSRF = true;
+	protected boolean enableRequestCache = true;
+	protected boolean enableAuthorizeHttpRequests = true;
+	protected boolean enableLoginViewFromLoginUrlStore = true;
+	
 	public TotalVaadinFlowSecurityConfigurer()
 	{
 		this(VaadinSecurityConfigurer.vaadin()
@@ -90,12 +96,45 @@ public class TotalVaadinFlowSecurityConfigurer
 		this.vaadinSecurityConfigurer = vaadinSecurityConfigurer;
 	}
 	
+	// region Configure
 	public TotalVaadinFlowSecurityConfigurer customizeVaadin(
 		final Consumer<VaadinSecurityConfigurer> customizeVaadinSecurityConfigurer)
 	{
 		this.customizeVaadinSecurityConfigurer = customizeVaadinSecurityConfigurer;
 		return this;
 	}
+	
+	public TotalVaadinFlowSecurityConfigurer enableExceptionHandling(final boolean enabled)
+	{
+		this.enableExceptionHandling = enabled;
+		return this;
+	}
+	
+	public TotalVaadinFlowSecurityConfigurer enableCSRF(final boolean enabled)
+	{
+		this.enableCSRF = enabled;
+		return this;
+	}
+	
+	public TotalVaadinFlowSecurityConfigurer enableRequestCache(final boolean enabled)
+	{
+		this.enableRequestCache = enabled;
+		return this;
+	}
+	
+	public TotalVaadinFlowSecurityConfigurer enableAuthorizeHttpRequests(final boolean enabled)
+	{
+		this.enableAuthorizeHttpRequests = enabled;
+		return this;
+	}
+	
+	public TotalVaadinFlowSecurityConfigurer enableLoginViewFromLoginUrlStore(
+		final boolean enabled)
+	{
+		this.enableLoginViewFromLoginUrlStore = enabled;
+		return this;
+	}
+	// endregion
 	
 	@Override
 	public void setBuilder(final HttpSecurity builder)
@@ -113,17 +152,33 @@ public class TotalVaadinFlowSecurityConfigurer
 		}
 		this.vaadinSecurityConfigurer.init(http);
 		
-		this.initExceptionHandling(http);
-		this.initCSRF(http);
-		this.initRequestCache(http);
-		this.initAuthorizeHttpRequests(http);
+		if(this.enableExceptionHandling)
+		{
+			this.initExceptionHandling(http);
+		}
+		if(this.enableCSRF)
+		{
+			this.initCSRF(http);
+		}
+		if(this.enableRequestCache)
+		{
+			this.initRequestCache(http);
+		}
+		if(this.enableAuthorizeHttpRequests)
+		{
+			this.initAuthorizeHttpRequests(http);
+		}
 	}
 	
 	@Override
 	public void configure(final HttpSecurity http) throws Exception
 	{
 		this.vaadinSecurityConfigurer.configure(http);
-		this.configureLoginViewFromLoginUrlStore(http);
+		
+		if(this.enableLoginViewFromLoginUrlStore)
+		{
+			this.configureLoginViewFromLoginUrlStore(http);
+		}
 	}
 	
 	// region Exception Handling
