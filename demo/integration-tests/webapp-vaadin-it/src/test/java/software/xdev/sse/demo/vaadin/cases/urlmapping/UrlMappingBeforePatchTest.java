@@ -8,20 +8,17 @@ import java.util.List;
 
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.junit.jupiter.api.function.Executable;
-import org.testcontainers.containers.Network;
 
-import software.xdev.sse.demo.tci.webapp.VaadinWebAppTCI;
+import software.xdev.sse.demo.tci.webapp.containers.VaadinWebAppContainer;
 
 
 class UrlMappingBeforePatchTest extends BaseUrlMappingTest
 {
 	@Override
-	protected VaadinWebAppTCI createAppInfra(final Network network, final String dnsName)
+	protected void customizeWebAppContainer(final VaadinWebAppContainer c)
 	{
-		return APP_ON_DEMAND_TCI_FACTORY.getNew(
-			network,
-			c -> c.withEnv("VAADIN_URL-MAPPING", "/2025/*")
-				.withEnv("SSE_SIDECAR_HTTP-SECURITY-MATCHER_DEFAULT_CREATOR_ENABLED", "false"));
+		super.customizeWebAppContainer(c);
+		c.withEnv("SSE_SIDECAR_HTTP-SECURITY-MATCHER_DEFAULT_CREATOR_ENABLED", "false");
 	}
 	
 	@Override
