@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -53,6 +54,7 @@ public class MainWebSecurity
 				.contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
+				.httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable) // Handled by Reverse Proxy
 				.referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);
