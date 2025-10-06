@@ -15,6 +15,7 @@
  */
 package software.xdev.sse.web.sidecar.actuator.auto;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -86,11 +87,14 @@ public class ActuatorWebSecurityAutoConfig
 		return new UnchachedPasswordHashCache();
 	}
 	
+	@ConditionalOnProperty(
+		value = "sse.sidecar.actuator.http-security-matcher.default.enabled",
+		matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public ActuatorHttpSecMCustomizerContainer actuatorHttpSecMCustomizerContainer(
 		final HttpSecurityMatcherPatternApplier applier,
-		final HttpSecurityMatcherPatternCreator creator)
+		@Autowired(required = false) final HttpSecurityMatcherPatternCreator creator)
 	{
 		return new ActuatorHttpSecMCustomizerContainer(applier, creator);
 	}

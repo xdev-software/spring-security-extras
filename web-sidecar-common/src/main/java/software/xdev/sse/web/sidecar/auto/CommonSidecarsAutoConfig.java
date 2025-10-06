@@ -59,6 +59,9 @@ public class CommonSidecarsAutoConfig
 		return new ErrorPageCompatibilityPathsProvider(registry);
 	}
 	
+	@ConditionalOnProperty(
+		value = "sse.sidecar.http-security-matcher.default.applier.enabled",
+		matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public HttpSecurityMatcherPatternApplier httpSecurityMatcherPatternApplier()
@@ -66,6 +69,9 @@ public class CommonSidecarsAutoConfig
 		return new DefaultHttpSecurityMatcherPatternApplier();
 	}
 	
+	@ConditionalOnProperty(
+		value = "sse.sidecar.http-security-matcher.default.creator.enabled",
+		matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public HttpSecurityMatcherPatternCreator httpSecurityMatcherPatternCreator()
@@ -73,11 +79,14 @@ public class CommonSidecarsAutoConfig
 		return new DefaultHttpSecurityMatcherPatternCreator();
 	}
 	
+	@ConditionalOnProperty(
+		value = "sse.sidecar.public-stateless.http-security-matcher.default.enabled",
+		matchIfMissing = true)
 	@ConditionalOnMissingBean
 	@Bean
 	public PublicStaticStatelessHttpSecMCustomizerContainer publicStaticStatelessHttpSecMCustomizerContainer(
 		final HttpSecurityMatcherPatternApplier applier,
-		final HttpSecurityMatcherPatternCreator creator)
+		@Autowired(required = false) final HttpSecurityMatcherPatternCreator creator)
 	{
 		return new PublicStaticStatelessHttpSecMCustomizerContainer(applier, creator);
 	}
