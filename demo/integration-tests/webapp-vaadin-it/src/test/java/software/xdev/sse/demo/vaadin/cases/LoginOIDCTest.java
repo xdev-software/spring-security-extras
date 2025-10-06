@@ -61,6 +61,7 @@ class LoginOIDCTest extends InfraPerCaseTest
 		this.navigateTo("another");
 		
 		// Delete all cookies of the CURRENT domain
+		// Retry because GHA machine is sometimes failing here
 		Unreliables.retryUntilSuccess(
 			3, () -> {
 				this.getWebDriver().manage().deleteAllCookies();
