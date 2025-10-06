@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
@@ -50,6 +51,7 @@ public class MainWebSecurity
 				.referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
+				.httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable) // Handled by Reverse Proxy
 				.contentSecurityPolicy(csp -> csp.policyDirectives(cspGenerator.buildCSP())))
 			.oauth2Login(c -> c.defaultSuccessUrl("/"))
 			// Disable CSRF for REST API for demo purposes

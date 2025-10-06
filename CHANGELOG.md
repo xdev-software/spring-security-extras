@@ -1,3 +1,9 @@
+# 1.5.0
+* Made the way `HttpSecurity#securityMatcher` is applied in Sidecars customizable #221
+  * By default `PathPatternRequestMatcher` is now used instead of `MvcRequestMatcher` or `AntPathRequestMatcher`
+  * This fixes problems where the app/servlet utilizes an existing `urlMapping` that could result in incorrect path interception.
+  * Further details can be found in `software.xdev.sse.web.sidecar.httpsecurity`
+
 # 1.4.0
 * Vaadin
   * Deprecated `TotalVaadinFlowWebSecurity` because `VaadinWebSecurity` is deprecated
