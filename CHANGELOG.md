@@ -3,6 +3,7 @@
   * By default `PathPatternRequestMatcher` is now used instead of `MvcRequestMatcher` or `AntPathRequestMatcher`
   * This fixes problems where the app/servlet utilizes an existing `urlMapping` that could result in incorrect path interception.
   * Further details can be found in `software.xdev.sse.web.sidecar.httpsecurity`
+* Updated dependencies
 
 # 1.4.0
 * Vaadin
