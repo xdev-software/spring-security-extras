@@ -17,13 +17,15 @@
  * Controls how
  * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity
  * #securityMatcher(org.springframework.security.web.util.matcher.RequestMatcher)} is applied for sidecars.
- * <p/>
+ * <p>
  * By default, it ALWAYS uses {@link org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher}
  * instead of the internally used <code>MvcRequestMatcher (deprecated)</code>. This prevents unexpected bugs that can
  * occur when a url mapping (e.g. <code>/2025/*</code>) is registered for a servlet, which can result in unwanted paths
  * being picked up (e.g. <code>/2025/actuator</code>).
- *
- * @apiNote This package is only designed to be used in Sidecars and not in the main application!
+ * </p>
+ * <p>
+ * <i>This package is only designed to be used in Sidecars and not in the main application!</i>
+ * </p>
  * @see <a href="https://github.com/xdev-software/spring-security-extras/issues/221">#221</a>
  */
 package software.xdev.sse.web.sidecar.httpsecurity;
