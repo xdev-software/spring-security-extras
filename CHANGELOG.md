@@ -1,3 +1,6 @@
+# 1.5.1
+* Fix HSTS customization logic not working as expected
+
 # 1.5.0
 * Vaadin
   * Made the way `HttpSecurity#securityMatcher` is applied in Sidecars customizable #221

@@ -17,6 +17,8 @@ package software.xdev.sse.web.hsts;
 
 import jakarta.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.server.Ssl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -40,14 +42,17 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  */
 public class DefaultHstsApplier implements HstsApplier
 {
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultHstsApplier.class);
+	
 	protected final boolean enabled;
 	
 	public DefaultHstsApplier(
 		final HstsConfig config,
 		@Nullable final Ssl ssl)
 	{
-		this.enabled = !Boolean.FALSE.equals(config.isEnabled()) // true or null
+		this.enabled = Boolean.TRUE.equals(config.isEnabled())
 			|| ssl != null && ssl.isEnabled();
+		LOG.debug("HSTS enabled={}", this.enabled);
 	}
 	
 	@Override
