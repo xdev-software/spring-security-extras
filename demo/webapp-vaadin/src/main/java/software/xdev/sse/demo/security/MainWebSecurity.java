@@ -52,7 +52,7 @@ public class MainWebSecurity
 				))))
 			// Permission-Policy removed as it's not supported by browsers (besides Chrome)
 			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy#browser_compatibility
-			.headers(c -> hstsApplier.apply(c)
+			.headers(h -> hstsApplier.apply(h)
 				.contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())

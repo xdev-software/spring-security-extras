@@ -27,10 +27,12 @@ public class MainWebSecurity
         final OAuth2RefreshFilter oAuth2RefreshFilter,
         final CSPGenerator cspGenerator,
         final CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider,
-        final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter) throws Exception
+        final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter,
+        final HstsApplier hstsApplier)
+        throws Exception
     {
         http
-            .headers(c -> c
+            .headers(h -> hstsApplier.apply(h)
                 .contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
                 .contentTypeOptions(Customizer.withDefaults())
                 .referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
