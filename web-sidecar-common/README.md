@@ -75,3 +75,10 @@ It's main use-case is to prevent the requests from reaching the main application
 ### Error page compatibility
 
 Ensure that registered Web-Server error pages are accessible.
+
+### HTTP Security
+
+Controls how Security Matchers are applied to Sidecars.
+
+By default, it ALWAYS uses `PathPatternRequestMatcher` instead of the internally used `MvcRequestMatcher (deprecated)` (or `AntPathRequestMatcher` if MVC is not present) when calling `HTTPSecurity#securityMatcher(String...)`.
+This prevents unexpected bugs that can occur when a url mapping (e.g. `/2025/*`) is registered for a servlet, which can result in unwanted paths being picked up (e.g. `/2025/actuator`).

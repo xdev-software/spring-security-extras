@@ -7,7 +7,7 @@ Secures [Vaadin (Flow)](https://github.com/vaadin/platform).
 The overall goal is to
 * give Spring Security full access control before any requests are processed by Vaadin
 * only create Vaadin Sessions when they are really needed - as these are rather heavy (Vaadin stores the state of the UI in these)
-* make Vaadin's ``VaadinWebSecurity`` better customizable
+* make Vaadin's ``VaadinWebSecurity``/``VaadinSecurityConfigurer`` better customizable
 
 ## Requirements
 
@@ -15,49 +15,40 @@ The overall goal is to
 
 ## Usage
 
-Create a ``Configuration``-class that extends from ``TotalVaadinFlowWebSecurity`` and extend it accordingly.
-
-Here is an example:
 ```java
 @EnableWebSecurity
 @Configuration
-public class MainWebSecurity extends TotalVaadinFlowWebSecurity
+public class MainWebSecurity
 {
-    @Autowired
-    protected OAuth2CookieRememberMeServices cookieRememberMeServices;
-    
-    @Autowired
-    protected OAuth2RefreshFilter oAuth2RefreshFilter;
-    
-    @Autowired
-    protected CSPGenerator cspGenerator;
-    
-    @Autowired
-    protected CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider;
-    
-    @Autowired
-    protected OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter;
-    
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception
+    @Bean
+    protected SecurityFilterChain mainSecurityFilterChain(
+        final HttpSecurity http,
+        final OAuth2CookieRememberMeServices cookieRememberMeServices,
+        final OAuth2RefreshFilter oAuth2RefreshFilter,
+        final CSPGenerator cspGenerator,
+        final CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider,
+        final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter,
+        final HstsApplier hstsApplier)
+        throws Exception
     {
         http
-            .headers(c -> c
-                .contentSecurityPolicy(p -> p.policyDirectives(this.cspGenerator.buildCSP()))
-                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+            .headers(h -> hstsApplier.apply(h)
+                .contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
                 .contentTypeOptions(Customizer.withDefaults())
                 .referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
             .oauth2Login(c -> {
-                c.defaultSuccessUrl("/" + WorkdayView.NAV);
-                this.rememberLoginProvider.configureOAuth2Login(c);
-                this.oAuth2LoginUrlStoreAdapter.postProcess(c);
+                c.defaultSuccessUrl("/" + MainView.NAV);
+                rememberLoginProvider.configureOAuth2Login(c);
+                oAuth2LoginUrlStoreAdapter.postProcess(c);
             })
-            .logout(this.rememberLoginProvider::configureOAuth2Logout)
-            .addFilterBefore(this.oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
+            .logout(rememberLoginProvider::configureOAuth2Logout)
+            .addFilterBefore(oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
         
-        this.cookieRememberMeServices.install(http);
+        cookieRememberMeServices.install(http);
         
-        super.configure(http);
+        return http
+            .with(new TotalVaadinFlowSecurityConfigurer(), Customizer.withDefaults())
+            .build();
     }
 }
 ```

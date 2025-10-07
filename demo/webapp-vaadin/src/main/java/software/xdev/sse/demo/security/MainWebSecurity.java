@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -23,6 +22,7 @@ import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 import software.xdev.sse.vaadin.TotalVaadinFlowSecurityConfigurer;
+import software.xdev.sse.web.hsts.HstsApplier;
 
 
 @EnableWebSecurity
@@ -31,23 +31,16 @@ public class MainWebSecurity
 {
 	private static final Logger LOG = LoggerFactory.getLogger(MainWebSecurity.class);
 	
-	@Autowired
-	protected OAuth2CookieRememberMeServices cookieRememberMeServices;
-	
-	@Autowired
-	protected OAuth2RefreshFilter oAuth2RefreshFilter;
-	
-	@Autowired
-	protected CSPGenerator cspGenerator;
-	
-	@Autowired
-	protected CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider;
-	
-	@Autowired
-	protected OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter;
-	
 	@Bean
-	protected SecurityFilterChain httpSecurityFilterChain(final HttpSecurity http) throws Exception
+	protected SecurityFilterChain mainSecurityFilterChain(
+		final HttpSecurity http,
+		final OAuth2CookieRememberMeServices cookieRememberMeServices,
+		final OAuth2RefreshFilter oAuth2RefreshFilter,
+		final CSPGenerator cspGenerator,
+		final CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider,
+		final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter,
+		final HstsApplier hstsApplier)
+		throws Exception
 	{
 		http
 			.with(new AdvancedLoginPageAdapter<>(http), c -> c
@@ -59,27 +52,27 @@ public class MainWebSecurity
 				))))
 			// Permission-Policy removed as it's not supported by browsers (besides Chrome)
 			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy#browser_compatibility
-			.headers(c -> c
-				.contentSecurityPolicy(p -> p.policyDirectives(this.cspGenerator.buildCSP()))
+			.headers(h -> hstsApplier.apply(h)
+				.contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
 				.referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);
-				this.rememberLoginProvider.configureOAuth2Login(c);
-				this.oAuth2LoginUrlStoreAdapter.postProcess(c);
+				rememberLoginProvider.configureOAuth2Login(c);
+				oAuth2LoginUrlStoreAdapter.postProcess(c);
 			})
-			.logout(this.rememberLoginProvider::configureOAuth2Logout)
-			.addFilterBefore(this.oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
+			.logout(rememberLoginProvider::configureOAuth2Logout)
+			.addFilterBefore(oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
 		
-		this.cookieRememberMeServices.install(http);
+		cookieRememberMeServices.install(http);
 		
-		final DefaultSecurityFilterChain build = http
+		final DefaultSecurityFilterChain chain = http
 			.with(new TotalVaadinFlowSecurityConfigurer(), Customizer.withDefaults())
 			.build();
 		
 		LOG.info("Configuration finished - {} is spooled up and operational", this.getClass().getSimpleName());
 		
-		return build;
+		return chain;
 	}
 }

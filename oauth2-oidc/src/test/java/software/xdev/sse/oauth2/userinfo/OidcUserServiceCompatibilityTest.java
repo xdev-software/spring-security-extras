@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
@@ -59,9 +60,13 @@ class OidcUserServiceCompatibilityTest
 	@Test
 	void methods()
 	{
-		final List<Method> actual = Arrays.stream(OidcUserService.class.getDeclaredMethods()).toList();
+		final Predicate<Method> filterOutMethods = m -> !m.isSynthetic();
+		final List<Method> actual = Arrays.stream(OidcUserService.class.getDeclaredMethods())
+			.filter(filterOutMethods)
+			.toList();
 		Assertions.assertTrue(Arrays.stream(
 				org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService.class.getDeclaredMethods())
+			.filter(filterOutMethods)
 			.allMatch(e -> actual.stream()
 				.anyMatch(a -> a.getName().equals(e.getName())
 					&& a.getReturnType().equals(e.getReturnType())

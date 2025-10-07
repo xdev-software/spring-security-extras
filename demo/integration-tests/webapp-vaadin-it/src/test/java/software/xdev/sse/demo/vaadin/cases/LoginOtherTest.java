@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -22,16 +21,12 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpPut;
 import org.apache.hc.client5.http.classic.methods.HttpTrace;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
-import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.utils.Base64;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
-import org.apache.hc.core5.util.Timeout;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -129,20 +124,6 @@ class LoginOtherTest extends InfraPerClassTest
 			// TRACE is not supported by Spring Boot
 			Stream.of(Arguments.of(false, false, HttpTrace.METHOD_NAME, HttpStatus.SC_METHOD_NOT_ALLOWED))
 		).flatMap(Function.identity());
-	}
-	
-	protected static CloseableHttpClient createDefaultHttpClient()
-	{
-		final Duration timeout = Duration.ofSeconds(30);
-		return HttpClientBuilder.create()
-			.setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
-				.setDefaultConnectionConfig(ConnectionConfig.custom()
-					.setConnectTimeout(Timeout.of(timeout))
-					.setSocketTimeout(Timeout.of(timeout))
-					.build())
-				.build())
-			.disableRedirectHandling()
-			.build();
 	}
 	
 	private Stream<Executable> assertsNoSessionNoLoginAndCode(final int expectedCode, final HttpResponse response)

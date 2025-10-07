@@ -30,6 +30,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import software.xdev.sse.web.hsts.HstsApplier;
+import software.xdev.sse.web.sidecar.public_stateless.httpsecurity.PublicStaticStatelessHttpSecMCustomizerContainer;
+
 
 @ConditionalOnProperty(value = "sse.sidecar.public-stateless.enabled", matchIfMissing = true)
 @EnableWebSecurity
@@ -42,29 +45,33 @@ public class PublicStatelessWebSecurity
 	@Order(10)
 	@SuppressWarnings("java:S4502")
 	public SecurityFilterChain configureStaticResources(
+		final HstsApplier hstsApplier,
+		final PublicStaticStatelessHttpSecMCustomizerContainer httpSecurityMatcherCustomizerContainer,
 		final List<PublicStatelessPathsProvider> publicStatelessPathsProviders,
-		final HttpSecurity http) throws Exception
+		final HttpSecurity http)
+		throws Exception
 	{
-		final String[] pathPatterns = publicStatelessPathsProviders.stream()
+		final List<String> pathPatterns = publicStatelessPathsProviders.stream()
 			.filter(PublicStatelessPathsProvider::enabled)
 			.map(PublicStatelessPathsProvider::paths)
 			.flatMap(Collection::stream)
 			.distinct()
-			.toArray(String[]::new);
+			.toList();
 		
-		LOG.info("Building SecurityFilterChain using {}x path-patterns", pathPatterns.length);
+		LOG.info("Building SecurityFilterChain using {}x path-patterns", pathPatterns.size());
 		
 		// Static resources that require no authentication
-		return http
-			// Alternative:
-			// Use WebMvcConfigurer#addResourceHandlers
-			// registry.setOrder(1) - So that it's executed before (Vaadin)Servlet
-			// spring.web.resources.add-mappings=false - Disable defaults
-			.securityMatcher(pathPatterns)
+		return httpSecurityMatcherCustomizerContainer.apply(http, pathPatterns)
 			.authorizeHttpRequests(a -> a.anyRequest().permitAll())
 			// NO CSRF required as these resources are publicly available
 			.csrf(AbstractHttpConfigurer::disable)
+			.headers(hstsApplier::apply)
 			.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.build();
+		
+		// Possible alternative (2024):
+		// Use WebMvcConfigurer#addResourceHandlers
+		// registry.setOrder(1) - So that it's executed before (Vaadin)Servlet
+		// spring.web.resources.add-mappings=false - Disable defaults
 	}
 }

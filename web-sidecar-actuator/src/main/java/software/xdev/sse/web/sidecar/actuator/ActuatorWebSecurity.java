@@ -42,7 +42,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import software.xdev.sse.web.hsts.HstsApplier;
 import software.xdev.sse.web.sidecar.actuator.config.ActuatorSecurityConfig;
+import software.xdev.sse.web.sidecar.actuator.httpsecurity.ActuatorHttpSecMCustomizerContainer;
 import software.xdev.sse.web.sidecar.actuator.metrics.ActuatorSecurityMetricsHandler;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.cache.PasswordHashCache;
 import software.xdev.sse.web.sidecar.actuator.passwordhash.hasher.PasswordHasher;
@@ -82,8 +84,11 @@ public class ActuatorWebSecurity
 	@Order(1)
 	@SuppressWarnings("java:S4502")
 	public SecurityFilterChain configureActuator(
+		final HstsApplier hstsApplier,
+		final ActuatorHttpSecMCustomizerContainer httpSecurityMatcherCustomizerContainer,
 		final WebEndpointProperties actuatorWebEndpointProperties,
-		final HttpSecurity http) throws Exception
+		final HttpSecurity http)
+		throws Exception
 	{
 		LOG.info(
 			"Building SecurityFilterChain with {} [passwordHasher={},passwordHashCache={},metricHandlers={}]",
@@ -102,8 +107,9 @@ public class ActuatorWebSecurity
 			.filter(s -> !s.isBlank())
 			.collect(Collectors.toSet());
 		
-		return http
-			.securityMatcher(actuatorWebEndpointProperties.getBasePath() + "/**")
+		return httpSecurityMatcherCustomizerContainer.apply(
+				http,
+				List.of(actuatorWebEndpointProperties.getBasePath() + "/**"))
 			.authorizeHttpRequests(registry -> {
 				alUserEndpoints.forEach(endpoint ->
 					registry.requestMatchers("/actuator/" + endpoint)
@@ -114,6 +120,7 @@ public class ActuatorWebSecurity
 			.httpBasic(NoErrorBasicAuthenticationEntryPoint::install)
 			// NO CSRF required as we have BasicAuth anyway
 			.csrf(AbstractHttpConfigurer::disable)
+			.headers(hstsApplier::apply)
 			.authenticationManager(new ProviderManager(this.createActuatorAuthProvider()))
 			.build();
 	}

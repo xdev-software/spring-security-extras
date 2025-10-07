@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1-labs
 # Note: This Dockerfile is used by the integration tests for compiling the app when there was no image was supplied
-ARG JAVA_VERSION=21
+ARG JAVA_VERSION=25
 FROM eclipse-temurin:${JAVA_VERSION}-jre-alpine AS jre-base
 
 
@@ -111,7 +111,7 @@ COPY --from=builder --chown=${user}:${group} /builder/extracted/snapshot-depende
 RUN true
 COPY --from=builder --chown=${user}:${group} /builder/extracted/application/ ./
 
-ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=30 -Djava.awt.headless=true"
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:MinHeapFreeRatio=30 -XX:MaxHeapFreeRatio=50 -XX:+UseCompactObjectHeaders -Djava.awt.headless=true"
 
 EXPOSE 8080
 

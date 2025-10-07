@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestPlan;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -101,14 +102,14 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 			this.network = LAZY_NETWORK_POOL.getNew();
 			
 			cfOIDC = CompletableFuture.supplyAsync(
-				() -> OIDC_INFRA_FACTORY.getNew(this.network, DNS_NAME_OIDC),
+				() -> this.createOidcInfra(this.network, DNS_NAME_OIDC),
 				TCIExecutorServiceHolder.instance());
 			
 			cfApp = CompletableFuture.supplyAsync(
-				() -> this.appInfraFactory.getNew(this.network, DNS_NAME_WEBAPP),
+				() -> this.createAppInfra(this.network, DNS_NAME_WEBAPP),
 				TCIExecutorServiceHolder.instance());
 			
-			this.dbInfra = DB_INFRA_FACTORY.getNew(this.network, DNS_NAME_DB);
+			this.dbInfra = this.createDBInfra(this.network, DNS_NAME_DB);
 			Optional.ofNullable(onDataBaseMigrated).ifPresent(c -> c.accept(this.dbInfra));
 			
 			LOG.info(">>> User: {}", DBTCI.DB_USERNAME);
@@ -163,7 +164,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		final long start = System.currentTimeMillis();
 		try
 		{
-			this.browserInfra = BROWSER_INFRA_FACTORY.getNew(testBrowser.getCapabilityFactory().get(), this.network);
+			this.browserInfra = this.createBrowserInfra(testBrowser.getCapabilityFactory().get(), this.network);
 			this.browserInfra.getVncAddress().ifPresent(a -> LOG.info(">>> VNC: {}", a));
 			this.browserInfra.getNoVncAddress().ifPresent(a -> LOG.info(">>> NoVNC: {}", a));
 			
@@ -245,6 +246,8 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		this.network = null;
 	}
 	
+	// region Instance accessors
+	
 	public WebDriver getWebDriver()
 	{
 		return this.remoteWebDriver;
@@ -279,6 +282,32 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 	{
 		return this.appInfra.getInternalHTTPEndpoint();
 	}
+	
+	// endregion
+	// region Create Infra
+	
+	protected DBTCI createDBInfra(final Network network, final String dnsName)
+	{
+		return DB_INFRA_FACTORY.getNew(network, dnsName);
+	}
+	
+	protected OIDCTCI createOidcInfra(final Network network, final String dnsName)
+	{
+		return OIDC_INFRA_FACTORY.getNew(network, dnsName);
+	}
+	
+	protected T createAppInfra(final Network network, final String dnsName)
+	{
+		return this.appInfraFactory.getNew(network, dnsName);
+	}
+	
+	protected BrowserTCI createBrowserInfra(final MutableCapabilities capabilities, final Network network)
+	{
+		return BROWSER_INFRA_FACTORY.getNew(capabilities, network);
+	}
+	
+	// endregion
+	// region Service binding implementations
 	
 	public static class TCSTSeleniumIntegrationTestExtension
 		extends SeleniumRecordingExtension
@@ -329,4 +358,6 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 				TRACE_START_WEB_DRIVER);
 		}
 	}
+	
+	// endregion
 }

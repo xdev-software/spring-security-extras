@@ -15,6 +15,7 @@ import org.springframework.security.web.savedrequest.NullRequestCache;
 import software.xdev.spring.security.web.authentication.ui.advanced.AdvancedLoginPageAdapter;
 import software.xdev.spring.security.web.authentication.ui.advanced.config.AdditionalOAuth2ClientProperties;
 import software.xdev.sse.csp.CSPGenerator;
+import software.xdev.sse.web.hsts.HstsApplier;
 
 
 @EnableWebSecurity
@@ -27,7 +28,9 @@ public class MainWebSecurity
 	public SecurityFilterChain configure(
 		final HttpSecurity http,
 		final CSPGenerator cspGenerator,
-		final AdditionalOAuth2ClientProperties additionalOAuth2ClientProperties) throws Exception
+		final AdditionalOAuth2ClientProperties additionalOAuth2ClientProperties,
+		final HstsApplier hstsApplier)
+		throws Exception
 	{
 		http.with(
 				new AdvancedLoginPageAdapter<>(http),
@@ -46,7 +49,7 @@ public class MainWebSecurity
 							+ "</div>"
 							+ "<h2 class='h2 mb-3 text-center'>Demo</h2>")
 					))
-			.headers(h -> h
+			.headers(h -> hstsApplier.apply(h)
 				.referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
