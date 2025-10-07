@@ -61,12 +61,7 @@ class LoginOIDCTest extends InfraPerCaseTest
 		this.navigateTo("another");
 		
 		// Delete all cookies of the CURRENT domain
-		// Retry because GHA machine is sometimes failing here
-		Unreliables.retryUntilSuccess(
-			3, () -> {
-				this.getWebDriver().manage().deleteAllCookies();
-				return this.getWebDriver().manage().getCookies().isEmpty();
-			});
+		this.ensureAllCookiesDeleted();
 		this.getWebDriver().navigate().refresh();
 		
 		// Should be restored to the same path/view
@@ -85,12 +80,22 @@ class LoginOIDCTest extends InfraPerCaseTest
 		this.navigateTo("anotherThatDoesNotExist");
 		
 		// Delete all cookies of the CURRENT domain
-		this.getWebDriver().manage().deleteAllCookies();
+		this.ensureAllCookiesDeleted();
 		this.getWebDriver().navigate().refresh();
 		
 		// Should be restored to the same path/view
 		Assertions.assertDoesNotThrow(() ->
 			this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/main")));
+	}
+	
+	private void ensureAllCookiesDeleted()
+	{
+		// Retry because GHA machine is sometimes failing here
+		Unreliables.retryUntilSuccess(
+			3, () -> {
+				this.getWebDriver().manage().deleteAllCookies();
+				return this.getWebDriver().manage().getCookies().isEmpty();
+			});
 	}
 	
 	@DisplayName("Check Login works when OIDC offline")
