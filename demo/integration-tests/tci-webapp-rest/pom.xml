@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>software.xdev.sse.demo.it</groupId>
 		<artifactId>integration-tests</artifactId>
-		<version>1.5.0</version>
+		<version>1.5.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>tci-webapp-rest</artifactId>
 
