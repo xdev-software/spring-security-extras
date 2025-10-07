@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1759827181474">
+    <module artifactId="web-sidecar-common" groupId="software.xdev.sse" version="1.5.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/OtherWebSecurityPaths.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/OtherWebSecurityPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/auto/CommonSidecarsAutoConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/blackholing/BlackHolingPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/blackholing/BlackHolingSecurity.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/blackholing/FaviconBlackHolingPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/errorpage/ErrorPageCompatibilityPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/DefaultHttpSecurityMatcherPatternApplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/DefaultHttpSecurityMatcherPatternCreator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/HttpSecurityMatcherCustomizerContainer.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/HttpSecurityMatcherPatternApplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/HttpSecurityMatcherPatternCreator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/httpsecurity/package-info.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/public_stateless/PublicStatelessPathsProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/public_stateless/PublicStatelessWebSecurity.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/sse/web/sidecar/public_stateless/httpsecurity/PublicStaticStatelessHttpSecMCustomizerContainer.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
