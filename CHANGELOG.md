@@ -1,5 +1,5 @@
-# 1.5.1
-* Fix HSTS customization logic not working as expected
+# 1.5.2
+* Improve default HSTS customization logic
 
 # 1.5.0
 * Vaadin
