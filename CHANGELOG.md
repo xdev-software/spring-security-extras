@@ -6,6 +6,11 @@
     * Further details can be found in `software.xdev.sse.web.sidecar.httpsecurity`
   * Fix incorrect lookup of `LoginUrlStore` in `TotalVaadinFlowSecurityConfigurer#configureLoginViewFromLoginUrlStore`
   * `TotalVaadinFlowSecurityConfigurer` make it possible to enable/disable certain configurations
+* Web
+  * Add customizer for [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)
+    * also used by sidecars (e.g. Actuator)
+    * HSTS is disabled by default if SSL/HTTPS is also disabled
+    * Further details can be found in `software.xdev.sse.web.hsts`
 * Updated dependencies
 
 # 1.4.0

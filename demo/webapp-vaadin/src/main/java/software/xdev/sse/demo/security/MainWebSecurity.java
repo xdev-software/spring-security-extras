@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -23,6 +22,7 @@ import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
 import software.xdev.sse.oauth2.rememberme.OAuth2CookieRememberMeServices;
 import software.xdev.sse.vaadin.TotalVaadinFlowSecurityConfigurer;
+import software.xdev.sse.web.hsts.HstsApplier;
 
 
 @EnableWebSecurity
@@ -38,7 +38,9 @@ public class MainWebSecurity
 		final OAuth2RefreshFilter oAuth2RefreshFilter,
 		final CSPGenerator cspGenerator,
 		final CookieBasedRememberRedirectOAuth2LoginProvider rememberLoginProvider,
-		final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter) throws Exception
+		final OAuth2LoginUrlStoreAdapter oAuth2LoginUrlStoreAdapter,
+		final HstsApplier hstsApplier)
+		throws Exception
 	{
 		http
 			.with(new AdvancedLoginPageAdapter<>(http), c -> c
@@ -50,11 +52,10 @@ public class MainWebSecurity
 				))))
 			// Permission-Policy removed as it's not supported by browsers (besides Chrome)
 			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy#browser_compatibility
-			.headers(c -> c
+			.headers(c -> hstsApplier.apply(c)
 				.contentSecurityPolicy(p -> p.policyDirectives(cspGenerator.buildCSP()))
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				.contentTypeOptions(Customizer.withDefaults())
-				.httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable) // Handled by Reverse Proxy
 				.referrerPolicy(p -> p.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)))
 			.oauth2Login(c -> {
 				c.defaultSuccessUrl("/" + MainView.NAV);

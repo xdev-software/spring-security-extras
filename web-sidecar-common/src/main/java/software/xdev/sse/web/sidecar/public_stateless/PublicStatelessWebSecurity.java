@@ -30,6 +30,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import software.xdev.sse.web.hsts.HstsApplier;
 import software.xdev.sse.web.sidecar.public_stateless.httpsecurity.PublicStaticStatelessHttpSecMCustomizerContainer;
 
 
@@ -44,9 +45,11 @@ public class PublicStatelessWebSecurity
 	@Order(10)
 	@SuppressWarnings("java:S4502")
 	public SecurityFilterChain configureStaticResources(
+		final HstsApplier hstsApplier,
 		final PublicStaticStatelessHttpSecMCustomizerContainer httpSecurityMatcherCustomizerContainer,
 		final List<PublicStatelessPathsProvider> publicStatelessPathsProviders,
-		final HttpSecurity http) throws Exception
+		final HttpSecurity http)
+		throws Exception
 	{
 		final List<String> pathPatterns = publicStatelessPathsProviders.stream()
 			.filter(PublicStatelessPathsProvider::enabled)
@@ -62,6 +65,7 @@ public class PublicStatelessWebSecurity
 			.authorizeHttpRequests(a -> a.anyRequest().permitAll())
 			// NO CSRF required as these resources are publicly available
 			.csrf(AbstractHttpConfigurer::disable)
+			.headers(hstsApplier::apply)
 			.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.build();
 		
