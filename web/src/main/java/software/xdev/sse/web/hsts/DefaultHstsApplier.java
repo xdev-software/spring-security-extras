@@ -50,9 +50,19 @@ public class DefaultHstsApplier implements HstsApplier
 		final HstsConfig config,
 		@Nullable final Ssl ssl)
 	{
-		this.enabled = Boolean.TRUE.equals(config.isEnabled())
-			|| ssl != null && ssl.isEnabled();
+		this.enabled = determineIfEnabled(config, ssl);
 		LOG.debug("HSTS enabled={}", this.enabled);
+	}
+	
+	protected static boolean determineIfEnabled(
+		final HstsConfig config,
+		@Nullable final Ssl ssl)
+	{
+		if(config != null && config.isEnabled() != null)
+		{
+			return config.isEnabled();
+		}
+		return ssl != null && ssl.isEnabled();
 	}
 	
 	@Override
