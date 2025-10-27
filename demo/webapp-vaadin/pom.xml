@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>software.xdev.sse.demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>1.5.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>webapp-vaadin</artifactId>
+
+	<properties>
+		<mainClass>software.xdev.sse.demo.Application</mainClass>
+	</properties>
+
+
+	<dependencies>
+		<!-- Internal -->
+		<dependency>
+			<groupId>software.xdev.sse.demo</groupId>
+			<artifactId>webapp-shared</artifactId>
+		</dependency>
+
+		<!-- Vaadin -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot-starter</artifactId>
+			<exclusions>
+				<!-- We don't use hilla, so we don't need it -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>hilla</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>hilla-dev</artifactId>
+				</exclusion>
+				<!-- https://github.com/vaadin/copilot/issues/7 -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>copilot</artifactId>
+				</exclusion>
+				<!-- We use Lumo - also not sure why this is included by default -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-material-theme</artifactId>
+				</exclusion>
+				<!-- React is not enabled and thus not required -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>flow-react</artifactId>
+				</exclusion>
+				<!-- Is not active (requires license - just an OpenAI wrapper), why is this shipped by default (dev-only)? -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>ui-tests</artifactId>
+				</exclusion>
+				<!-- There is like 10 people on the planet that need this, why is this shipped by default??? -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>collaboration-engine</artifactId>
+				</exclusion>
+				<!-- Just useless for us - we don't use an appserver -->
+				<exclusion>
+					<groupId>com.vaadin.servletdetector</groupId>
+					<artifactId>throw-if-servlet3</artifactId>
+				</exclusion>
+
+				<!-- We don't use these components -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-avatar-flow</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-login-flow</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-messages-flow</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-side-nav-flow</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-upload-flow</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- SSE -->
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>oauth2-oidc-remember-me</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>vaadin</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<finalName>${project.artifactId}</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Important: Use ids! -->
+						<!-- Otherwise this defaults to id='default' and fails to execute in the right phase -->
+						<id>build-info</id>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<includeOnlyProperties>
+						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+						<includeOnlyProperty>^git.branch$</includeOnlyProperty>
+						<includeOnlyProperty>^git.dirty$</includeOnlyProperty>
+					</includeOnlyProperties>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare-frontend</id>
+						<goals>
+							<goal>prepare-frontend</goal>
+						</goals>
+						<phase>compile</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Can only be true if hilla is used -->
+					<!-- Takes a few seconds to scan everything for hilla -->
+					<frontendHotdeploy>false</frontendHotdeploy>
+					<!-- Prevent scanning for react (not used) -->
+					<reactEnable>false</reactEnable>
+					<frontendScanner>
+						<includes>
+							<include>
+								<groupId>software.xdev.sse.demo</groupId>
+								<artifactId>webapp*</artifactId>
+							</include>
+							<include>
+								<groupId>com.vaadin</groupId>
+							</include>
+						</includes>
+						<excludes>
+							<exclude>
+								<groupId>com.vaadin.external*</groupId>
+							</exclude>
+						</excludes>
+					</frontendScanner>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>${basedir}/src/main/resources-dev</directory>
+					</resource>
+					<resource>
+						<directory>${basedir}/src/main/resources-dev-log</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>dev-log</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${basedir}/src/main/resources-dev-log</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<dependencies>
+				<!-- Exclude development dependencies from production -->
+				<dependency>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-core</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>com.vaadin</groupId>
+							<artifactId>vaadin-dev</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>${basedir}/src/main/resources-prod</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>com.vaadin</groupId>
+						<artifactId>vaadin-maven-plugin</artifactId>
+						<version>${com.vaadin.version}</version>
+						<executions>
+							<execution>
+								<id>build-frontend</id>
+								<goals>
+									<goal>build-frontend</goal>
+								</goals>
+								<phase>process-classes</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>${mainClass}</mainClass>
+						</configuration>
+						<executions>
+							<execution>
+								<id>repackage</id>
+								<goals>
+									<goal>repackage</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

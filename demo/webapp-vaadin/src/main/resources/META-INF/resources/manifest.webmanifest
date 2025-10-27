@@ -1,0 +1,15 @@
+{
+    "name": "Demo",
+    "short_name": "Demo",
+    "background_color": "#c02222",
+    "theme_color": "#c02222",
+    "start_url": ".",
+    "icons": [
+        {
+            "src": "icons/icon.svg",
+            "sizes": "48x48 72x72 96x96 128x128 256x256 any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ]
+}
