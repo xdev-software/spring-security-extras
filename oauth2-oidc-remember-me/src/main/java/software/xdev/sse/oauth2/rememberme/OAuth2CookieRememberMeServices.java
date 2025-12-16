@@ -179,7 +179,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	
 	protected final boolean enabled;
 	
-	@SuppressWarnings({"java:S2629", "java:S107"})
+	@SuppressWarnings({"java:S2629", "java:S107", "PMD.ExcessiveParameterList"})
 	public OAuth2CookieRememberMeServices(
 		final OAuth2CookieRememberMeServicesConfig config,
 		final AutoLoginMetrics autoLoginMetrics,
@@ -302,7 +302,6 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 			i -> this.autoLoginWithCookies(request, response, i, payloadCookie));
 	}
 	
-	@SuppressWarnings("PMD.AvoidRethrowingException") // Required as there is another catch clause
 	protected OAuth2AuthenticationToken autoLoginWithCookies(
 		final HttpServletRequest request,
 		final HttpServletResponse response,
