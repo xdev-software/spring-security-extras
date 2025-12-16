@@ -71,7 +71,7 @@ public class OAuth2AuthChecker
 	}
 	
 	// There is nothing to abstract here
-	@SuppressWarnings({"java:S3776", "PMD.CognitiveComplexity", "PMD.NPathComplexity"})
+	@SuppressWarnings({"java:S3776", "PMD.CognitiveComplexity", "PMD.AvoidDeeplyNestedIfStmts"})
 	public AuthCheckResult check(
 		final OAuth2AuthenticationToken auth,
 		final BiFunction<String, String, OAuth2AuthorizedClient> getClient)
