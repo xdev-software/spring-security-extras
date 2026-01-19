@@ -1,3 +1,7 @@
+# 1.5.3
+_Last expected version for Spring Boot 3.x_
+* Updated dependencies
+
 # 1.5.2
 * Improve default HSTS customization logic
 

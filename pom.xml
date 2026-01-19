@@ -88,7 +88,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>11.1.0</version>
+								<version>13.0.0</version>
 							</dependency>
 						</dependencies>
 						<configuration>
@@ -113,7 +113,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-pmd-plugin</artifactId>
-						<version>3.27.0</version>
+						<version>3.28.0</version>
 						<configuration>
 							<analysisCache>true</analysisCache>
 							<includeTests>true</includeTests>
@@ -129,12 +129,12 @@
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-core</artifactId>
-								<version>7.17.0</version>
+								<version>7.20.0</version>
 							</dependency>
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-java</artifactId>
-								<version>7.17.0</version>
+								<version>7.20.0</version>
 							</dependency>
 						</dependencies>
 					</plugin>

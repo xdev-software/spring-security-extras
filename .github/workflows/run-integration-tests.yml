@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !(github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/')) }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Set up JDK
       uses: actions/setup-java@v5
@@ -61,7 +61,7 @@ jobs:
 
     - name: Upload videos of test failures
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: test-fail-videos-${{ matrix.java }}-${{ env.PROJECT_NORMALIZED }}-${{ matrix.parallel }}-${{ matrix.pre-start }}
         path: demo/integration-tests/${{ matrix.project }}/target/records
