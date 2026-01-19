@@ -7,12 +7,12 @@
 	<parent>
 		<groupId>software.xdev.sse.demo</groupId>
 		<artifactId>demo</artifactId>
-		<version>1.5.3-SNAPSHOT</version>
+		<version>1.5.4-SNAPSHOT</version>
 	</parent>
 
 	<groupId>software.xdev.sse.demo.it</groupId>
 	<artifactId>integration-tests</artifactId>
-	<version>1.5.3-SNAPSHOT</version>
+	<version>1.5.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -31,31 +31,31 @@
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>tci-db</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
+				<version>1.5.4-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>tci-webapp</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
+				<version>1.5.4-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>tci-webapp-rest</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
+				<version>1.5.4-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>tci-webapp-vaadin</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
+				<version>1.5.4-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>software.xdev.sse.demo.it</groupId>
 				<artifactId>webapp-it-base</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
+				<version>1.5.4-SNAPSHOT</version>
 			</dependency>
 
 			<!-- Selenium -->
