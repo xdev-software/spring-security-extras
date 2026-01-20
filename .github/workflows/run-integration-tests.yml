@@ -42,7 +42,15 @@ jobs:
       with:
         distribution: temurin
         java-version: ${{ matrix.java }}
-        cache: 'maven'
+
+    - name: Cache Maven
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-mvn-it-build-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-mvn-it-build-
+          ${{ runner.os }}-mvn-build-
 
     - name: Test
       run: |
