@@ -124,7 +124,7 @@
 			<dependency>
 				<groupId>software.xdev</groupId>
 				<artifactId>flyway-core-slim</artifactId>
-				<version>1.1.0</version>
+				<version>2.0.0</version>
 			</dependency>
 
 			<!-- Spring Boot -->
