@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
 
 
 class NoErrorBasicAuthenticationEntryPointTest
@@ -28,5 +30,15 @@ class NoErrorBasicAuthenticationEntryPointTest
 	{
 		Assertions.assertDoesNotThrow(() ->
 			NoErrorBasicAuthenticationEntryPoint.install(new HttpBasicConfigurer<HttpSecurity>()));
+	}
+	
+	@Test
+	void setDefaultEntryPointPresent()
+	{
+		// setDefaultEntryPoint is deprecated
+		// If this fails NoErrorBasicAuthenticationEntryPoint.install needs to be modified
+		Assertions.assertDoesNotThrow(() -> DelegatingAuthenticationEntryPoint.class.getDeclaredMethod(
+			"setDefaultEntryPoint",
+			AuthenticationEntryPoint.class));
 	}
 }

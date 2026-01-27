@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.error.ErrorPage;
+import org.springframework.boot.web.error.ErrorPageRegistry;
 import org.springframework.boot.web.server.AbstractConfigurableWebServerFactory;
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.ErrorPageRegistry;
 
 import software.xdev.sse.web.sidecar.public_stateless.PublicStatelessPathsProvider;
 
@@ -84,7 +84,7 @@ public class ErrorPageCompatibilityPathsProvider implements PublicStatelessPaths
 		}
 		
 		LOG.debug("Built-in error pages can be disabled with "
-			+ "@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class}) "
+			+ "@Application(exclude = {ErrorMvcAutoConfiguration.class}) "
 			+ "which then only shows the error page (if any) of the underlying app server.");
 		LOG.debug("Alternatively you can also try to disable Spring's ErrorPageFilter "
 			+ "(see https://stackoverflow.com/q/30170586 for more information).");

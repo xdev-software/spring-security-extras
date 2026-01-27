@@ -28,9 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Consumer;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,7 +47,17 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
+import tools.jackson.core.StreamReadFeature;
+import tools.jackson.databind.exc.InvalidDefinitionException;
+import tools.jackson.databind.exc.InvalidTypeIdException;
+import tools.jackson.databind.json.JsonMapper;
 
+
+// NOTE: Originally designed for Jackson v2
+// Was improved in v3 so that for example Object objects are no longer deserialized into
+// potentially dangerous classes.
+// Please note that Jackson v3 does not cover all possible options (as it depends on the available classes)
+// and therefore this test is still present
 class DefaultOAuth2CookieRememberMeAuthSerializerTest
 {
 	private static final String ACCESS_TOKEN = "dummy";
@@ -70,11 +79,19 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 	private static final String NAME = "A B";
 	private static final String EMAIL = "a.b@xdev-software.de";
 	
+	private static final Consumer<JsonMapper.Builder> SERIALIZER_JSON_MAPPER_CUSTOMIZER =
+		b -> b.enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION);
+	
+	static DefaultOAuth2CookieRememberMeAuthSerializer createSerializer(final boolean safe)
+	{
+		return new DefaultOAuth2CookieRememberMeAuthSerializer(safe, SERIALIZER_JSON_MAPPER_CUSTOMIZER);
+	}
+	
 	@Test
 	void defaultSerializationWorks()
 	{
 		Assertions.assertDoesNotThrow(() -> this.serializeAndDeserialize(
-			new DefaultOAuth2CookieRememberMeAuthSerializer(),
+			createSerializer(true),
 			Map.of()));
 	}
 	
@@ -82,58 +99,43 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 	static Set<String> attackSuccessIds = new HashSet<>();
 	
 	@Test
-	void performAttackWithoutProtectionSuccess()
+	void performAttackWithoutDedicatedProtection()
 	{
-		final String id = "success";
-		this.performAttack(
-			new DefaultOAuth2CookieRememberMeAuthSerializer(false),
-			id,
-			List.of(
-				"Unable to deserialize"::equals,
-				s -> s.contains(AttackPerformer.SUCCESS_INDICATOR),
-				AttackPerformer.SUCCESS_INDICATOR::equals)
+		final String id = "default";
+		final var serializer = createSerializer(false);
+		final InvalidDefinitionException ex = Assertions.assertThrows(
+			InvalidDefinitionException.class,
+			() -> this.performAttack(serializer, id)
 		);
-		Assertions.assertTrue(attackSuccessIds.contains(id));
+		Assertions.assertTrue(ex.getMessage().startsWith("Configured `PolymorphicTypeValidator`")
+			&& ex.getMessage().contains("denies resolution of all subtypes of base type "
+			+ "`java.lang.Object` as using too generic base type "
+			+ "can open a security hole without checks on subtype: "
+			+ "please configure a custom `PolymorphicTypeValidator` for this use case"));
+		Assertions.assertFalse(attackSuccessIds.contains(id));
 	}
 	
 	@Test
 	void performAttackFails()
 	{
 		final String id = "fail";
-		this.performAttack(
-			new DefaultOAuth2CookieRememberMeAuthSerializer(),
-			id,
-			List.of(
-				"Unable to deserialize"::equals,
-				s -> s.startsWith("Could not resolve type id")
-					&& s.contains("$AttackPerformer' as a subtype of `java.lang.Object`: "
-					+ "Configured `PolymorphicTypeValidator`")));
+		final var serializer = createSerializer(true);
+		final InvalidTypeIdException ex = Assertions.assertThrows(
+			InvalidTypeIdException.class,
+			() -> this.performAttack(serializer, id)
+		);
+		Assertions.assertTrue(ex.getMessage().startsWith("Could not resolve type id")
+			&& ex.getMessage().contains(
+			"$AttackPerformer' as a subtype of `java.lang.Object`: Configured `PolymorphicTypeValidator`"));
 		Assertions.assertFalse(attackSuccessIds.contains(id));
 	}
 	
 	void performAttack(
 		final DefaultOAuth2CookieRememberMeAuthSerializer serializer,
-		final String id,
-		final List<Predicate<String>> exceptionCauseMessageChecks)
+		final String id)
 	{
 		final Map<String, Object> data = Map.of("test", new AttackPerformer(id));
-		final IllegalStateException ex = Assertions.assertThrows(
-			IllegalStateException.class,
-			() -> this.serializeAndDeserialize(serializer, data));
-		Throwable current = ex;
-		
-		int i = 0;
-		while(current != null)
-		{
-			Assertions.assertTrue(
-				i < exceptionCauseMessageChecks.size()
-					&& exceptionCauseMessageChecks.get(i).test(current.getMessage()),
-				"Invalid exception message at nested=" + i + ": " + current.getMessage()
-					+ "\nSOURCE EXCEPTION:\n"
-					+ ExceptionUtils.getStackTrace(ex));
-			current = current.getCause();
-			i++;
-		}
+		this.serializeAndDeserialize(serializer, data);
 	}
 	
 	public static class AttackPerformer

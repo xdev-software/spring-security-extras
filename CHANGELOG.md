@@ -1,3 +1,13 @@
+# 2.0.0
+_Minimum required Java version: 21_
+* Updated to Spring Boot 4.x
+  * Removed fork of `OidcUserService` to move closer to the standard implementation. Only fork the required `OidcUserRequestUtils#shouldRetrieveUserInfo`
+* Update Vaadin to 25
+  * Removed `TotalVaadinFlowWebSecurity` as it's no longer supported
+* Updated Jackson Databind to v3
+* Migrated demos and tests
+* Code cleanup
+
 # 1.5.3
 _Last expected version for Spring Boot 3.x_
 * Updated dependencies

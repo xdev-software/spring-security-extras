@@ -1,8 +1,13 @@
 package software.xdev.sse.demo.vaadin.cases.urlmapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -53,5 +58,16 @@ abstract class BaseUrlMappingTest extends InfraPerClassTest
 		}
 	}
 	
-	protected abstract Collection<Executable> checkResponse(final ClassicHttpResponse response);
+	// As of Spring Boot 7.x the underlying problem is fixed out-of-the-box and both responses should now be identical
+	protected Collection<Executable> checkResponse(final ClassicHttpResponse response)
+	{
+		return List.of(
+			() -> assertEquals(302, response.getCode()),
+			() -> assertNull(response.getHeader("Set-Cookie")),
+			() -> assertTrue(response.getHeader("Location")
+				.getValue()
+				.endsWith("/oauth2/authorization/local")),
+			() -> assertEquals("1", response.getHeader("X-Force-Reload").getValue())
+		);
+	}
 }

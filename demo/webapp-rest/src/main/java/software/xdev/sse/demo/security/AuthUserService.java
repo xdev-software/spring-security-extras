@@ -3,27 +3,32 @@ package software.xdev.sse.demo.security;
 import java.util.Optional;
 
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 
-import software.xdev.sse.oauth2.userinfo.OidcUserService;
+import software.xdev.sse.oauth2.userinfo.OidcUserRequestUtils;
 
 
 @Component
 public class AuthUserService extends OidcUserService
 {
-	@Override
-	protected boolean shouldRetrieveUserInfo(final OidcUserRequest userRequest)
+	public AuthUserService()
+	{
+		this.setRetrieveUserInfo(this::shouldRetrieveUserInfo);
+	}
+	
+	private boolean shouldRetrieveUserInfo(final OidcUserRequest userRequest)
 	{
 		// Check if required data is NOT already present
 		if(Optional.ofNullable(userRequest.getIdToken())
 			.map(t -> t.getEmail() == null || t.getFullName() == null)
 			.orElse(true))
 		{
-			return super.shouldRetrieveUserInfo(userRequest);
+			return OidcUserRequestUtils.shouldRetrieveUserInfo(userRequest);
 		}
 		// If data is already present don't fetch additional data
 		return false;

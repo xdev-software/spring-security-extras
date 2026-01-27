@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
- * Reimplementation of {@link org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService} because not
- * everything should be final and private.
+ * Not everything should be final and private.
  * <p/>
  * See also:
  * <ul>
@@ -23,6 +22,6 @@
  *     <li><a href="https://github.com/spring-projects/spring-security/issues/13259">spring-security#13259</a></li>
  * </ul>
  * Note: Just because some issues are now "closed" because "you can now supply customizers" doesn't mean this is fixed.
- * One can still not override the default methods because they are private!
+ * One can still not override/access the default methods because they are private!
  */
 package software.xdev.sse.oauth2.userinfo;
