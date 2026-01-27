@@ -28,7 +28,7 @@
 
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
+			<artifactId>hibernate-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
@@ -79,30 +79,6 @@
 							<processors>
 								<processor>org.hibernate.processor.HibernateProcessor</processor>
 							</processors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Can be removed once fix for https://hibernate.atlassian.net/browse/HHH-18863 is released -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<executions>
-					<!-- Workaround for https://hibernate.atlassian.net/browse/HHH-18873 -->
-					<execution>
-						<id>wipe-hibernate-entity-index</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-						<configuration>
-							<excludeDefaultDirectories>true</excludeDefaultDirectories>
-							<filesets>
-								<fileset>
-									<directory>${project.generated.sources}/entity</directory>
-								</fileset>
-							</filesets>
 						</configuration>
 					</execution>
 				</executions>
