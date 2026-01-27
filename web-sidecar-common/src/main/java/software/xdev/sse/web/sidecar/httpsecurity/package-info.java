@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 /**
+ * <h4>Spring 7.x Update</h4>
+ * With Spring 7 the underlying root issue has been fixed - Spring now always uses a PathPatternRequestMatcher.
+ * <p>
+ * However, it's still possible for frameworks or applications to use a custom implementation in
+ * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity#securityMatcher(java.lang.String...)}
+ * so for now this implementation will stay available.
+ * </p>
+ *
+ * <h4>Original behavior - Spring 6.x</h4>
  * Controls how
  * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity
  * #securityMatcher(org.springframework.security.web.util.matcher.RequestMatcher)} is applied for sidecars.
@@ -27,6 +36,7 @@
  * <p>
  * <i>This package is only designed to be used in Sidecars and not in the main application!</i>
  * </p>
+ *
  * @see <a href="https://github.com/xdev-software/spring-security-extras/issues/221">#221</a>
  */
 package software.xdev.sse.web.sidecar.httpsecurity;

@@ -21,8 +21,6 @@ import java.util.Set;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import org.slf4j.LoggerFactory;
-
 
 public class ActuatorUserConfig
 {
@@ -43,27 +41,6 @@ public class ActuatorUserConfig
 	public void setUsername(final String username)
 	{
 		this.username = username;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getPasswordHash()}
-	 */
-	@Deprecated(since = "1.3.0", forRemoval = true)
-	public String getPasswordSha256()
-	{
-		return this.getPasswordHash();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setPasswordHash(String)}
-	 */
-	@Deprecated(since = "1.3.0", forRemoval = true)
-	public void setPasswordSha256(final String passwordSha256)
-	{
-		LoggerFactory.getLogger(this.getClass())
-			.error("Detected usage of deprecated property 'passwordSha256' that will be removed soon."
-				+ " Use 'passwordHash' instead!");
-		this.setPasswordHash(passwordSha256);
 	}
 	
 	public String getPasswordHash()

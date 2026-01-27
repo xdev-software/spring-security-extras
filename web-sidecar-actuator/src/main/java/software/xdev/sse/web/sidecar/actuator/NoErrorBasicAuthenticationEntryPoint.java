@@ -16,21 +16,28 @@
 package software.xdev.sse.web.sidecar.actuator;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
 
 public class NoErrorBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 {
+	private static final Logger LOG = LoggerFactory.getLogger(NoErrorBasicAuthenticationEntryPoint.class);
+	
 	protected NoErrorBasicAuthenticationEntryPoint()
 	{
 	}
@@ -76,7 +83,27 @@ public class NoErrorBasicAuthenticationEntryPoint extends BasicAuthenticationEnt
 			
 			if(authenticationEntryPoint instanceof final DelegatingAuthenticationEntryPoint delegatingAuthEntryPoint)
 			{
-				delegatingAuthEntryPoint.setDefaultEntryPoint(entryPoint);
+				try
+				{
+					final Method mSetDefaultEntryPoint = DelegatingAuthenticationEntryPoint.class.getDeclaredMethod(
+						"setDefaultEntryPoint",
+						AuthenticationEntryPoint.class);
+					mSetDefaultEntryPoint.setAccessible(true);
+					mSetDefaultEntryPoint.invoke(delegatingAuthEntryPoint, entryPoint);
+				}
+				catch(final Exception ex)
+				{
+					LOG.debug("setDefaultEntryPoint failed (Spring Boot API changed?) - Trying to use fallback", ex);
+					
+					// Replace entire implementation
+					httpBasicConfigurer.authenticationEntryPoint(
+						DelegatingAuthenticationEntryPoint.builder()
+							.addEntryPointFor(
+								new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+								new RequestHeaderRequestMatcher("X-Requested-With", "XMLHttpRequest"))
+							.defaultEntryPoint(entryPoint)
+							.build());
+				}
 			}
 		}
 		catch(final NoSuchFieldException | IllegalAccessException e)

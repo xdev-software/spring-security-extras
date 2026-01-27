@@ -5,9 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -15,11 +14,10 @@ import com.vaadin.flow.spring.annotation.EnableVaadin;
 
 
 @SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "PMD.UseUtilityClass"})
-@SpringBootApplication
+@SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 @EnableScheduling
 @EnableAsync
 @EnableVaadin("software.xdev.sse.demo.ui")
-@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class Application
 {
 	@SuppressWarnings("PMD.AvoidSystemSetterCall")
