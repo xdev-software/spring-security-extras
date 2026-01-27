@@ -52,8 +52,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>prometheus-metrics-exposition-formats-no-protobuf</artifactId>
+			<groupId>io.prometheus</groupId>
+			<artifactId>prometheus-metrics-exposition-textformats</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -61,7 +61,7 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 			<exclusions>
-				<!-- Exclude default module so that dependency is properly removed -->
+				<!-- Exclude default module so that protobuf is properly removed -->
 				<exclusion>
 					<groupId>io.prometheus</groupId>
 					<artifactId>prometheus-metrics-exposition-formats</artifactId>
