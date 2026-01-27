@@ -10,7 +10,9 @@ import org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfigura
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 
 @SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "PMD.UseUtilityClass"})
@@ -18,6 +20,7 @@ import com.vaadin.flow.spring.annotation.EnableVaadin;
 @EnableScheduling
 @EnableAsync
 @EnableVaadin("software.xdev.sse.demo.ui")
+@StyleSheet(Lumo.STYLESHEET)
 public class Application
 {
 	@SuppressWarnings("PMD.AvoidSystemSetterCall")
