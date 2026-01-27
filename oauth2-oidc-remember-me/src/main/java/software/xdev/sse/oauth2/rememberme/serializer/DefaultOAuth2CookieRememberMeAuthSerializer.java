@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -46,15 +47,13 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jwt.JWTClaimNames;
 import com.nimbusds.jwt.JWTParser;
 
 import software.xdev.sse.oauth2.util.OAuth2UserNameAttributeKeyExtractor;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 
 /**
@@ -66,46 +65,53 @@ import software.xdev.sse.oauth2.util.OAuth2UserNameAttributeKeyExtractor;
 @SuppressWarnings("java:S4544") // Handled by PolymorphicTypeValidator (see below)
 public class DefaultOAuth2CookieRememberMeAuthSerializer implements OAuth2CookieRememberMeAuthSerializer
 {
-	protected final ObjectMapper mapper;
+	protected final JsonMapper mapper;
 	
 	public DefaultOAuth2CookieRememberMeAuthSerializer()
 	{
-		this(true);
+		this(true, null);
 	}
 	
 	// Only here for tests
-	protected DefaultOAuth2CookieRememberMeAuthSerializer(final boolean withPolymorphicTypeValidator)
+	protected DefaultOAuth2CookieRememberMeAuthSerializer(
+		final boolean withPolymorphicTypeValidator,
+		final Consumer<JsonMapper.Builder> customizer)
 	{
-		this(withPolymorphicTypeValidator
-			// https://cowtowncoder.medium.com/jackson-2-10-safe-default-typing-2d018f0ce2ba
-			? BasicPolymorphicTypeValidator.builder()
-			.allowIfSubType(Instant.class)
-			.allowIfSubType(java.net.URL.class)
-			.allowIfSubType(ArrayList.class)
-			.build()
-			: null);
+		this(
+			withPolymorphicTypeValidator
+				// https://cowtowncoder.medium.com/jackson-2-10-safe-default-typing-2d018f0ce2ba
+				? BasicPolymorphicTypeValidator.builder()
+				.allowIfSubType(Instant.class)
+				.allowIfSubType(java.net.URL.class)
+				.allowIfSubType(ArrayList.class)
+				.build()
+				: null,
+			customizer);
 	}
 	
-	protected DefaultOAuth2CookieRememberMeAuthSerializer(final PolymorphicTypeValidator polymorphicTypeValidator)
+	protected DefaultOAuth2CookieRememberMeAuthSerializer(
+		final PolymorphicTypeValidator polymorphicTypeValidator,
+		final Consumer<JsonMapper.Builder> customizer)
 	{
-		this.mapper = new ObjectMapper()
-			.registerModule(new JavaTimeModule())
-			.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		Optional.ofNullable(polymorphicTypeValidator)
-			.ifPresent(this.mapper::setPolymorphicTypeValidator);
+		final JsonMapper.Builder builder = JsonMapper.builder()
+			.changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL));
+		
+		if(polymorphicTypeValidator != null)
+		{
+			builder.polymorphicTypeValidator(polymorphicTypeValidator);
+		}
+		if(customizer != null)
+		{
+			customizer.accept(builder);
+		}
+		
+		this.mapper = builder.build();
 	}
 	
 	@Override
 	public String serialize(final OAuth2AuthenticationToken token, final OAuth2AuthorizedClient client)
 	{
-		try
-		{
-			return this.mapper.writeValueAsString(new SOAuth2AuthContainer(token, client));
-		}
-		catch(final JsonProcessingException e)
-		{
-			throw new IllegalStateException("Unable to serialize", e);
-		}
+		return this.mapper.writeValueAsString(new SOAuth2AuthContainer(token, client));
 	}
 	
 	@Override
@@ -113,15 +119,8 @@ public class DefaultOAuth2CookieRememberMeAuthSerializer implements OAuth2Cookie
 		final String json,
 		final Function<String, ClientRegistration> clientRegistrationResolver)
 	{
-		try
-		{
-			return this.mapper.readValue(json, SOAuth2AuthContainer.class)
-				.toOriginal(clientRegistrationResolver);
-		}
-		catch(final JsonProcessingException e)
-		{
-			throw new IllegalStateException("Unable to deserialize", e);
-		}
+		return this.mapper.readValue(json, SOAuth2AuthContainer.class)
+			.toOriginal(clientRegistrationResolver);
 	}
 	
 	public record DefaultOAuth2AuthContainer(
