@@ -61,7 +61,7 @@ public class DummyHttpServletResponse implements HttpServletResponse
 	}
 	
 	@Override
-	public void sendRedirect(final String location) throws IOException
+	public void sendRedirect(final String location, final int sc, final boolean clearBuffer) throws IOException
 	{
 	}
 	

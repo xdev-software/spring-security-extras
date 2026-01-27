@@ -144,7 +144,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	}
 	
 	@Override
-	public void init(final HttpSecurity http) throws Exception
+	public void init(final HttpSecurity http)
 	{
 		if(this.customizeVaadinSecurityConfigurer != null)
 		{
@@ -171,7 +171,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	}
 	
 	@Override
-	public void configure(final HttpSecurity http) throws Exception
+	public void configure(final HttpSecurity http)
 	{
 		this.vaadinSecurityConfigurer.configure(http);
 		
@@ -182,7 +182,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	}
 	
 	// region Exception Handling
-	protected void initExceptionHandling(final HttpSecurity http) throws Exception
+	protected void initExceptionHandling(final HttpSecurity http)
 	{
 		http.exceptionHandling(cfg -> {
 			this.configureExceptionHandler(cfg);
@@ -213,7 +213,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	// endregion
 	
 	// region CSRF
-	protected void initCSRF(final HttpSecurity http) throws Exception
+	protected void initCSRF(final HttpSecurity http)
 	{
 		final List<RequestMatcher> vaadinCSRFDisableRequestMatchers = this.getApplicationContext()
 			.getBeansOfType(VaadinCSRFDisableRequestMatcherProvider.class)
@@ -244,7 +244,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	
 	// region RequestCache
 	
-	protected void initRequestCache(final HttpSecurity http) throws Exception
+	protected void initRequestCache(final HttpSecurity http)
 	{
 		final SecureVaadinRequestCache vaadinDefaultRequestCache = Objects.requireNonNull(
 			this.getApplicationContext().getBean(SecureVaadinRequestCache.class),
@@ -260,7 +260,7 @@ public class TotalVaadinFlowSecurityConfigurer
 	
 	// region HTTP Requests
 	
-	protected void initAuthorizeHttpRequests(final HttpSecurity http) throws Exception
+	protected void initAuthorizeHttpRequests(final HttpSecurity http)
 	{
 		http.authorizeHttpRequests(this::configureAuthorizeHttpRequests);
 	}
