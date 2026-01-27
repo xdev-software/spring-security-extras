@@ -2,11 +2,14 @@ package software.xdev.sse.demo.ui;
 
 import java.util.Map;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.AppShellSettings;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 
+@StyleSheet("context://" + Lumo.STYLESHEET)
 @Push
 public class AppShell implements AppShellConfigurator
 {
@@ -14,7 +17,7 @@ public class AppShell implements AppShellConfigurator
 	public void configurePage(final AppShellSettings settings)
 	{
 		// Don't use Vaadin's PWA implementation because it can only handle PNGs
-		// Also it renders them for each IPhone resolution in existence, which bloats up the delivered content
+		// Also it renders them for each iPhone resolution in existence, which bloats up the delivered content
 		settings.addLink(
 			"manifest.webmanifest",
 			Map.of(
