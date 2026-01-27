@@ -15,51 +15,26 @@
  */
 package software.xdev.sse.oauth2.userinfo;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.StringUtils;
 
 
 /**
- * @apiNote only contains required code for {@link OidcUserService}
- * @see org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequestUtils
+ * Publicly available fork of {@link org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequestUtils}
  */
 public final class OidcUserRequestUtils
 {
-	public static OidcUser getUser(final OidcUserRequest userRequest, final OidcUserInfo userInfo)
+	public static boolean shouldRetrieveUserInfo(final OidcUserRequest userRequest)
 	{
-		final Set<GrantedAuthority> authorities = new LinkedHashSet<>();
+		// Auto-disabled if UserInfo Endpoint URI is not provided
 		final ClientRegistration.ProviderDetails providerDetails =
 			userRequest.getClientRegistration().getProviderDetails();
-		final String userNameAttributeName = providerDetails.getUserInfoEndpoint().getUserNameAttributeName();
-		if(StringUtils.hasText(userNameAttributeName))
-		{
-			authorities.add(new OidcUserAuthority(userRequest.getIdToken(), userInfo, userNameAttributeName));
-		}
-		else
-		{
-			authorities.add(new OidcUserAuthority(userRequest.getIdToken(), userInfo));
-		}
-		final OAuth2AccessToken token = userRequest.getAccessToken();
-		for(final String scope : token.getScopes())
-		{
-			authorities.add(new SimpleGrantedAuthority("SCOPE_" + scope));
-		}
-		if(StringUtils.hasText(userNameAttributeName))
-		{
-			return new DefaultOidcUser(authorities, userRequest.getIdToken(), userInfo, userNameAttributeName);
-		}
-		return new DefaultOidcUser(authorities, userRequest.getIdToken(), userInfo);
+		
+		return StringUtils.hasLength(providerDetails.getUserInfoEndpoint().getUri())
+			&& AuthorizationGrantType.AUTHORIZATION_CODE
+			.equals(userRequest.getClientRegistration().getAuthorizationGrantType());
 	}
 	
 	private OidcUserRequestUtils()
