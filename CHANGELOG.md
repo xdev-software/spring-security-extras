@@ -4,6 +4,7 @@ _Minimum required Java version: 21_
   * Removed fork of `OidcUserService` to move closer to the standard implementation. Only fork the required `OidcUserRequestUtils#shouldRetrieveUserInfo`
 * Update Vaadin to 25
   * Removed `TotalVaadinFlowWebSecurity` as it's no longer supported
+  * Please note that Stylesheet [may now required being added to `PublicStatelessPathsProvider`](https://vaadin.com/docs/v25/upgrading#themes-and-styling)
 * Updated Jackson Databind to v3
 * Migrated demos and tests
 * Code cleanup
