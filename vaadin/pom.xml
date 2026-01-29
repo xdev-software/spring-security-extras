@@ -62,7 +62,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>25.0.3</version>
+				<version>25.0.4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
