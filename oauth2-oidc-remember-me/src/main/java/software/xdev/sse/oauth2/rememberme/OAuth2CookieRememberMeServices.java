@@ -256,8 +256,8 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 			return null;
 		}
 		
-		final Cookie idCookie = optIdCookie.get();
-		final Cookie payloadCookie = optPayloadCookie.get();
+		final Cookie idCookie = optIdCookie.orElseThrow();
+		final Cookie payloadCookie = optPayloadCookie.orElseThrow();
 		
 		try
 		{
@@ -737,13 +737,13 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	// Required for filtering correctly in provider
 	protected static class RestoredOAuth2AuthenticationToken extends OAuth2AuthenticationToken
 	{
-		public RestoredOAuth2AuthenticationToken(final OAuth2AuthenticationToken copyFrom)
+		protected RestoredOAuth2AuthenticationToken(final OAuth2AuthenticationToken copyFrom)
 		{
 			super(copyFrom.getPrincipal(), copyFrom.getAuthorities(), copyFrom.getAuthorizedClientRegistrationId());
 			this.setDetails(copyFrom.getDetails());
 		}
 		
-		public RestoredOAuth2AuthenticationToken(
+		protected RestoredOAuth2AuthenticationToken(
 			final OAuth2AuthenticationToken copyFrom,
 			final OAuth2User enrichedUser)
 		{
@@ -755,7 +755,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	
 	protected static class OAuth2CookieRememberMeAuthenticationProvider extends RememberMeAuthenticationProvider
 	{
-		public OAuth2CookieRememberMeAuthenticationProvider()
+		protected OAuth2CookieRememberMeAuthenticationProvider()
 		{
 			super("X");
 		}

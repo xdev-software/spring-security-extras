@@ -138,28 +138,28 @@ class DefaultOAuth2CookieRememberMeAuthSerializerTest
 		this.serializeAndDeserialize(serializer, data);
 	}
 	
-	public static class AttackPerformer
+	static class AttackPerformer
 	{
-		public static final String SUCCESS_INDICATOR = "ATTACK_PERF_SUCCESS";
+		static final String SUCCESS_INDICATOR = "ATTACK_PERF_SUCCESS";
 		
 		private String id;
 		
 		// Required for Jackson
-		public AttackPerformer()
+		AttackPerformer()
 		{
 		}
 		
-		public AttackPerformer(final String id)
+		AttackPerformer(final String id)
 		{
 			this.id = id;
 		}
 		
-		public String getId()
+		String getId()
 		{
 			return this.id;
 		}
 		
-		public void setId(final String id)
+		void setId(final String id)
 		{
 			this.id = id;
 			
