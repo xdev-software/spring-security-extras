@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>software.xdev.sse.demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>2.1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>entities</artifactId>
+
+	<dependencies>
+		<!-- Specs -->
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-meta-model</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.hibernate.orm</groupId>
+									<artifactId>hibernate-processor</artifactId>
+								</path>
+							</annotationProcessorPaths>
+							<annotationProcessors>
+								<annotationProcessor>org.hibernate.processor.HibernateProcessor</annotationProcessor>
+							</annotationProcessors>
+							<compilerArgs>
+								<arg>-proc:only</arg>
+								<arg>-AfullyAnnotationConfigured=true</arg>
+								<arg>-AaddGeneratedAnnotation=false</arg>
+								<arg>-Aindex=false</arg>
+							</compilerArgs>
+							<generatedSourcesDirectory>${project.basedir}/../entities-metamodel/src/gen/java/
+							</generatedSourcesDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
