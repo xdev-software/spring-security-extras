@@ -69,7 +69,7 @@ jobs:
 
     - name: Upload videos of test failures
       if: failure()
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: test-fail-videos-${{ matrix.java }}-${{ env.PROJECT_NORMALIZED }}-${{ matrix.parallel }}-${{ matrix.pre-start }}
         path: demo/integration-tests/${{ matrix.project }}/target/records
