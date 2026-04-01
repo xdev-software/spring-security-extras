@@ -27,6 +27,14 @@ public abstract class WebAppContainer<SELF extends WebAppContainer<SELF>> extend
 		this.addExposedPort(DEFAULT_HTTP_PORT);
 	}
 	
+	public SELF withDebugRootLogger()
+	{
+		// Root logger level in Production = INFO and in dev-log = DEBUG
+		// -> Clashes and "random" log level is selected causing inconsistent behavior
+		// -> Set explicitly
+		return this.withEnv("LOGGING_LEVEL_ROOT", "debug");
+	}
+	
 	public SELF withDB(final String jdbcUrl, final String username, final String password)
 	{
 		return this.withEnv("SPRING_DATASOURCE_URL", jdbcUrl)

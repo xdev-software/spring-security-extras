@@ -11,7 +11,9 @@ import software.xdev.tci.oidc.OIDCTCI;
 abstract class BaseTest extends AbstractBaseTest<RestWebAppTCI>
 {
 	protected static final RestWebAppTCIFactory APP_INFRA_FACTORY =
-		new RestWebAppTCIFactory(c -> c.withDB(
+		new RestWebAppTCIFactory(c -> c
+			.withDebugRootLogger()
+			.withDB(
 				DBTCI.getInternalJDBCUrl(DNS_NAME_DB),
 				DBTCI.DB_USERNAME,
 				DBTCI.DB_PASSWORD
