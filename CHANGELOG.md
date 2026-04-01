@@ -1,3 +1,7 @@
+# 2.1.0
+* Renamed `OAuth2AuthenticationTokenUtil` -> `OAuth2AuthenticationTokenExtractor`
+* Updated dependencies
+
 # 2.0.0
 _Minimum required Java version: 21_
 * Updated to Spring Boot 4.x

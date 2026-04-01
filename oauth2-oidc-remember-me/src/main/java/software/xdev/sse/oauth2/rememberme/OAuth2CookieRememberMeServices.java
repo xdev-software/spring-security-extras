@@ -64,7 +64,7 @@ import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecret;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.util.FastCookieFinder;
-import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenUtil;
+import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenExtractor;
 import software.xdev.sse.web.cookie.CookieSecureService;
 
 
@@ -419,7 +419,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 		final AuthRememberMeSecret authRememberMeSecret)
 	{
 		// token.getAuthorizedClientRegistrationId() was already validate during deserialization
-		final String email = OAuth2AuthenticationTokenUtil.getEmailAttribute(token);
+		final String email = OAuth2AuthenticationTokenExtractor.getEmailAttribute(token);
 		if(!authRememberMeSecret.userEmailAddress().equals(email))
 		{
 			throw new AutoLoginException(
@@ -558,7 +558,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 				auth.getName());
 		}
 		
-		final String email = OAuth2AuthenticationTokenUtil.getEmailAttribute(auth);
+		final String email = OAuth2AuthenticationTokenExtractor.getEmailAttribute(auth);
 		if(email == null)
 		{
 			LOG.warn("Unable to save - No email");

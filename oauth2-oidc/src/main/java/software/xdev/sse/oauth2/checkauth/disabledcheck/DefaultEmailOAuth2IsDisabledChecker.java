@@ -23,7 +23,7 @@ import jakarta.annotation.Nullable;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import software.xdev.sse.oauth2.checkauth.EmailBasedOAuth2AuthCheckerUserService;
-import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenUtil;
+import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenExtractor;
 
 
 public class DefaultEmailOAuth2IsDisabledChecker implements OAuth2IsDisabledChecker
@@ -38,7 +38,7 @@ public class DefaultEmailOAuth2IsDisabledChecker implements OAuth2IsDisabledChec
 	@Override
 	public boolean isDisabled(@Nullable final OAuth2AuthenticationToken token)
 	{
-		return Optional.ofNullable(OAuth2AuthenticationTokenUtil.getEmailAttribute(token))
+		return Optional.ofNullable(OAuth2AuthenticationTokenExtractor.getEmailAttribute(token))
 			.map(this.userService::isDisabled)
 			.orElse(true);
 	}
