@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -28,13 +29,14 @@ import software.xdev.tci.TCI;
 import software.xdev.tci.concurrent.TCIExecutorServiceHolder;
 import software.xdev.tci.factory.prestart.PreStartableTCIFactory;
 import software.xdev.tci.factory.registry.TCIFactoryRegistry;
+import software.xdev.tci.junit.jupiter.FileSystemFriendlyName;
 import software.xdev.tci.network.LazyNetworkPool;
 import software.xdev.tci.oidc.OIDCTCI;
 import software.xdev.tci.oidc.factory.OIDCTCIFactory;
 import software.xdev.tci.selenium.BrowserTCI;
 import software.xdev.tci.selenium.TestBrowser;
 import software.xdev.tci.selenium.factory.BrowsersTCIFactory;
-import software.xdev.tci.selenium.testbase.SeleniumRecordingExtension;
+import software.xdev.tci.selenium.testbase.SeleniumRecorder;
 import software.xdev.tci.tracing.TCITracer;
 
 
@@ -310,19 +312,9 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 	// region Service binding implementations
 	
 	public static class TCSTSeleniumIntegrationTestExtension
-		extends SeleniumRecordingExtension
-		implements BeforeTestExecutionCallback
+		implements BeforeTestExecutionCallback, AfterTestExecutionCallback
 	{
 		private static final Logger LOG = LoggerFactory.getLogger(TCSTSeleniumIntegrationTestExtension.class);
-		
-		public TCSTSeleniumIntegrationTestExtension()
-		{
-			super(context -> context.getTestInstance()
-				.filter(AbstractBaseTest.class::isInstance)
-				.map(AbstractBaseTest.class::cast)
-				.map(AbstractBaseTest::browserInfra)
-				.orElse(null));
-		}
 		
 		@Override
 		public void beforeTestExecution(final ExtensionContext context)
@@ -331,13 +323,21 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		}
 		
 		@Override
-		public void afterTestExecution(final ExtensionContext context) throws Exception
+		public void afterTestExecution(final ExtensionContext context)
 		{
 			LOG.info("^^^^^^--END TEST--^^^^^^");
 			final Optional<Throwable> executionExceptionOpt = context.getExecutionException();
 			executionExceptionOpt.ifPresent(throwable -> LOG.error("Test-Failure", throwable));
 			
-			super.afterTestExecution(context);
+			final FileSystemFriendlyName fileSystemFriendlyName = new FileSystemFriendlyName(context);
+			
+			new SeleniumRecorder().afterTestAsync(
+				context,
+				context.getTestInstance()
+					.filter(AbstractBaseTest.class::isInstance)
+					.map(AbstractBaseTest.class::cast)
+					.map(AbstractBaseTest::browserInfra),
+				fileSystemFriendlyName).join();
 		}
 	}
 	

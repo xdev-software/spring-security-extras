@@ -23,7 +23,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 
 
-public final class OAuth2AuthenticationTokenUtil
+public final class OAuth2AuthenticationTokenExtractor
 {
 	@Nullable
 	public static String getEmailAttribute(final OAuth2AuthenticationToken token)
@@ -37,7 +37,7 @@ public final class OAuth2AuthenticationTokenUtil
 			.orElse(null);
 	}
 	
-	private OAuth2AuthenticationTokenUtil()
+	private OAuth2AuthenticationTokenExtractor()
 	{
 	}
 }

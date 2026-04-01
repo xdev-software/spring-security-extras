@@ -64,7 +64,7 @@ import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecret;
 import software.xdev.sse.oauth2.rememberme.secrets.AuthRememberMeSecretService;
 import software.xdev.sse.oauth2.rememberme.serializer.OAuth2CookieRememberMeAuthSerializer;
 import software.xdev.sse.oauth2.util.FastCookieFinder;
-import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenUtil;
+import software.xdev.sse.oauth2.util.OAuth2AuthenticationTokenExtractor;
 import software.xdev.sse.web.cookie.CookieSecureService;
 
 
@@ -256,8 +256,8 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 			return null;
 		}
 		
-		final Cookie idCookie = optIdCookie.get();
-		final Cookie payloadCookie = optPayloadCookie.get();
+		final Cookie idCookie = optIdCookie.orElseThrow();
+		final Cookie payloadCookie = optPayloadCookie.orElseThrow();
 		
 		try
 		{
@@ -419,7 +419,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 		final AuthRememberMeSecret authRememberMeSecret)
 	{
 		// token.getAuthorizedClientRegistrationId() was already validate during deserialization
-		final String email = OAuth2AuthenticationTokenUtil.getEmailAttribute(token);
+		final String email = OAuth2AuthenticationTokenExtractor.getEmailAttribute(token);
 		if(!authRememberMeSecret.userEmailAddress().equals(email))
 		{
 			throw new AutoLoginException(
@@ -558,7 +558,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 				auth.getName());
 		}
 		
-		final String email = OAuth2AuthenticationTokenUtil.getEmailAttribute(auth);
+		final String email = OAuth2AuthenticationTokenExtractor.getEmailAttribute(auth);
 		if(email == null)
 		{
 			LOG.warn("Unable to save - No email");
@@ -737,13 +737,13 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	// Required for filtering correctly in provider
 	protected static class RestoredOAuth2AuthenticationToken extends OAuth2AuthenticationToken
 	{
-		public RestoredOAuth2AuthenticationToken(final OAuth2AuthenticationToken copyFrom)
+		protected RestoredOAuth2AuthenticationToken(final OAuth2AuthenticationToken copyFrom)
 		{
 			super(copyFrom.getPrincipal(), copyFrom.getAuthorities(), copyFrom.getAuthorizedClientRegistrationId());
 			this.setDetails(copyFrom.getDetails());
 		}
 		
-		public RestoredOAuth2AuthenticationToken(
+		protected RestoredOAuth2AuthenticationToken(
 			final OAuth2AuthenticationToken copyFrom,
 			final OAuth2User enrichedUser)
 		{
@@ -755,7 +755,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	
 	protected static class OAuth2CookieRememberMeAuthenticationProvider extends RememberMeAuthenticationProvider
 	{
-		public OAuth2CookieRememberMeAuthenticationProvider()
+		protected OAuth2CookieRememberMeAuthenticationProvider()
 		{
 			super("X");
 		}

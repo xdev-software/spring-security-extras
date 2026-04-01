@@ -60,6 +60,8 @@ class LoginOIDCTest extends InfraPerCaseTest
 		this.loginAndGotoMainSite();
 		this.navigateTo("another");
 		
+		this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another"));
+		
 		// Delete all cookies of the CURRENT domain
 		this.ensureAllCookiesDeleted();
 		this.getWebDriver().navigate().refresh();

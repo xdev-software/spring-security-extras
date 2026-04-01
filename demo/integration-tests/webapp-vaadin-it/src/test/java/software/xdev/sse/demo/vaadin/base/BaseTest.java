@@ -20,17 +20,19 @@ import software.xdev.tci.oidc.OIDCTCI;
 @SuppressWarnings("java:S1117")
 abstract class BaseTest extends AbstractBaseTest<VaadinWebAppTCI>
 {
-	protected static final Consumer<VaadinWebAppContainer>
-		APP_CONTAINER_BUILDER = c -> c.withDB(
-			DBTCI.getInternalJDBCUrl(DNS_NAME_DB),
-			DBTCI.DB_USERNAME,
-			DBTCI.DB_PASSWORD
-		)
-		.withAuth(
-			OIDCTCI.CLIENT_ID,
-			OIDCTCI.CLIENT_SECRET,
-			OIDCTCI.getInternalHttpBaseEndPoint(DNS_NAME_OIDC)
-		);
+	protected static final Consumer<VaadinWebAppContainer> APP_CONTAINER_BUILDER =
+		c -> c
+			.withDebugRootLogger()
+			.withDB(
+				DBTCI.getInternalJDBCUrl(DNS_NAME_DB),
+				DBTCI.DB_USERNAME,
+				DBTCI.DB_PASSWORD
+			)
+			.withAuth(
+				OIDCTCI.CLIENT_ID,
+				OIDCTCI.CLIENT_SECRET,
+				OIDCTCI.getInternalHttpBaseEndPoint(DNS_NAME_OIDC)
+			);
 	protected static final VaadinWebAppPreStartableTCIFactory APP_INFRA_FACTORY =
 		new VaadinWebAppPreStartableTCIFactory(APP_CONTAINER_BUILDER);
 	

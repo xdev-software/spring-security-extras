@@ -52,7 +52,7 @@ public class DefaultDeAuthApplier implements DeAuthApplier
 					.map(ServletRequestAttributes.class::cast);
 			if(optServletRequestAttributes.isPresent())
 			{
-				final ServletRequestAttributes servletRequestAttributes = optServletRequestAttributes.get();
+				final ServletRequestAttributes servletRequestAttributes = optServletRequestAttributes.orElseThrow();
 				if(httpServletRequest == null)
 				{
 					httpServletRequest = servletRequestAttributes.getRequest();
