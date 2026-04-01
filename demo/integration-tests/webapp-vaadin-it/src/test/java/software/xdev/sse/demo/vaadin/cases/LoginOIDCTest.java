@@ -57,27 +57,18 @@ class LoginOIDCTest extends InfraPerCaseTest
 	{
 		this.startAll(browser, dbCtrl -> dbCtrl.useNewEntityManager(em -> new DefaultDG(em).generateAll()));
 		
-		// Race condition in chrome on low CPU machines where you land on /login?error
-		// Problem not reproducable locally or with Firefox
-		Unreliables.retryUntilSuccess(
-			browser == TestBrowser.CHROME ? 2 : 1,
-			() -> {
-				this.loginAndGotoMainSite();
-				this.navigateTo("another");
-				
-				this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another"));
-				
-				// Delete all cookies of the CURRENT domain
-				this.ensureAllCookiesDeleted();
-				
-				this.getWebDriver().navigate().refresh();
-				
-				// Should be restored to the same path/view
-				Assertions.assertDoesNotThrow(() ->
-					this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another?continue")));
-				
-				return null;
-			});
+		this.loginAndGotoMainSite();
+		this.navigateTo("another");
+		
+		this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another"));
+		
+		// Delete all cookies of the CURRENT domain
+		this.ensureAllCookiesDeleted();
+		this.getWebDriver().navigate().refresh();
+		
+		// Should be restored to the same path/view
+		Assertions.assertDoesNotThrow(() ->
+			this.waitUntil(ExpectedConditions.urlToBe(this.getWebAppBaseUrl() + "/another?continue")));
 	}
 	
 	@DisplayName("Re-Login should not keep url if view does not exist")
