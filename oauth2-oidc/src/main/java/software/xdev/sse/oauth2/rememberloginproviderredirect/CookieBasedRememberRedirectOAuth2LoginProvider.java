@@ -176,7 +176,7 @@ public class CookieBasedRememberRedirectOAuth2LoginProvider
 		protected final CookieBasedRememberRedirectOAuth2LoginProvider parent;
 		protected final Set<String> loginUrls;
 		
-		public CookieBasedLoginUrlAuthenticationEntryPoint(
+		protected CookieBasedLoginUrlAuthenticationEntryPoint(
 			final String loginFormUrl,
 			final CookieBasedRememberRedirectOAuth2LoginProvider parent,
 			final Set<String> loginUrls)
@@ -251,7 +251,7 @@ public class CookieBasedRememberRedirectOAuth2LoginProvider
 	{
 		private final CookieBasedRememberRedirectOAuth2LoginProvider parent;
 		
-		public CookieBasedDefaultRedirectStrategy(final CookieBasedRememberRedirectOAuth2LoginProvider parent)
+		protected CookieBasedDefaultRedirectStrategy(final CookieBasedRememberRedirectOAuth2LoginProvider parent)
 		{
 			this.parent = parent;
 		}
@@ -305,7 +305,7 @@ public class CookieBasedRememberRedirectOAuth2LoginProvider
 	{
 		protected final CookieBasedRememberRedirectOAuth2LoginProvider parent;
 		
-		public CookieLogoutHandler(final CookieBasedRememberRedirectOAuth2LoginProvider parent)
+		protected CookieLogoutHandler(final CookieBasedRememberRedirectOAuth2LoginProvider parent)
 		{
 			this.parent = parent;
 		}
