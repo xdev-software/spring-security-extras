@@ -26,4 +26,41 @@
 			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-meta-model</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.hibernate.orm</groupId>
+									<artifactId>hibernate-processor</artifactId>
+								</path>
+							</annotationProcessorPaths>
+							<annotationProcessors>
+								<annotationProcessor>org.hibernate.processor.HibernateProcessor</annotationProcessor>
+							</annotationProcessors>
+							<compilerArgs>
+								<arg>-proc:only</arg>
+								<arg>-AfullyAnnotationConfigured=true</arg>
+								<arg>-AaddGeneratedAnnotation=false</arg>
+								<arg>-Aindex=false</arg>
+							</compilerArgs>
+							<generatedSourcesDirectory>${project.basedir}/../entities-metamodel/src/gen/java/
+							</generatedSourcesDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
