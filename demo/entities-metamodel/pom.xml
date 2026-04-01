@@ -24,4 +24,8 @@
 			<artifactId>entities</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<sourceDirectory>${project.basedir}/src/gen/java/</sourceDirectory>
+	</build>
 </project>
