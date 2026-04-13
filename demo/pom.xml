@@ -82,7 +82,7 @@
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>3.0.2</version>
+				<version>3.0.3</version>
 			</dependency>
 
 			<!-- Caching for actuator -->
@@ -106,7 +106,7 @@
 			<dependency>
 				<groupId>org.mariadb.jdbc</groupId>
 				<artifactId>mariadb-java-client</artifactId>
-				<version>3.5.7</version>
+				<version>3.5.8</version>
 				<!-- https://mariadb.com/kb/en/about-mariadb-connector-j/#size-consideration -->
 				<exclusions>
 					<exclusion>
@@ -210,7 +210,7 @@
 				<plugin>
 					<groupId>io.github.git-commit-id</groupId>
 					<artifactId>git-commit-id-maven-plugin</artifactId>
-					<version>9.1.0</version>
+					<version>10.0.0</version>
 				</plugin>
 
 				<plugin>

@@ -38,6 +38,7 @@ import org.springframework.stereotype.Component;
 import com.vaadin.flow.router.RouteBaseData;
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.server.VaadinServletService;
+import com.vaadin.flow.spring.security.RequestUtil;
 import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
 
 
@@ -55,6 +56,9 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 	
 	@Autowired
 	protected ServletContext context;
+	
+	@Autowired
+	protected RequestUtil requestUtil;
 	
 	// Shortcut to save computation cost (no path is longer than this)
 	protected int defaultPathMaxLength = 255;
@@ -154,8 +158,8 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			.stream()
 			.map(RouteBaseData::getTemplate)
 			.filter(s -> !s.isBlank())
+			.map(this.requestUtil::applyUrlMapping)
 			.map(this::handleUrlParameterInPath)
-			.map(s -> "/" + s)
 			.collect(Collectors.toSet());
 		
 		LOG.debug("Allowed paths: {}", allowedPaths);
