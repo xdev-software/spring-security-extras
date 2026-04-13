@@ -1,3 +1,7 @@
+# 2.1.1
+* Vaadin
+  * `SecureVaadinRequestCache` no longer ignores `urlMapping`
+
 # 2.1.0
 * Renamed `OAuth2AuthenticationTokenUtil` -> `OAuth2AuthenticationTokenExtractor`
 * Updated dependencies
