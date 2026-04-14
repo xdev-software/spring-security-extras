@@ -15,29 +15,14 @@
  */
 package software.xdev.sse.vaadin;
 
-import java.lang.reflect.Field;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.Wrapper;
-import org.apache.catalina.core.ApplicationServletRegistration;
-import org.apache.catalina.core.StandardWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
-import com.vaadin.flow.router.RouteBaseData;
-import com.vaadin.flow.server.VaadinServlet;
-import com.vaadin.flow.server.VaadinServletService;
 import com.vaadin.flow.spring.security.RequestUtil;
 import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
 
@@ -50,48 +35,23 @@ import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
 @Component
 public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 {
-	private static final Logger LOG = LoggerFactory.getLogger(SecureVaadinRequestCache.class);
-	
 	protected static final RequestMatcher NONE_REQUEST_MATCHER = r -> false;
-	
-	@Autowired
-	protected ServletContext context;
 	
 	@Autowired
 	protected RequestUtil requestUtil;
 	
-	// Shortcut to save computation cost (no path is longer than this)
-	protected int defaultPathMaxLength = 255;
-	protected int defaultWildcardPathLengthAssumption = 48;
-	protected int pathMaxLength = this.defaultPathMaxLength;
 	protected RequestMatcher allowedMatcher;
 	
 	@Override
 	public void saveRequest(final HttpServletRequest request, final HttpServletResponse response)
 	{
 		if(!HttpMethod.GET.matches(request.getMethod())
-			|| request.getServletPath().length() > this.pathMaxLength
 			|| !this.getAllowedPathsRequestMatcher().matches(request))
 		{
 			return;
 		}
 		
 		super.saveRequest(request, response);
-	}
-	
-	public void setPathMaxLength(final int pathMaxLength)
-	{
-		this.pathMaxLength = pathMaxLength;
-	}
-	
-	public void setDefaultPathMaxLength(final int defaultPathMaxLength)
-	{
-		this.defaultPathMaxLength = defaultPathMaxLength;
-	}
-	
-	public void setDefaultWildcardPathLengthAssumption(final int defaultWildcardPathLengthAssumption)
-	{
-		this.defaultWildcardPathLengthAssumption = defaultWildcardPathLengthAssumption;
 	}
 	
 	protected RequestMatcher getAllowedPathsRequestMatcher()
@@ -116,79 +76,11 @@ public class SecureVaadinRequestCache extends VaadinDefaultRequestCache
 			return;
 		}
 		
-		if(!(this.context.getServletRegistration("springServlet")
-			instanceof final ApplicationServletRegistration applicationServletRegistration))
-		{
-			LOG.warn("Unable to find ApplicationServletRegistration");
-			return;
-		}
-		
-		final Wrapper wrapper;
-		try
-		{
-			final Field fWrapper = ApplicationServletRegistration.class.getDeclaredField("wrapper");
-			fWrapper.setAccessible(true);
-			wrapper = (Wrapper)fWrapper.get(applicationServletRegistration);
-		}
-		catch(final Exception e)
-		{
-			LOG.error("Failed to get Wrapper", e);
-			this.allowedMatcher = NONE_REQUEST_MATCHER;
-			return;
-		}
-		
-		if(!(wrapper instanceof final StandardWrapper standardWrapper)
-			|| !(standardWrapper.getServlet() instanceof final VaadinServlet vaadinServlet))
-		{
-			LOG.warn("Unable to extract VaadinServlet from Wrapper");
-			return;
-		}
-		
-		final VaadinServletService servletService = vaadinServlet.getService();
-		if(servletService == null)
-		{
-			LOG.info("No servletService in servlet - Not initialized yet?");
-			return;
-		}
-		
-		final Set<String> allowedPaths = servletService
-			.getRouter()
-			.getRegistry()
-			.getRegisteredRoutes()
-			.stream()
-			.map(RouteBaseData::getTemplate)
-			.filter(s -> !s.isBlank())
-			.map(this.requestUtil::applyUrlMapping)
-			.map(this::handleUrlParameterInPath)
-			.collect(Collectors.toSet());
-		
-		LOG.debug("Allowed paths: {}", allowedPaths);
-		
-		this.pathMaxLength = allowedPaths.stream()
-			.mapToInt(s -> s.length() + (s.endsWith("*") ? this.defaultWildcardPathLengthAssumption : 0))
-			.max()
-			.orElse(this.defaultPathMaxLength);
-		
-		this.allowedMatcher = new OrRequestMatcher(allowedPaths
-			.stream()
-			.map(PathPatternRequestMatcher.withDefaults()::matcher)
-			.map(RequestMatcher.class::cast)
-			.toList());
+		this.allowedMatcher = this.createAllowedPathsRequestMatcher();
 	}
 	
-	protected String handleUrlParameterInPath(final String path)
+	protected RequestMatcher createAllowedPathsRequestMatcher()
 	{
-		final String urlParamIdentifier = "/:___url_parameter";
-		final int urlParamIndex = path.indexOf(urlParamIdentifier);
-		if(urlParamIndex == -1)
-		{
-			return path;
-		}
-		
-		final String substring = path.substring(0, urlParamIndex);
-		return substring + "/*"
-			// Do a full level wildcard if there is more stuff (excluding the optional ?)
-			// behind the path-part
-			+ (path.length() - substring.length() - urlParamIdentifier.length() <= 1 ? "" : "*");
+		return this.requestUtil::isSecuredFlowRoute;
 	}
 }
