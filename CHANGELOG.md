@@ -1,3 +1,7 @@
+# 2.2.0
+* Vaadin
+  * `SecureVaadinRequestCache` now uses `RequestUtil#isSecuredFlowRoute` which should be more performant and future-proof
+
 # 2.1.1
 * Vaadin
   * `SecureVaadinRequestCache` no longer ignores `urlMapping`
