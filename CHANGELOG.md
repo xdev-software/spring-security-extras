@@ -1,3 +1,6 @@
+# 2.2.1
+* Use `ConcurrentReferenceHashMap` in favor of `Collections.synchronizedMap(new WeakHashMap<>())` to improve performance
+
 # 2.2.0
 * Vaadin
   * `SecureVaadinRequestCache` now uses `RequestUtil#isSecuredFlowRoute` which should be more performant and future-proof
