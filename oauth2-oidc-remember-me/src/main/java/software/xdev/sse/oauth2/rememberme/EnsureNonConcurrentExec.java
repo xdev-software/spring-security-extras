@@ -15,9 +15,7 @@
  */
 package software.xdev.sse.oauth2.rememberme;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -25,6 +23,7 @@ import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ConcurrentReferenceHashMap;
 
 
 /**
@@ -35,7 +34,8 @@ public class EnsureNonConcurrentExec<K, V>
 	private static final Logger LOG = LoggerFactory.getLogger(EnsureNonConcurrentExec.class);
 	
 	protected final Map<K, Lock> keyLocks = new ConcurrentHashMap<>();
-	protected final Map<Lock, SavedResult<V>> lockResultsCache = Collections.synchronizedMap(new WeakHashMap<>());
+	protected final Map<Lock, SavedResult<V>> lockResultsCache =
+		new ConcurrentReferenceHashMap<>(32, ConcurrentReferenceHashMap.ReferenceType.WEAK);
 	
 	protected final Function<RuntimeException, SavedResult<V>> onException;
 	

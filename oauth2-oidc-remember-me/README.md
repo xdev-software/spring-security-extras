@@ -23,7 +23,7 @@ There are some problems with that:
 * The session needs to be serializable
 * If using Java Serialization: [It's insecure and will always be](https://github.com/frohoff/ysoserial)
 * When updating your app the session data might become incompatible (especially when using Java serialization) and migrating it might be extremely difficult
-* The sessions can contain a ton of data (and that needs to be store somewhere on the backend)
+* The sessions can contain a ton of data (and that needs to be stored somewhere on the backend)
 * If the persistent data/backend is breached, an attacker can easily use this data to login in / steal personal information
 * When restoring the session it might be necessary to invoke app-specific logic
 

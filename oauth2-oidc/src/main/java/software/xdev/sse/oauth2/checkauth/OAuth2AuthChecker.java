@@ -32,6 +32,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.util.ConcurrentReferenceHashMap;
 
 import software.xdev.sse.oauth2.checkauth.disabledcheck.OAuth2IsDisabledChecker;
 
@@ -58,7 +59,7 @@ public class OAuth2AuthChecker
 	// https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_rules_java_multithreading.html#avoidsynchronizedstatement
 	// https://openjdk.org/jeps/8337395
 	protected final Map<OAuth2AuthorizedClient, ReentrantLock> clientLocks =
-		Collections.synchronizedMap(new WeakHashMap<>());
+		new ConcurrentReferenceHashMap<>(32, ConcurrentReferenceHashMap.ReferenceType.WEAK);
 	
 	public OAuth2AuthChecker(
 		final OAuth2AuthorizedClientManager clientManager,
