@@ -608,7 +608,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 		cookie.setHttpOnly(true);
 		cookie.setSecure(this.cookieSecureService.isSecure());
 		cookie.setMaxAge((int)this.config.getExpiration().toSeconds());
-		cookie.setPath("/");
+		cookie.setPath(this.config.getCookiePath());
 		return cookie;
 	}
 	
@@ -691,6 +691,9 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	{
 		// Expire cookie
 		cookie.setMaxAge(0);
+		// Set path correctly or browser will ignore it
+		cookie.setPath(this.config.getCookiePath());
+		
 		response.addCookie(cookie);
 		
 		LOG.debug("Expiring Cookie[name='{}']", cookie.getName());
