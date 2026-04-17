@@ -1,3 +1,7 @@
+# 2.2.2
+* oauth2-oidc-remember-me
+  * Handle cookie path correctly
+
 # 2.2.1
 * Use `ConcurrentReferenceHashMap` in favor of `Collections.synchronizedMap(new WeakHashMap<>())` to improve performance
 

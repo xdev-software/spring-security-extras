@@ -30,6 +30,8 @@ public class OAuth2CookieRememberMeServicesConfig
 	private String payloadCookieName = "AC"; // Auth Cache
 	@NotEmpty
 	private String idCookieName = "ACID"; // Auth Cache Identifier
+	@NotEmpty
+	private String cookiePath = "/";
 	
 	@NotNull
 	private Duration expiration = Duration.ofDays(3);
@@ -76,6 +78,16 @@ public class OAuth2CookieRememberMeServicesConfig
 		this.idCookieName = idCookieName;
 	}
 	
+	public String getCookiePath()
+	{
+		return this.cookiePath;
+	}
+	
+	public void setCookiePath(final String cookiePath)
+	{
+		this.cookiePath = cookiePath;
+	}
+	
 	public Duration getExpiration()
 	{
 		return this.expiration;
@@ -98,7 +110,7 @@ public class OAuth2CookieRememberMeServicesConfig
 	
 	public OAuth2CookieRememberMeServicesCleanupScheduleConfig getCleanupSchedule()
 	{
-		return cleanupSchedule;
+		return this.cleanupSchedule;
 	}
 	
 	public void setCleanupSchedule(final OAuth2CookieRememberMeServicesCleanupScheduleConfig cleanupSchedule)
@@ -116,6 +128,8 @@ public class OAuth2CookieRememberMeServicesConfig
 			+ this.payloadCookieName
 			+ "', idCookieName='"
 			+ this.idCookieName
+			+ "', cookiePath='"
+			+ this.cookiePath
 			+ "', expiration="
 			+ this.expiration
 			+ ", maxPerUser="
