@@ -27,9 +27,11 @@ public final class FastCookieFinder
 	public static Optional<Cookie> findCookie(final HttpServletRequest request, final String cookieName)
 	{
 		return Optional.ofNullable(request.getHeader("Cookie"))
-			// Quick check if value is present
-			.filter(h -> h.contains(cookieName))
+			// Quick check header if cookieName is present
+			// to prevent expensive parsing of cookies
+			.filter(h -> h.contains(cookieName + "="))
 			.flatMap(x -> {
+				// getCookies might parse Cookies (e.g. Tomcat)
 				final Cookie[] cookies = request.getCookies();
 				if(cookies == null)
 				{
