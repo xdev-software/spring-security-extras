@@ -1,5 +1,9 @@
+# 2.2.4
+* oauth2-oidc
+  * Improve performance of `FastCookieFinder`
+
 # 2.2.3
-* oauth2-oidc-remember-me
+* oauth2-oidc
   * Fix NPE in `FastCookieFinder`
 
 # 2.2.2
