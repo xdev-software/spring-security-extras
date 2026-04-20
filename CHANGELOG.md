@@ -1,3 +1,7 @@
+# 2.2.3
+* oauth2-oidc-remember-me
+  * Fix NPE in `FastCookieFinder`
+
 # 2.2.2
 * oauth2-oidc-remember-me
   * Handle cookie path correctly

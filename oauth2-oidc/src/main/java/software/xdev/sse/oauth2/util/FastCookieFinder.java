@@ -29,9 +29,17 @@ public final class FastCookieFinder
 		return Optional.ofNullable(request.getHeader("Cookie"))
 			// Quick check if value is present
 			.filter(h -> h.contains(cookieName))
-			.flatMap(x -> Stream.of(request.getCookies())
-				.filter(c -> cookieName.equals(c.getName()))
-				.findFirst());
+			.flatMap(x -> {
+				final Cookie[] cookies = request.getCookies();
+				if(cookies == null)
+				{
+					return Optional.empty();
+				}
+				
+				return Stream.of(cookies)
+					.filter(c -> cookieName.equals(c.getName()))
+					.findFirst();
+			});
 	}
 	
 	private FastCookieFinder()
