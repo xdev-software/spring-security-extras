@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.rnorth.ducttape.unreliables.Unreliables;
+import org.slf4j.LoggerFactory;
 
 import software.xdev.sse.demo.entities.UserDetail;
 import software.xdev.sse.demo.persistence.jpa.dao.UserDetailDAO;
@@ -55,6 +56,13 @@ class LoginOIDCTest extends InfraPerCaseTest
 	@EnumSource(TestBrowser.class)
 	void checkReLoginShouldKeepUrl(final TestBrowser browser)
 	{
+		if(browser == TestBrowser.CHROME && System.getenv("GITHUB_ACTIONS") != null)
+		{
+			LoggerFactory.getLogger(this.getClass()).warn("This test is skipped on GITHUB_ACTIONS - "
+				+ "https://github.com/xdev-software/spring-security-extras/issues/305");
+			return;
+		}
+		
 		this.startAll(browser, dbCtrl -> dbCtrl.useNewEntityManager(em -> new DefaultDG(em).generateAll()));
 		
 		this.loginAndGotoMainSite();
