@@ -1,3 +1,9 @@
+# 2.3.0
+* vaadin
+  * New subsystem: `session-cleaner`
+    * Tries to cleanup or minimize the data stored in VaadinSessions
+    * Currently disabled by default - can be enabled with `sse.vaadin.session-cleaner.enabled=true`
+
 # 2.2.4
 * oauth2-oidc
   * Improve performance of `FastCookieFinder`
