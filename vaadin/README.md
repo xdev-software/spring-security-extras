@@ -7,6 +7,7 @@ Secures [Vaadin (Flow)](https://github.com/vaadin/platform).
 The overall goal is to
 * give Spring Security full access control before any requests are processed by Vaadin
 * only create Vaadin Sessions when they are really needed - as these are rather heavy (Vaadin stores the state of the UI in these)
+  * optionally optimize the created VaadinSessions and try to remove them when they are no longer needed
 * make Vaadin's ``VaadinWebSecurity``/``VaadinSecurityConfigurer`` better customizable
 
 ## Requirements
