@@ -45,8 +45,8 @@ import software.xdev.sse.vaadin.sessioncleaner.task.VaadinSessionCleanerTask;
  *     </li>
  * </ul>
  * This might cause sessions to accumulate in memory which will result in a (kind of) memory leak.<br/>
- * The whole situation is especially problematic in situations where there is no authentication
- * before a VaadinSession is created.
+ * The whole situation is especially problematic when there is no authentication before a
+ * VaadinSession is created.
  */
 public class VaadinSessionCleaner
 {
