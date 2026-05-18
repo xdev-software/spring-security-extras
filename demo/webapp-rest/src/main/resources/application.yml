@@ -1,0 +1,85 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+
+sse:
+  sidecar:
+    black-holing:
+      enabled: false
+  oauth2:
+    auth-checker:
+      enabled: false
+    refresh-filter:
+      enabled: false
+    remember-login-provider-redirect:
+      enabled: false
+
+# READ https://docs.spring.io/spring-boot/reference/actuator/endpoints.html BEFORE CHANGING ANYTHING HERE!
+# Pledge of allegiance you sign when commiting this: I know that I'm responsible for security problems when I did not
+# read the docs and I will be sentenced to debug Voyager 1 memory problems (YcUycQoz0zg) or similar complex things
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    env:
+      access: none
+    health:
+      show-details: when-authorized
+    heapdump:
+      access: unrestricted
+
+server:
+  # https://stackoverflow.com/questions/69403837/how-to-use-tomcat-remoteipfilter-in-spring-boot
+  # https://docs.spring.io/spring-security/reference/features/exploits/http.html#http-proxy-server
+  # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.webserver.use-behind-a-proxy-server
+  forward-headers-strategy: NATIVE
+  tomcat:
+    redirect-context-root: false
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+        http-only: true
+        secure: true
+
+logging:
+  level:
+    io:
+      swagger: INFO
+    org:
+      mariadb:
+        jdbc: INFO
+      springframework: INFO
+      hibernate: WARN
+      flywaydb:
+        core:
+          internal: INFO
+          internal.license: WARN
+      apache:
+        http: INFO
+        hc: WARN # Apache HTTPClient
+        # Integrated Catalina/Tomcat is logging too much on DEBUG
+        catalina: INFO
+        tomcat: INFO
+        coyote: INFO
+    com:
+      zaxxer:
+        hikari: INFO
+    # Hide internal JDK stuff like if a certificate is valid or that the Windows-Version is Vista
+    jdk: INFO
+    sun: INFO
+    java:
+      lang:
+        ProcessBuilder: INFO
+    javax:
+      management:
+        remote:
+          rmi: INFO #Hide RMI used by e.g. VisualVM
