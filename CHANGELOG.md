@@ -1,3 +1,6 @@
+# 2.5.0
+* New module `caching-validation-provider`
+
 # 2.4.0
 * oauth2-oidc-remember-me
   * Prefer use of UTC based `Instant` instead of `LocalDateTime`

@@ -89,6 +89,10 @@
 		<!-- SSE -->
 		<dependency>
 			<groupId>software.xdev.sse</groupId>
+			<artifactId>caching-validation-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
 			<artifactId>csp</artifactId>
 		</dependency>
 		<dependency>

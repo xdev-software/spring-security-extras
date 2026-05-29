@@ -137,6 +137,11 @@
 			<!-- Not working with mvn:version:set! -->
 			<dependency>
 				<groupId>software.xdev.sse</groupId>
+				<artifactId>caching-validation-provider</artifactId>
+				<version>2.4.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
 				<artifactId>csp</artifactId>
 				<version>2.4.1-SNAPSHOT</version>
 			</dependency>
