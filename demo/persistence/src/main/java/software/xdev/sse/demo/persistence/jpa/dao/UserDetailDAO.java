@@ -1,7 +1,6 @@
 package software.xdev.sse.demo.persistence.jpa.dao;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
@@ -47,7 +46,7 @@ public class UserDetailDAO extends BaseEntityDAO<UserDetail>
 		final CriteriaUpdate<UserDetail> cu = cb.createCriteriaUpdate(UserDetail.class);
 		final Root<UserDetail> r = cu.from(UserDetail.class);
 		
-		cu.set(r.get(UserDetail_.lastLoginAt), LocalDateTime.now(ZoneOffset.UTC));
+		cu.set(r.get(UserDetail_.lastLoginAt), Instant.now());
 		cu.where(cb.equal(r.get(IdentifiableEntity_.id), userId));
 		
 		em.createQuery(cu).executeUpdate();

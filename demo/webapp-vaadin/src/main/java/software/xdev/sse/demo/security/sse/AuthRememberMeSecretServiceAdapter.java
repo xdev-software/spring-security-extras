@@ -1,6 +1,6 @@
 package software.xdev.sse.demo.security.sse;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class AuthRememberMeSecretServiceAdapter
 	@Override
 	public Optional<AuthRememberMeSecret> findByIdentifier(
 		final String identifier,
-		final LocalDateTime createdAfterUtc)
+		final Instant createdAfter)
 	{
-		return this.authRememberMeSecretService.findByIdentifier(identifier, createdAfterUtc)
+		return this.authRememberMeSecretService.findByIdentifier(identifier, createdAfter)
 			.map(AuthRememberMeSecretAdapter::new);
 	}
 	
@@ -47,9 +47,9 @@ public class AuthRememberMeSecretServiceAdapter
 	}
 	
 	@Override
-	public int cleanUp(final LocalDateTime createdBeforeUtc, final int maxPerUser)
+	public int cleanUp(final Instant createdBefore, final int maxPerUser)
 	{
-		return this.authRememberMeSecretService.cleanUp(createdBeforeUtc, maxPerUser);
+		return this.authRememberMeSecretService.cleanUp(createdBefore, maxPerUser);
 	}
 	
 	public static class AuthRememberMeSecretAdapter extends DefaultAuthRememberMeSecret

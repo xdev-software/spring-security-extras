@@ -1,7 +1,6 @@
 package software.xdev.sse.demo.entities;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -9,8 +8,8 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
+import software.xdev.sse.demo.service.validation.StringValidator;
 
 
 @Entity
@@ -25,27 +24,22 @@ public class UserDetail extends IdentifiableEntity
 	/**
 	 * Voller Name des Nutzers (selbst gesetzt von Nutzer), kann leer sein
 	 */
-	@NotNull
-	@Size(max = DEFAULT_STRING_LENGTH)
 	@Column(name = "fullname", length = DEFAULT_STRING_LENGTH, nullable = false)
 	private String fullName = "";
 	
-	@NotNull
-	@Size(min = 1, max = DEFAULT_STRING_LENGTH)
 	@Column(name = COL_EMAIL_ADDRESS, length = DEFAULT_STRING_LENGTH, nullable = false, unique = true)
 	private String emailAddress;
 	
-	@NotNull
 	@Column(name = "created_at", nullable = false)
-	private LocalDateTime createdAt;
+	private Instant createdAt;
 	
 	@Nullable
 	@Column(name = COL_DISABLED_AT)
-	private LocalDateTime disabledAt;
+	private Instant disabledAt;
 	
 	@Nullable
 	@Column(name = "last_login_at")
-	private LocalDateTime lastLoginAt;
+	private Instant lastLoginAt;
 	
 	public UserDetail()
 	{
@@ -60,7 +54,7 @@ public class UserDetail extends IdentifiableEntity
 		final UserDetail user = new UserDetail();
 		user.setFullName(fullName);
 		user.setEmailAddress(email);
-		user.setCreatedAt(LocalDateTime.now(ZoneOffset.UTC));
+		user.setCreatedAt(Instant.now());
 		return user;
 	}
 	
@@ -77,7 +71,7 @@ public class UserDetail extends IdentifiableEntity
 	
 	public void setFullName(final String fullName)
 	{
-		this.fullName = Objects.requireNonNull(fullName);
+		this.fullName = StringValidator.notTooLongDefault("fullName", fullName);
 	}
 	
 	public String getEmailAddress()
@@ -87,32 +81,37 @@ public class UserDetail extends IdentifiableEntity
 	
 	public void setEmailAddress(final String emailAddress)
 	{
-		this.emailAddress = Objects.requireNonNull(emailAddress);
+		StringValidator.notTooLongDefault("emailAddress", emailAddress);
+		if(emailAddress.isEmpty())
+		{
+			throw new IllegalArgumentException("emailAddress is empty");
+		}
+		this.emailAddress = emailAddress;
 	}
 	
-	public LocalDateTime getCreatedAt()
+	public Instant getCreatedAt()
 	{
 		return this.createdAt;
 	}
 	
-	public void setCreatedAt(final LocalDateTime createdAt)
+	public void setCreatedAt(final Instant createdAt)
 	{
 		this.createdAt = Objects.requireNonNull(createdAt);
 	}
 	
 	@Nullable
-	public LocalDateTime getDisabledAt()
+	public Instant getDisabledAt()
 	{
 		return this.disabledAt;
 	}
 	
-	public void setDisabledAt(@Nullable final LocalDateTime disabledAt)
+	public void setDisabledAt(@Nullable final Instant disabledAt)
 	{
 		this.disabledAt = disabledAt;
 	}
 	
 	@Nullable
-	public LocalDateTime getLastLoginAt()
+	public Instant getLastLoginAt()
 	{
 		return this.lastLoginAt;
 	}
@@ -120,11 +119,11 @@ public class UserDetail extends IdentifiableEntity
 	public boolean isDisabled()
 	{
 		return Optional.ofNullable(this.getDisabledAt())
-			.filter(d -> d.isBefore(LocalDateTime.now(ZoneOffset.UTC)))
+			.filter(d -> d.isBefore(Instant.now()))
 			.isPresent();
 	}
 	
-	public void setLastLoginAt(@Nullable final LocalDateTime lastLoginAt)
+	public void setLastLoginAt(@Nullable final Instant lastLoginAt)
 	{
 		this.lastLoginAt = lastLoginAt;
 	}

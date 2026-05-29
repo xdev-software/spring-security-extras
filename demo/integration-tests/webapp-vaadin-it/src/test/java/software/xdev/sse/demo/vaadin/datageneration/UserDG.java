@@ -1,6 +1,7 @@
 package software.xdev.sse.demo.vaadin.datageneration;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 
 import jakarta.persistence.EntityManager;
 
@@ -21,7 +22,7 @@ public class UserDG extends AbstractDBDataGenerator
 		final String emailAddress)
 	{
 		final UserDetail user = UserDetail.createNew(fullName, emailAddress);
-		user.setCreatedAt(LocalDate.of(2020, 1, 1).atStartOfDay());
+		user.setCreatedAt(LocalDate.of(2020, 1, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 		
 		return this.update(user);
 	}

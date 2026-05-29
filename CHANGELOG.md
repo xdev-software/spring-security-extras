@@ -1,3 +1,7 @@
+# 2.4.0
+* oauth2-oidc-remember-me
+  * Prefer use of UTC based `Instant` instead of `LocalDateTime`
+
 # 2.3.0
 * vaadin
   * New subsystem: `session-cleaner`

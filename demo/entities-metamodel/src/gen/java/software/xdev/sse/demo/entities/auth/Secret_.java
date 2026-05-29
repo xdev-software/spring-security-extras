@@ -3,7 +3,7 @@ package software.xdev.sse.demo.entities.auth;
 import jakarta.persistence.metamodel.MappedSuperclassType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import software.xdev.sse.demo.entities.IdentifiableEntity_;
 import software.xdev.sse.demo.entities.UserDetail;
 
@@ -63,7 +63,7 @@ public abstract class Secret_ extends IdentifiableEntity_ {
 	/**
 	 * Static metamodel for attribute {@link software.xdev.sse.demo.entities.auth.Secret#createdAt}
 	 **/
-	public static volatile SingularAttribute<Secret, LocalDateTime> createdAt;
+	public static volatile SingularAttribute<Secret, Instant> createdAt;
 	
 	/**
 	 * Static metamodel for attribute {@link software.xdev.sse.demo.entities.auth.Secret#user}

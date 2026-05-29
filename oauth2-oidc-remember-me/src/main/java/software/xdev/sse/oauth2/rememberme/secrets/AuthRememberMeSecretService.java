@@ -15,7 +15,7 @@
  */
 package software.xdev.sse.oauth2.rememberme.secrets;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 
@@ -32,11 +32,11 @@ public interface AuthRememberMeSecretService
 	
 	Optional<AuthRememberMeSecret> findByIdentifier(
 		String identifier,
-		LocalDateTime createdAfterUtc);
+		Instant createdAfter);
 	
 	void insert(AuthRememberMeSecret secret);
 	
 	void delete(String identifier);
 	
-	int cleanUp(LocalDateTime createdBeforeUtc, int maxPerUser);
+	int cleanUp(Instant createdBefore, int maxPerUser);
 }

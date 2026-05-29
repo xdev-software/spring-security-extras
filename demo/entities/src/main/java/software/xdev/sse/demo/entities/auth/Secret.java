@@ -1,14 +1,13 @@
 package software.xdev.sse.demo.entities.auth;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotNull;
 
 import software.xdev.sse.demo.entities.IdentifiableEntity;
 import software.xdev.sse.demo.entities.UserDetail;
@@ -23,24 +22,19 @@ public abstract class Secret extends IdentifiableEntity
 	public static final String COL_CREATED_AT = "created_at";
 	public static final String COL_USER = "user_id";
 	
-	@NotNull
 	@Column(name = COL_IDENTIFIER, nullable = false, unique = true)
 	private String identifier;
 	
-	@NotNull
 	@Column(name = COL_CRYPTO_ALGORITHM, nullable = false)
 	private String cryptoAlgorithm;
 	
-	@NotNull
 	@Column(name = COL_SECRET, nullable = false)
 	@SuppressWarnings("java:S1700")
 	private byte[] secret;
 	
-	@NotNull
 	@Column(name = COL_CREATED_AT, nullable = false)
-	private LocalDateTime createdAt = LocalDateTime.now(ZoneOffset.UTC);
+	private Instant createdAt = Instant.now();
 	
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = COL_USER)
 	private UserDetail user;
@@ -52,7 +46,7 @@ public abstract class Secret extends IdentifiableEntity
 	
 	public void setIdentifier(final String identifier)
 	{
-		this.identifier = identifier;
+		this.identifier = Objects.requireNonNull(identifier);
 	}
 	
 	public String getCryptoAlgorithm()
@@ -62,7 +56,7 @@ public abstract class Secret extends IdentifiableEntity
 	
 	public void setCryptoAlgorithm(final String cryptoAlgorithm)
 	{
-		this.cryptoAlgorithm = cryptoAlgorithm;
+		this.cryptoAlgorithm = Objects.requireNonNull(cryptoAlgorithm);
 	}
 	
 	public byte[] getSecret()
@@ -72,17 +66,17 @@ public abstract class Secret extends IdentifiableEntity
 	
 	public void setSecret(final byte[] secret)
 	{
-		this.secret = secret;
+		this.secret = Objects.requireNonNull(secret);
 	}
 	
-	public LocalDateTime getCreatedAt()
+	public Instant getCreatedAt()
 	{
 		return this.createdAt;
 	}
 	
-	public void setCreatedAt(final LocalDateTime createdAt)
+	public void setCreatedAt(final Instant createdAt)
 	{
-		this.createdAt = createdAt;
+		this.createdAt = Objects.requireNonNull(createdAt);
 	}
 	
 	public UserDetail getUser()
@@ -92,6 +86,6 @@ public abstract class Secret extends IdentifiableEntity
 	
 	public void setUser(final UserDetail user)
 	{
-		this.user = user;
+		this.user = Objects.requireNonNull(user);
 	}
 }
