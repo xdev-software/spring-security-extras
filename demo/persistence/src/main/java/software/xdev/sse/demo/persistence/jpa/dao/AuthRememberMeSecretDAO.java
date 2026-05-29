@@ -1,7 +1,6 @@
 package software.xdev.sse.demo.persistence.jpa.dao;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class AuthRememberMeSecretDAO extends SecretDAO<AuthRememberMeSecret>
 	
 	public Optional<AuthRememberMeSecretDTO> findBy(
 		final String identifier,
-		final LocalDateTime createdAfterUtc)
+		final Instant createdAfter)
 	{
 		final CriteriaBuilder cb = this.getCriteriaBuilder();
 		final CriteriaQuery<AuthRememberMeSecretDTO> cq = cb.createQuery(AuthRememberMeSecretDTO.class);
@@ -52,7 +51,7 @@ public class AuthRememberMeSecretDAO extends SecretDAO<AuthRememberMeSecret>
 		
 		cq.where(
 			cb.equal(root.get(Secret_.identifier), identifier),
-			cb.greaterThan(root.get(Secret_.createdAt), createdAfterUtc),
+			cb.greaterThan(root.get(Secret_.createdAt), createdAfter),
 			// User must be active
 			cb.isNull(joinUser.get(UserDetail_.disabledAt)));
 		
@@ -90,7 +89,7 @@ public class AuthRememberMeSecretDAO extends SecretDAO<AuthRememberMeSecret>
 			.setParameter("identifier", dto.identifier())
 			.setParameter("crypto_algorithm", dto.cryptoAlgorithm())
 			.setParameter("secret", dto.secret())
-			.setParameter("created_at", LocalDateTime.now(ZoneOffset.UTC))
+			.setParameter("created_at", Instant.now())
 			.setParameter("email_adr", dto.userEmailAddress())
 			.executeUpdate();
 	}
@@ -108,13 +107,13 @@ public class AuthRememberMeSecretDAO extends SecretDAO<AuthRememberMeSecret>
 	}
 	
 	@Transactional
-	public int deleteAllCreatedBefore(final LocalDateTime createdBeforeUtc)
+	public int deleteAllCreatedBefore(final Instant createdBefore)
 	{
 		final CriteriaBuilder cb = this.getCriteriaBuilder();
 		final CriteriaDelete<AuthRememberMeSecret> cd = cb.createCriteriaDelete(this.clazz);
 		final Root<AuthRememberMeSecret> root = cd.from(this.clazz);
 		
-		cd.where(cb.lessThan(root.get(Secret_.createdAt), createdBeforeUtc));
+		cd.where(cb.lessThan(root.get(Secret_.createdAt), createdBefore));
 		
 		return this.getEntityManager().createQuery(cd).executeUpdate();
 	}

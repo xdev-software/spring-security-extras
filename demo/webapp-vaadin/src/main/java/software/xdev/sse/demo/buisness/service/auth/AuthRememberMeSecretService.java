@@ -1,6 +1,6 @@
 package software.xdev.sse.demo.buisness.service.auth;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -25,14 +25,14 @@ public class AuthRememberMeSecretService
 	
 	public Optional<AuthRememberMeSecretDTO> findByIdentifier(
 		final String identifier,
-		final LocalDateTime createdAfterUtc)
+		final Instant createdAfter)
 	{
 		LOG.debug("Starting findBy");
 		final StopWatch sw = StopWatch.createStarted();
 		
 		try
 		{
-			return this.authRememberMeSecretDAO.findBy(identifier, createdAfterUtc);
+			return this.authRememberMeSecretDAO.findBy(identifier, createdAfter);
 		}
 		finally
 		{
@@ -83,13 +83,13 @@ public class AuthRememberMeSecretService
 		}
 	}
 	
-	public int cleanUp(final LocalDateTime createdBeforeUtc, final int maxPerUser)
+	public int cleanUp(final Instant createdBefore, final int maxPerUser)
 	{
 		LOG.debug("Starting cleanup");
 		final StopWatch sw = StopWatch.createStarted();
 		try
 		{
-			int deleted = this.authRememberMeSecretDAO.deleteAllCreatedBefore(createdBeforeUtc);
+			int deleted = this.authRememberMeSecretDAO.deleteAllCreatedBefore(createdBefore);
 			deleted += this.authRememberMeSecretDAO.deleteAllOverUserMaxAmount(maxPerUser);
 			
 			return deleted;

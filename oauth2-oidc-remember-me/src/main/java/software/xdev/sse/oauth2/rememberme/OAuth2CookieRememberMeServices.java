@@ -17,8 +17,6 @@ package software.xdev.sse.oauth2.rememberme;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -311,7 +309,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 		final AuthRememberMeSecret authRememberMeSecret =
 			this.authRememberMeSecretService.findByIdentifier(
 					idCookieValue,
-					LocalDateTime.now(ZoneOffset.UTC).minus(this.config.getExpiration()))
+					Instant.now().minus(this.config.getExpiration()))
 				.orElseThrow(() -> new AutoLoginException(
 					this.autoLoginMetrics::persistedSecretNotFound,
 					"Unable to find persisted secret"));

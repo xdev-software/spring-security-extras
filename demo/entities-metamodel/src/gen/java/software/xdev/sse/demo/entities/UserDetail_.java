@@ -3,7 +3,7 @@ package software.xdev.sse.demo.entities;
 import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Static metamodel for {@link software.xdev.sse.demo.entities.UserDetail}
@@ -56,17 +56,17 @@ public abstract class UserDetail_ extends IdentifiableEntity_ {
 	/**
 	 * Static metamodel for attribute {@link software.xdev.sse.demo.entities.UserDetail#createdAt}
 	 **/
-	public static volatile SingularAttribute<UserDetail, LocalDateTime> createdAt;
+	public static volatile SingularAttribute<UserDetail, Instant> createdAt;
 	
 	/**
 	 * Static metamodel for attribute {@link software.xdev.sse.demo.entities.UserDetail#disabledAt}
 	 **/
-	public static volatile SingularAttribute<UserDetail, LocalDateTime> disabledAt;
+	public static volatile SingularAttribute<UserDetail, Instant> disabledAt;
 	
 	/**
 	 * Static metamodel for attribute {@link software.xdev.sse.demo.entities.UserDetail#lastLoginAt}
 	 **/
-	public static volatile SingularAttribute<UserDetail, LocalDateTime> lastLoginAt;
+	public static volatile SingularAttribute<UserDetail, Instant> lastLoginAt;
 
 }
 

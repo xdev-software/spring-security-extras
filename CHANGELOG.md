@@ -1,3 +1,9 @@
+# 2.4.0
+* oauth2-oidc-remember-me
+  * Prefer use of UTC based `Instant` instead of `LocalDateTime`
+* demo
+  * Remove Validation API from entities as it's use [is not recommended](https://github.com/spring-projects/spring-boot/issues/905#issuecomment-43610027) ([related article](https://www.baeldung.com/spring-boot-disable-hibernate-entity-validation))
+
 # 2.3.0
 * vaadin
   * New subsystem: `session-cleaner`

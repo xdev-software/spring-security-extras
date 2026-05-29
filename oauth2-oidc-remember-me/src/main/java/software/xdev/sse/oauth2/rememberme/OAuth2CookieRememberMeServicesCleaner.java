@@ -15,8 +15,7 @@
  */
 package software.xdev.sse.oauth2.rememberme;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -61,7 +60,7 @@ public class OAuth2CookieRememberMeServicesCleaner
 			final StopWatch sw = StopWatch.createStarted();
 			
 			final int deleted = this.authRememberMeSecretService.cleanUp(
-				LocalDateTime.now(ZoneOffset.UTC).minus(this.config.getExpiration()),
+				Instant.now().minus(this.config.getExpiration()),
 				this.config.getMaxPerUser());
 			
 			sw.stop();
