@@ -4,6 +4,10 @@ spring:
     hibernate:
       ddl-auto: none
     properties:
+      jakarta:
+        persistence:
+          validation:
+            mode: none
       hibernate:
         hbm2ddl:
           auto: none
