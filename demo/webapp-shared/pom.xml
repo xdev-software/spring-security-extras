@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>software.xdev.sse.demo</groupId>
 		<artifactId>demo</artifactId>
-		<version>2.4.1-SNAPSHOT</version>
+		<version>2.5.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>webapp-shared</artifactId>
 
@@ -87,6 +87,10 @@
 		</dependency>
 
 		<!-- SSE -->
+		<dependency>
+			<groupId>software.xdev.sse</groupId>
+			<artifactId>caching-validation-provider</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>software.xdev.sse</groupId>
 			<artifactId>csp</artifactId>

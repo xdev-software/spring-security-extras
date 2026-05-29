@@ -15,10 +15,6 @@
  */
 package software.xdev.sse.web.hsts;
 
-import org.springframework.validation.annotation.Validated;
-
-
-@Validated
 public class HstsConfig
 {
 	private Boolean enabled;
