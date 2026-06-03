@@ -1,3 +1,7 @@
+# 2.5.1
+* Various performance improvements
+* Updated dependencies
+
 # 2.5.0
 * New module `caching-validation-provider`
 

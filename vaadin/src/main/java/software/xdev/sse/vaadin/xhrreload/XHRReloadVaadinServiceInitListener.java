@@ -21,6 +21,7 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
@@ -65,7 +66,8 @@ public class XHRReloadVaadinServiceInitListener implements VaadinServiceInitList
 			
 			this.scriptElement = new Element("script")
 				.attr("type", "text/javascript")
-				.html(scriptContents);
+				// This is effectively the same as .html() but a lot faster because no HTML paring is done
+				.appendChild(new DataNode(scriptContents));
 			LOG.trace("Built scriptElement: {}", this.scriptElement);
 		}
 		catch(final IOException e)
