@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 
 
-@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "PMD.UseUtilityClass"})
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 @EnableScheduling
 @EnableAsync
