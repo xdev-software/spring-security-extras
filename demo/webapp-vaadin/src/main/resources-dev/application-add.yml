@@ -29,7 +29,7 @@ server:
         secure: false
 
 vaadin:
-  allowed-packages: software/xdev/sse/demo,com/vaadin/flow
+  allowed-packages: software/xdev/sse/demo/ui,software/xdev/vaadin
   # To enable automatic reload of frontend/CSS resources comment this in:
   # frontend.hotdeploy: true
   devmode:
