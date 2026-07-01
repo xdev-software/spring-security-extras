@@ -22,9 +22,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Dependency Version Groups -->
-		<com.vaadin.version>25.1.6</com.vaadin.version>
+		<com.vaadin.version>25.2.1</com.vaadin.version>
 
-		<org.springframework.boot.version>4.0.6</org.springframework.boot.version>
+		<org.springframework.boot.version>4.1.0</org.springframework.boot.version>
 	</properties>
 
 	<modules>
@@ -97,7 +97,7 @@
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
-				<version>6.1.0</version>
+				<version>6.1.1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -106,7 +106,7 @@
 			<dependency>
 				<groupId>org.mariadb.jdbc</groupId>
 				<artifactId>mariadb-java-client</artifactId>
-				<version>3.5.8</version>
+				<version>3.5.9</version>
 				<!-- https://mariadb.com/kb/en/about-mariadb-connector-j/#size-consideration -->
 				<exclusions>
 					<exclusion>
@@ -240,7 +240,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>13.4.2</version>
+								<version>13.7.0</version>
 							</dependency>
 						</dependencies>
 						<configuration>
@@ -281,12 +281,12 @@
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-core</artifactId>
-								<version>7.24.0</version>
+								<version>7.26.0</version>
 							</dependency>
 							<dependency>
 								<groupId>net.sourceforge.pmd</groupId>
 								<artifactId>pmd-java</artifactId>
-								<version>7.24.0</version>
+								<version>7.26.0</version>
 							</dependency>
 						</dependencies>
 					</plugin>

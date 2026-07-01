@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration;
 
 
-@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "PMD.UseUtilityClass"})
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 public class Application
 {
