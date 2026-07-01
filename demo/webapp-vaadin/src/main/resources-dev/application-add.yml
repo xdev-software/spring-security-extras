@@ -38,6 +38,10 @@ vaadin:
     # https://github.com/vaadin/flow/issues/18130 -> Required for nothing we use -> Disabled for more performance
     componentTracker:
       enabled: false
+  # This is not propagated by prepare-frontend
+  npm:
+    # Also exclude <empty string>
+    excludePostinstallPackages: ',.,esbuild,@vaadin/vaadin-usage-statistics'
 
 spring:
   datasource:
