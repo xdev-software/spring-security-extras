@@ -66,7 +66,7 @@ public class XHRReloadVaadinServiceInitListener implements VaadinServiceInitList
 			
 			this.scriptElement = new Element("script")
 				.attr("type", "text/javascript")
-				// This is effectively the same as .html() but a lot faster because no HTML paring is done
+				// This is effectively the same as .html() but a lot faster because no HTML parsing is done
 				.appendChild(new DataNode(scriptContents));
 			LOG.trace("Built scriptElement: {}", this.scriptElement);
 		}
