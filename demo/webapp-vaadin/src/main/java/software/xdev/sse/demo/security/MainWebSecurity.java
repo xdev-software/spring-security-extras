@@ -17,6 +17,7 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 import software.xdev.spring.security.web.authentication.ui.advanced.AdvancedLoginPageAdapter;
 import software.xdev.sse.csp.CSPGenerator;
 import software.xdev.sse.demo.ui.structure.MainView;
+import software.xdev.sse.oauth2.debug.LoggingAuthFailureHandler;
 import software.xdev.sse.oauth2.filter.OAuth2RefreshFilter;
 import software.xdev.sse.oauth2.loginurl.OAuth2LoginUrlStoreAdapter;
 import software.xdev.sse.oauth2.rememberloginproviderredirect.CookieBasedRememberRedirectOAuth2LoginProvider;
@@ -61,6 +62,8 @@ public class MainWebSecurity
 				c.defaultSuccessUrl("/" + MainView.NAV);
 				rememberLoginProvider.configureOAuth2Login(c);
 				oAuth2LoginUrlStoreAdapter.postProcess(c);
+				// Usually only needed for debugging purposes - e.g. failing integration tests
+				LoggingAuthFailureHandler.installIfLogDebug(c);
 			})
 			.logout(rememberLoginProvider::configureOAuth2Logout)
 			.addFilterBefore(oAuth2RefreshFilter, AnonymousAuthenticationFilter.class);
