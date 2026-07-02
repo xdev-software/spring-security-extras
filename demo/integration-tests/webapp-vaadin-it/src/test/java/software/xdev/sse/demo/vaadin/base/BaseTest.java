@@ -1,6 +1,7 @@
 package software.xdev.sse.demo.vaadin.base;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -8,6 +9,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.core5.util.Timeout;
+import org.openqa.selenium.JavascriptExecutor;
 
 import software.xdev.sse.demo.tci.db.DBTCI;
 import software.xdev.sse.demo.tci.webapp.VaadinWebAppTCI;
@@ -53,5 +55,38 @@ abstract class BaseTest extends AbstractBaseTest<VaadinWebAppTCI>
 				.build())
 			.disableRedirectHandling()
 			.build();
+	}
+	
+	@Override
+	public void navigateTo(final String... additionalPathSegments)
+	{
+		this.navigateToWithoutWait(additionalPathSegments);
+		this.waitForDocumentAndVaadinReady();
+	}
+	
+	@Override
+	public void checkForMainPage()
+	{
+		this.waitForDocumentAndVaadinReady();
+		super.checkForMainPage();
+	}
+	
+	void waitForDocumentAndVaadinReady()
+	{
+		this.waitUntil(
+			d -> Objects.equals(
+				((JavascriptExecutor)d).executeScript("if (document.readyState != 'complete') {"
+					+ "  return false;"
+					+ "}"
+					+ "if (window.Vaadin?.Flow?.clients) {"
+					+ "  var clients = window.Vaadin.Flow.clients;"
+					+ "  for (var client in clients) {"
+					+ "    if (clients[client].isActive()) {"
+					+ "      return false;"
+					+ "    }"
+					+ "  }"
+					+ "}"
+					+ "return true;"),
+				Boolean.TRUE));
 	}
 }
