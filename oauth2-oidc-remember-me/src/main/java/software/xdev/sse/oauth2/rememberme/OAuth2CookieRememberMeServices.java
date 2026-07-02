@@ -713,8 +713,7 @@ public class OAuth2CookieRememberMeServices implements RememberMeServices, OAuth
 	}
 	
 	// region Install
-	@SuppressWarnings("java:S112") // Thrown upstream
-	public HttpSecurity install(final HttpSecurity http) throws Exception
+	public HttpSecurity install(final HttpSecurity http)
 	{
 		if(!this.enabled)
 		{
