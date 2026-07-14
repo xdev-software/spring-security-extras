@@ -1,0 +1,3 @@
+software.xdev.sse.oauth2.rememberme.auto.OAuth2CookieRememberMeServicesAutoConfig
+software.xdev.sse.oauth2.rememberme.clientstorage.auto.RememberMeClientStorageProcessorProviderAutoConfig
+software.xdev.sse.oauth2.rememberme.crypt.auto.RememberMeSymCryptAutoConfig
