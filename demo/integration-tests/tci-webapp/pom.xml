@@ -17,8 +17,8 @@
 			<artifactId>base</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>image-build</artifactId>
 		</dependency>
 	</dependencies>
 </project>

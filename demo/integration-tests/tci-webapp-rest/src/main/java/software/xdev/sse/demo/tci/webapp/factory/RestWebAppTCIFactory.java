@@ -1,28 +1,31 @@
 package software.xdev.sse.demo.tci.webapp.factory;
 
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import software.xdev.sse.demo.tci.webapp.RestWebAppTCI;
 import software.xdev.sse.demo.tci.webapp.WebAppTCI;
 import software.xdev.sse.demo.tci.webapp.containers.RestWebAppContainer;
 import software.xdev.sse.demo.tci.webapp.containers.WebAppContainerBuilder;
+import software.xdev.tci.concurrent.Suppliers;
+import software.xdev.tci.concurrent.TCIExecutorServiceHolder;
 import software.xdev.tci.factory.prestart.PreStartableTCIFactory;
 import software.xdev.tci.misc.ContainerMemory;
 
 
 public class RestWebAppTCIFactory extends PreStartableTCIFactory<RestWebAppContainer, RestWebAppTCI>
 {
-	public static final String PROPERTY_APP_DOCKERIMAGE = "appDockerImage";
-	
-	protected static String appImageName;
+	protected static final Supplier<String> IMAGE_NAME_SUPPLIER =
+		Suppliers.memoize(() -> WebAppContainerBuilder.getImageName("tci-webapp-rest"));
 	
 	public RestWebAppTCIFactory(final Consumer<RestWebAppContainer> additionalContainerBuilder)
 	{
 		super(
 			RestWebAppTCI::new,
 			() -> {
-				final RestWebAppContainer container = new RestWebAppContainer(getAppImageName(), true)
+				final RestWebAppContainer container = new RestWebAppContainer(IMAGE_NAME_SUPPLIER.get(), true)
 					.withDefaultWaitStrategy(
 						Duration.ofMinutes(1),
 						WebAppTCI.ACTUATOR_USERNAME,
@@ -45,23 +48,7 @@ public class RestWebAppTCIFactory extends PreStartableTCIFactory<RestWebAppConta
 	@Override
 	protected void warmUpInternal()
 	{
-		getAppImageName();
+		CompletableFuture.runAsync(IMAGE_NAME_SUPPLIER::get, TCIExecutorServiceHolder.instance());
 		super.warmUpInternal();
-	}
-	
-	protected static synchronized String getAppImageName()
-	{
-		if(appImageName != null)
-		{
-			return appImageName;
-		}
-		
-		appImageName = System.getProperty(PROPERTY_APP_DOCKERIMAGE);
-		if(appImageName == null)
-		{
-			appImageName = WebAppContainerBuilder.getBuiltImageName("tci-webapp-rest");
-		}
-		
-		return appImageName;
 	}
 }

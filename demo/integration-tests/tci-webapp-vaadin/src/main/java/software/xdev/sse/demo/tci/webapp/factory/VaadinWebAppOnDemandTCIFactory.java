@@ -1,9 +1,11 @@
 package software.xdev.sse.demo.tci.webapp.factory;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import software.xdev.sse.demo.tci.webapp.VaadinWebAppTCI;
 import software.xdev.sse.demo.tci.webapp.containers.VaadinWebAppContainer;
+import software.xdev.tci.concurrent.TCIExecutorServiceHolder;
 import software.xdev.tci.factory.ondemand.OnDemandTCIFactory;
 
 
@@ -27,7 +29,7 @@ public class VaadinWebAppOnDemandTCIFactory extends OnDemandTCIFactory<VaadinWeb
 	@Override
 	protected void warmUpInternal()
 	{
-		VaadinWebAppImageNameResolver.getAppImageName();
+		CompletableFuture.runAsync(VaadinWebAppImageNameResolver::get, TCIExecutorServiceHolder.instance());
 		super.warmUpInternal();
 	}
 }
