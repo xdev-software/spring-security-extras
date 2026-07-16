@@ -52,7 +52,7 @@ jobs:
 
       - name: Docker Image Cache Restore
         id: docker-image-cache-restore
-        uses: xdev-software/tci/.github/actions/docker-image-cache/restore@4.1.0
+        uses: xdev-software/tci/.github/actions/docker-image-cache/restore@f686d444930db567aae0cbc8076694f8c886f479 # v4.1.0
         with:
           # This cache could always change however because docker images can be changed remotely if the version is not fixated
           # As a compromise it utilizes the hash of the pom files because when the dependencies stay the same 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Setup Buildx
         id: docker-image-cache-setup-buildx
-        uses: xdev-software/tci/.github/actions/docker-image-cache/setup-buildx@4.1.0
+        uses: xdev-software/tci/.github/actions/docker-image-cache/setup-buildx@f686d444930db567aae0cbc8076694f8c886f479 # v4.1.0
 
     - name: Report CPU details
       run: |
@@ -98,7 +98,7 @@ jobs:
       run: docker image ls
 
     - name: Docker Image Cache Save
-      uses: xdev-software/tci/.github/actions/docker-image-cache/save@4.1.0
+      uses: xdev-software/tci/.github/actions/docker-image-cache/save@f686d444930db567aae0cbc8076694f8c886f479 # v4.1.0
       with:
         key: ${{ steps.docker-image-cache-restore.outputs.key }}
         cache-hit: ${{ steps.docker-image-cache-restore.outputs.cache-hit }}
