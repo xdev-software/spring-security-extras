@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestPlan;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -57,7 +56,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 	
 	protected static final DBTCIFactory DB_INFRA_FACTORY = new DBTCIFactory();
 	protected static final OIDCTCIFactory OIDC_INFRA_FACTORY = new OIDCTCIFactory();
-	protected static final BrowsersTCIFactory BROWSER_INFRA_FACTORY = new BrowsersTCIFactory();
+	protected static final BrowsersTCIFactory<TestBrowser> BROWSER_INFRA_FACTORY = BrowsersTCIFactory.createDefault();
 	protected static final LazyNetworkPool LAZY_NETWORK_POOL = new LazyNetworkPool();
 	
 	protected final PreStartableTCIFactory<?, T> appInfraFactory;
@@ -166,7 +165,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		final long start = System.currentTimeMillis();
 		try
 		{
-			this.browserInfra = this.createBrowserInfra(testBrowser.getCapabilityFactory().get(), this.network);
+			this.browserInfra = this.createBrowserInfra(testBrowser, this.network);
 			this.browserInfra.getVncAddress().ifPresent(a -> LOG.info(">>> VNC: {}", a));
 			this.browserInfra.getNoVncAddress().ifPresent(a -> LOG.info(">>> NoVNC: {}", a));
 			
@@ -303,7 +302,7 @@ public abstract class AbstractBaseTest<T extends WebAppTCI<?>> implements Integr
 		return this.appInfraFactory.getNew(network, dnsName);
 	}
 	
-	protected BrowserTCI createBrowserInfra(final MutableCapabilities capabilities, final Network network)
+	protected BrowserTCI createBrowserInfra(final TestBrowser capabilities, final Network network)
 	{
 		return BROWSER_INFRA_FACTORY.getNew(capabilities, network);
 	}
