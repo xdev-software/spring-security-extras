@@ -69,6 +69,9 @@ logging:
         catalina: INFO
         tomcat: INFO
         coyote: INFO
+    io:
+      methvin:
+        watcher: INFO # Directory watcher
     com:
       zaxxer:
         hikari: INFO
@@ -78,6 +81,8 @@ logging:
         experimental: INFO # Don't spam "Properties loaded from classpath."
         flow:
           internal:
+            FileIOUtils: INFO # Ignore "Writing/Skipping writing to file ..."
+            FrontendUtils: INFO # Ignore "Auto-detected client-side router to use..."
             menu: INFO # Ignore "No file-routes.json found under 'frontend/generated' directory"
           component:
             internal: INFO

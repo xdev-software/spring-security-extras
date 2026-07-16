@@ -13,7 +13,7 @@ public final class VaadinWebAppTCIFactoryBase
 	@SuppressWarnings({"resource", "checkstyle:MagicNumber"})
 	public static VaadinWebAppContainer createDefaultContainer()
 	{
-		return new VaadinWebAppContainer(VaadinWebAppImageNameResolver.getAppImageName(), true)
+		return new VaadinWebAppContainer(VaadinWebAppImageNameResolver.get(), true)
 			.withDefaultWaitStrategy(
 				Duration.ofSeconds(40L + 20L * EnvironmentPerformance.cpuSlownessFactor()),
 				WebAppTCI.ACTUATOR_USERNAME,
