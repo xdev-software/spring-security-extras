@@ -25,11 +25,6 @@
 			<artifactId>persistence</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>testcontainers-advanced-imagebuilder</artifactId>
-		</dependency>
-
 		<!-- Test Infrastructure -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
