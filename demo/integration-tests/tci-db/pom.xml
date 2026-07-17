@@ -17,6 +17,10 @@
 			<artifactId>db-jdbc-spring-orm-hibernate</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>software.xdev.tci</groupId>
+			<artifactId>image-build</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>software.xdev.sse.demo</groupId>
 			<artifactId>persistence</artifactId>
 		</dependency>
