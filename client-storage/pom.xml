@@ -76,7 +76,7 @@
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>5.0.0</version>
+				<version>5.1.1</version>
 				<configuration>
 					<properties>
 						<email>${project.organization.url}</email>
@@ -155,7 +155,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>flatten-maven-plugin</artifactId>
-						<version>1.7.3</version>
+						<version>1.8.0</version>
 						<configuration>
 							<flattenMode>ossrh</flattenMode>
 						</configuration>
