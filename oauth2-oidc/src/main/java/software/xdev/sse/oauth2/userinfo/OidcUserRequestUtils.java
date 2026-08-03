@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 /**
  * Publicly available fork of {@link org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequestUtils}
  */
+@SuppressWarnings("checkstyle:IllegalIdentifierName") // from Spring Boot
 public final class OidcUserRequestUtils
 {
 	public static boolean shouldRetrieveUserInfo(final OidcUserRequest userRequest)
