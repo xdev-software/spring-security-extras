@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * Content-Security-Policy provider
  *
- * @see <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">
+ * @see <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP">
  * MDN Content-Security-Policy guide</a>
  * @see <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">
  * MDN Content-Security-Policy headers</a>
