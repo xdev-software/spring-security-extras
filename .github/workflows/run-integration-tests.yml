@@ -57,9 +57,8 @@ jobs:
           # This cache could always change however because docker images can be changed remotely if the version is not fixated
           # As a compromise it utilizes the hash of the pom files because when the dependencies stay the same 
           # the images should also be roughly the same
-          key: it-docker-images-${{ matrix.project }}-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-it-docker-images-${{ matrix.project }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-it-docker-images-${{ matrix.project }}-${{ hashFiles('**/pom.xml') }}
             ${{ runner.os }}-it-docker-images-${{ matrix.project }}-
 
       - name: Setup Buildx
