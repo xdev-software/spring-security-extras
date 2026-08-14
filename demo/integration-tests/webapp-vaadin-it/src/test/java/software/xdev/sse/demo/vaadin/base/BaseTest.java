@@ -1,14 +1,8 @@
 package software.xdev.sse.demo.vaadin.base;
 
-import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.core5.util.Timeout;
 import org.openqa.selenium.JavascriptExecutor;
 
 import software.xdev.sse.demo.tci.db.DBTCI;
@@ -41,20 +35,6 @@ abstract class BaseTest extends AbstractBaseTest<VaadinWebAppTCI>
 	protected BaseTest()
 	{
 		super(APP_INFRA_FACTORY);
-	}
-	
-	protected static CloseableHttpClient createDefaultHttpClient()
-	{
-		final Duration timeout = Duration.ofSeconds(30);
-		return HttpClientBuilder.create()
-			.setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
-				.setDefaultConnectionConfig(ConnectionConfig.custom()
-					.setConnectTimeout(Timeout.of(timeout))
-					.setSocketTimeout(Timeout.of(timeout))
-					.build())
-				.build())
-			.disableRedirectHandling()
-			.build();
 	}
 	
 	@Override

@@ -3,30 +3,18 @@ package software.xdev.sse.demo.vaadin.cases;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.apache.hc.client5.http.classic.methods.HttpDelete;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.classic.methods.HttpHead;
-import org.apache.hc.client5.http.classic.methods.HttpOptions;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.classic.methods.HttpPut;
-import org.apache.hc.client5.http.classic.methods.HttpTrace;
-import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.utils.Base64;
-import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.HttpResponse;
-import org.apache.hc.core5.http.HttpStatus;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,17 +29,15 @@ class LoginOtherTest extends InfraPerClassTest
 	@DisplayName("No session should be created for public static resource")
 	@ParameterizedTest(name = "{displayName} [method={2}]")
 	@MethodSource
-	void checkNoSessionCreatedForPublicStaticResource(final String method) throws IOException
+	void checkNoSessionCreatedForPublicStaticResource(final String method) throws Exception
 	{
-		try(final CloseableHttpClient client = createDefaultHttpClient())
+		try(final HttpClient client = this.createDefaultHttpClient())
 		{
-			final HttpUriRequestBase http = new HttpUriRequestBase(
-				method,
-				URI.create(this.appInfra().getExternalHTTPEndpoint() + "/robots.txt"));
-			try(final ClassicHttpResponse response = client.execute(http, r -> r))
-			{
-				assertAll(this.assertsNoSessionNoLoginAndCode(HttpStatus.SC_OK, response));
-			}
+			assertAll(this.assertsNoSessionNoLoginAndCode(
+				200,
+				client.send(
+					this.createDefaultHttpRequestBuilder(method, "/robots.txt").build(),
+					HttpResponse.BodyHandlers.discarding())));
 		}
 	}
 	
@@ -69,68 +55,66 @@ class LoginOtherTest extends InfraPerClassTest
 		final boolean existingPath,
 		final String method,
 		final int expectedCode)
-		throws IOException
+		throws Exception
 	{
-		try(final CloseableHttpClient client = createDefaultHttpClient())
+		try(final HttpClient client = this.createDefaultHttpClient())
 		{
-			final HttpUriRequestBase http = new HttpUriRequestBase(
-				method,
-				URI.create(this.appInfra().getExternalHTTPEndpoint() + "/actuator" + (existingPath ? "" : "/abc")));
+			final HttpRequest.Builder requestBuilder =
+				this.createDefaultHttpRequestBuilder(method, "/actuator" + (existingPath ? "" : "/abc"));
 			if(withAuth)
 			{
 				final String auth =
 					this.appInfra().getActuatorUsername() + ":" + this.appInfra().getActuatorPassword();
-				http.setHeader(
-					HttpHeaders.AUTHORIZATION,
+				requestBuilder.header(
+					"Authorization",
 					"Basic " + new String(Base64.encodeBase64(auth.getBytes(StandardCharsets.ISO_8859_1))));
 			}
-			try(final ClassicHttpResponse response = client.execute(http, r -> r))
-			{
-				assertAll(this.assertsNoSessionNoLoginAndCode(expectedCode, response));
-			}
+			assertAll(this.assertsNoSessionNoLoginAndCode(
+				expectedCode,
+				client.send(requestBuilder.build(), HttpResponse.BodyHandlers.discarding())));
 		}
 	}
 	
 	static Stream<Arguments> checkNoSessionCreatedForActuator()
 	{
 		final Set<String> allowedAndExistingOkMethods = Set.of(
-			HttpGet.METHOD_NAME,
-			HttpOptions.METHOD_NAME,
-			HttpHead.METHOD_NAME);
+			"GET",
+			"OPTIONS",
+			"HEAD");
 		
 		final Set<String> allowedAndNotExistingOkMethods = Set.of(
-			HttpOptions.METHOD_NAME
+			"OPTIONS"
 		);
 		
 		return Stream.of(
 			// NO AUTH but ENDPOINT EXISTS
 			ALL_SUPPORTED_HTTP_METHODS.stream()
-				.map(method -> Arguments.of(false, true, method, HttpStatus.SC_UNAUTHORIZED)),
+				.map(method -> Arguments.of(false, true, method, 401)),
 			// AUTH and ENDPOINT EXISTS
 			allowedAndExistingOkMethods.stream()
-				.map(method -> Arguments.of(true, true, method, HttpStatus.SC_OK)),
+				.map(method -> Arguments.of(true, true, method, 200)),
 			ALL_SUPPORTED_HTTP_METHODS.stream()
 				.filter(m -> !allowedAndExistingOkMethods.contains(m))
-				.map(method -> Arguments.of(true, true, method, HttpStatus.SC_METHOD_NOT_ALLOWED)),
+				.map(method -> Arguments.of(true, true, method, 405)),
 			// AUTH and INVALID ENDPOINT
 			allowedAndNotExistingOkMethods.stream()
-				.map(method -> Arguments.of(true, false, method, HttpStatus.SC_OK)),
+				.map(method -> Arguments.of(true, false, method, 200)),
 			ALL_SUPPORTED_HTTP_METHODS.stream()
 				.filter(m -> !allowedAndNotExistingOkMethods.contains(m))
-				.map(method -> Arguments.of(true, false, method, HttpStatus.SC_NOT_FOUND)),
+				.map(method -> Arguments.of(true, false, method, 404)),
 			// NO AUTH and INVALID ENDPOINT
 			ALL_SUPPORTED_HTTP_METHODS.stream()
-				.map(method -> Arguments.of(false, false, method, HttpStatus.SC_UNAUTHORIZED)),
+				.map(method -> Arguments.of(false, false, method, 401)),
 			// TRACE is not supported by Spring Boot
-			Stream.of(Arguments.of(false, false, HttpTrace.METHOD_NAME, HttpStatus.SC_METHOD_NOT_ALLOWED))
+			Stream.of(Arguments.of(false, false, "TRACE", 405))
 		).flatMap(Function.identity());
 	}
 	
-	private Stream<Executable> assertsNoSessionNoLoginAndCode(final int expectedCode, final HttpResponse response)
+	private Stream<Executable> assertsNoSessionNoLoginAndCode(final int expectedCode, final HttpResponse<?> response)
 	{
 		return Stream.of(
-			() -> assertEquals(expectedCode, response.getCode()),
-			() -> assertNull(response.getHeader("Set-Cookie")),
+			() -> assertEquals(expectedCode, response.statusCode()),
+			() -> assertTrue(response.headers().firstValue("Set-Cookie").isEmpty()),
 			() -> assertFalse(() -> this.appInfra()
 				.getContainer()
 				.getLogs()
@@ -139,10 +123,10 @@ class LoginOtherTest extends InfraPerClassTest
 	}
 	
 	static final List<String> ALL_SUPPORTED_HTTP_METHODS = List.of(
-		HttpGet.METHOD_NAME,
-		HttpPost.METHOD_NAME,
-		HttpPut.METHOD_NAME,
-		HttpDelete.METHOD_NAME,
-		HttpHead.METHOD_NAME,
-		HttpOptions.METHOD_NAME);
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE",
+		"HEAD",
+		"OPTIONS");
 }

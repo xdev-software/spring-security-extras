@@ -1,5 +1,8 @@
 package software.xdev.sse.demo.webapp.base;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,6 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @SuppressWarnings("java:S119")
 public interface IntegrationTestDefaults<SELF extends AbstractBaseTest<?>>
 {
+	Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
+	
 	@SuppressWarnings("unchecked")
 	default SELF self()
 	{
@@ -104,5 +109,25 @@ public interface IntegrationTestDefaults<SELF extends AbstractBaseTest<?>>
 	default <V> V waitUntil(final Function<WebDriver, V> isTrue, final Duration duration)
 	{
 		return new WebDriverWait(this.self().getWebDriver(), duration).until(isTrue);
+	}
+	
+	default HttpClient createDefaultHttpClient()
+	{
+		return HttpClient.newBuilder()
+			.followRedirects(HttpClient.Redirect.NEVER)
+			.connectTimeout(DEFAULT_TIMEOUT)
+			.build();
+	}
+	
+	default HttpRequest.Builder createDefaultHttpRequestBuilder(final String url)
+	{
+		return HttpRequest.newBuilder(URI.create(url))
+			.timeout(DEFAULT_TIMEOUT);
+	}
+	
+	default HttpRequest.Builder createDefaultHttpRequestBuilder(final String method, final String relativeUrl)
+	{
+		return this.createDefaultHttpRequestBuilder(this.self().appInfra().getExternalHTTPEndpoint() + relativeUrl)
+			.method(method, HttpRequest.BodyPublishers.noBody());
 	}
 }

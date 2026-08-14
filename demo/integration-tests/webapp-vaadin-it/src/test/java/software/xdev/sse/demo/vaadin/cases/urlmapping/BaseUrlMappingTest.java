@@ -1,17 +1,13 @@
 package software.xdev.sse.demo.vaadin.cases.urlmapping;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -43,31 +39,26 @@ abstract class BaseUrlMappingTest extends InfraPerClassTest
 	}
 	
 	@Test
-	void check() throws IOException
+	void check() throws Exception
 	{
-		try(final CloseableHttpClient client = createDefaultHttpClient())
+		try(final HttpClient client = this.createDefaultHttpClient())
 		{
-			final HttpUriRequestBase http = new HttpUriRequestBase(
-				"GET",
-				URI.create(this.appInfra().getExternalHTTPEndpoint() + "/2025/actuator"));
-			
-			try(final ClassicHttpResponse response = client.execute(http, r -> r))
-			{
-				Assertions.assertAll(this.checkResponse(response));
-			}
+			Assertions.assertAll(this.checkResponse(client.send(
+				this.createDefaultHttpRequestBuilder("GET", "/2025/actuator").build(),
+				HttpResponse.BodyHandlers.discarding())));
 		}
 	}
 	
 	// As of Spring Boot 7.x the underlying problem is fixed out-of-the-box and both responses should now be identical
-	protected Collection<Executable> checkResponse(final ClassicHttpResponse response)
+	protected Collection<Executable> checkResponse(final HttpResponse<?> response)
 	{
 		return List.of(
-			() -> assertEquals(302, response.getCode()),
-			() -> assertNull(response.getHeader("Set-Cookie")),
-			() -> assertTrue(response.getHeader("Location")
-				.getValue()
+			() -> assertEquals(302, response.statusCode()),
+			() -> assertTrue(response.headers().firstValue("Set-Cookie").isEmpty()),
+			() -> assertTrue(response.headers().firstValue("Location")
+				.orElse("")
 				.endsWith("/oauth2/authorization/local")),
-			() -> assertEquals("1", response.getHeader("X-Force-Reload").getValue())
+			() -> assertEquals("1", response.headers().firstValue("X-Force-Reload").orElse(""))
 		);
 	}
 }
