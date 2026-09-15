@@ -1,0 +1,122 @@
+name: Run integration tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+    paths-ignore: 
+      - '**.md'
+      - '.config/**'
+      - '.github/**'
+      - '.idea/**'
+      - 'assets/**'
+  pull_request:
+    branches: [ develop ]
+    paths-ignore: 
+      - '**.md'
+      - '.config/**'
+      - '.github/**'
+      - '.idea/**'
+      - 'assets/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-integration-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [25]
+        project: [webapp-rest-it, webapp-vaadin-it]
+        parallel: [2]
+        pre-start: [true]
+    runs-on: ubuntu-latest
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/')) }}
+    steps:
+    - uses: actions/checkout@v7
+
+    - parallel:
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+
+      - name: Cache Maven
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-mvn-it-build-${{ hashFiles('**/pom.xml') }}
+
+      - name: Docker Image Cache Restore
+        id: docker-image-cache-restore
+        uses: xdev-software/tci/.github/actions/docker-image-cache/restore@8301e5ecdaec16a53f766ac4411847ddc4a35861 # v4.3.0
+        with:
+          # This cache could always change however because docker images can be changed remotely if the version is not fixated
+          # As a compromise it utilizes the hash of the pom files because when the dependencies stay the same 
+          # the images should also be roughly the same
+          key: ${{ runner.os }}-it-docker-images-${{ matrix.project }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-it-docker-images-${{ matrix.project }}-
+
+      - name: Setup Buildx
+        id: docker-image-cache-setup-buildx
+        uses: xdev-software/tci/.github/actions/docker-image-cache/setup-buildx@8301e5ecdaec16a53f766ac4411847ddc4a35861 # v4.3.0
+
+    - name: Report CPU details
+      run: |
+        cat /proc/cpuinfo | grep -P '^model name' | uniq
+        cat /proc/cpuinfo | grep -P '^flags' | uniq
+
+    - name: Test
+      run: |
+        # Differentiate cache between AVX microcode used by Java (until https://github.com/xdev-software/tci/issues/688 is fixed)
+        java_useavx=$(java -XX:+PrintFlagsFinal -version 2> /dev/null | awk '/UseAVX/ {print $4}')
+        echo "Java UseAVX: ${java_useavx}"
+
+        ./mvnw -B test \
+        -pl "demo/integration-tests/${{ matrix.project }}" -am \
+        -P run-it \
+        -Dlicense.skip \
+        -Dtci.image-build.delete-on-exit=true \
+        -Dtci.image-build.cache-from="type=gha,scope=§image" \
+        -Dtci.image-build.cache-to="type=gha,mode=max,scope=§image" \
+        -Dtci.image-build.tci-webapp-rest-demo.cache-from="type=gha,scope=§image-j_avx${java_useavx}" \
+        -Dtci.image-build.tci-webapp-rest-demo.cache-to="type=gha,mode=max,scope=§image-j_avx${java_useavx}" \
+        -Dtci.image-build.tci-webapp-vaadin-demo.cache-from="type=gha,scope=§image-j_avx${java_useavx}" \
+        -Dtci.image-build.tci-webapp-vaadin-demo.cache-to="type=gha,mode=max,scope=§image-j_avx${java_useavx}" \
+        ${{ matrix.pre-start && '-Dtci.infra-pre-start.enabled=1 ' || '' }} \
+        ${{ matrix.parallel > 0 && format('-Djunit.jupiter.execution.parallel.enabled=true -Djunit.jupiter.execution.parallel.mode.default=concurrent -Djunit.jupiter.execution.parallel.mode.classes.default=concurrent -Djunit.jupiter.execution.parallel.config.strategy=fixed -Djunit.jupiter.execution.parallel.config.fixed.parallelism=2 -Djunit.jupiter.execution.parallel.config.fixed.max-pool-size={0} ', matrix.parallel) || '' }}
+      env:
+        ACTIONS_RUNTIME_TOKEN: ${{ steps.docker-image-cache-setup-buildx.outputs.ACTIONS_RUNTIME_TOKEN }}
+        ACTIONS_RESULTS_URL: ${{ steps.docker-image-cache-setup-buildx.outputs.ACTIONS_RESULTS_URL }}
+
+    - name: Show images
+      run: docker image ls
+
+    - name: Docker Image Cache Save
+      uses: xdev-software/tci/.github/actions/docker-image-cache/save@8301e5ecdaec16a53f766ac4411847ddc4a35861 # v4.3.0
+      with:
+        key: ${{ steps.docker-image-cache-restore.outputs.key }}
+        cache-hit: ${{ steps.docker-image-cache-restore.outputs.cache-hit }}
+      background: true
+
+    # Replace '/' with '-'
+    - name: Normalize project name
+      if: failure()
+      env:
+        PROJECT: ${{ matrix.project }}
+      run: echo PROJECT_NORMALIZED=${PROJECT/\//-} >> $GITHUB_ENV
+
+    - name: Upload videos of test failures
+      if: failure()
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-fail-videos-${{ matrix.java }}-${{ env.PROJECT_NORMALIZED }}-${{ matrix.parallel }}-${{ matrix.pre-start }}
+        path: demo/integration-tests/${{ matrix.project }}/target/records
+        if-no-files-found: ignore
+
+    - name: Wait for async jobs to finish
+      wait-all:
