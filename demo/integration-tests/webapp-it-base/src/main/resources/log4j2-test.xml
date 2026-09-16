@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<Configuration status="ERROR">
+
+	<Properties>
+		<Property name="consolePattern">%d{HH:mm:ss} %-5p [%t] [%-25.25c] %m %n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout pattern="${consolePattern}"/>
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<!-- Flyway -->
+		<logger name="org.flywaydb.core.internal" level="WARN"/>
+		<!-- Hibernate + Connection pool -->
+		<logger name="org.hibernate" level="WARN"/>
+		<logger name="com.zaxxer.hikari" level="WARN"/>
+		<!-- Problem: "Failed to validate connection... cannot be called on a closed connection"
+			is partially shown after container is connected onto new network -->
+		<logger name="com.zaxxer.hikari.pool.PoolBase" level="ERROR"/>
+
+		<!-- *** Container: WARN = OFF, INFO = ALL *** -->
+		<logger name="container.db" level="WARN"/>
+		<logger name="container.oidc" level="WARN"/>
+		<logger name="container.app" level="INFO"/>
+		<logger name="container.browserwebdriver" level="WARN"/>
+		<logger name="container.browserrecorder" level="WARN"/>
+		<logger name="container.build.webapp" level="INFO"/>
+
+		<!-- Turn off start and stop for GetPort Container -->
+		<logger name="tc.container.getport" level="WARN"/>
+		<logger name="tc.alpine" level="WARN"/>
+
+		<Root level="INFO">
+			<AppenderRef ref="stdout"/>
+		</Root>
+
+	</Loggers>
+</Configuration>
