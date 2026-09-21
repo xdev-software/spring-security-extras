@@ -77,7 +77,7 @@ jobs:
         echo "Java UseAVX: ${java_useavx}"
 
         ./mvnw -B test \
-        -pl "demo/integration-tests/${{ matrix.project }}" -am \
+        -pl "demos/demo/integration-tests/${{ matrix.project }}" -am \
         -P run-it \
         -Dlicense.skip \
         -Dtci.image-build.delete-on-exit=true \
@@ -115,7 +115,7 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: test-fail-videos-${{ matrix.java }}-${{ env.PROJECT_NORMALIZED }}-${{ matrix.parallel }}-${{ matrix.pre-start }}
-        path: demo/integration-tests/${{ matrix.project }}/target/records
+        path: demos/demo/integration-tests/${{ matrix.project }}/target/records
         if-no-files-found: ignore
 
     - name: Wait for async jobs to finish
