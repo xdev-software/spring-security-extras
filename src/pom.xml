@@ -14,7 +14,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>template-placeholder</module>
 	</modules>
 
 	<build>
