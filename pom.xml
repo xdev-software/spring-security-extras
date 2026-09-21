@@ -23,8 +23,8 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/xdev-software/template-placeholder</url>
-		<connection>scm:git:https://github.com/xdev-software/template-placeholder.git</connection>
+		<url>https://github.com/xdev-software/spring-security-extras</url>
+		<connection>scm:git:https://github.com/xdev-software/spring-security-extras.git</connection>
 	</scm>
 
 	<inceptionYear>2025</inceptionYear>
