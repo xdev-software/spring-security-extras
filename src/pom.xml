@@ -1,59 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<<<<<<<< HEAD:client-storage/pom.xml
-	<groupId>software.xdev.sse</groupId>
-	<artifactId>client-storage</artifactId>
-	<version>2.5.2-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>client-storage</name>
-	<description>Extras for Spring Security - Client Storage</description>
-	<url>https://github.com/xdev-software/spring-security-extras</url>
-
-	<scm>
-		<url>https://github.com/xdev-software/spring-security-extras</url>
-		<connection>scm:git:https://github.com/xdev-software/spring-security-extras.git</connection>
-	</scm>
-
-	<inceptionYear>2025</inceptionYear>
-
-	<organization>
-		<name>XDEV Software</name>
-		<url>https://xdev.software</url>
-	</organization>
-
-	<developers>
-		<developer>
-			<name>XDEV Software</name>
-			<organization>XDEV Software</organization>
-			<url>https://xdev.software</url>
-		</developer>
-	</developers>
-
-	<licenses>
-		<license>
-			<name>Apache-2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<properties>
-		<javaVersion>21</javaVersion>
-		<maven.compiler.release>${javaVersion}</maven.compiler.release>
-
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
-========
 	<parent>
-		<groupId>software.xdev</groupId>
+		<groupId>software.xdev.sse</groupId>
 		<artifactId>root</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>2.5.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>src</artifactId>
@@ -62,15 +16,6 @@
 	<modules>
 		<module>template-placeholder</module>
 	</modules>
->>>>>>>> standard-maven-template/v2-structure-rework:src/pom.xml
-
-	<dependencies>
-		<dependency>
-			<groupId>software.xdev.sse</groupId>
-			<artifactId>crypto-symmetric</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<pluginManagement>
@@ -157,20 +102,6 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-<<<<<<<< HEAD:client-storage/pom.xml
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.16.0</version>
-				<configuration>
-					<release>${maven.compiler.release}</release>
-					<compilerArgs>
-						<arg>-proc:none</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-========
->>>>>>>> standard-maven-template/v2-structure-rework:src/pom.xml
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
 					<execution>
