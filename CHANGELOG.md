@@ -1,3 +1,7 @@
+# 2.6.0
+* Internal restructuring
+* Updated dependencies
+
 # 2.5.1
 * Various performance improvements
 * Updated dependencies

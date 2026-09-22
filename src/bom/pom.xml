@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>software.xdev.sse</groupId>
+		<artifactId>src</artifactId>
+		<version>2.6.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>bom</artifactId>
+	<packaging>pom</packaging>
+
+	<name>bom</name>
+	<description>Extras for Spring Security - BOM</description>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>caching-validation-provider</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>client-storage</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>crypto-symmetric</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>crypto-symmetric-managed</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>codec-sha256</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>csp</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>metrics</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>oauth2-oidc-remember-me</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>vaadin</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>web</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>web-sidecar-actuator</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>software.xdev.sse</groupId>
+				<artifactId>web-sidecar-common</artifactId>
+				<version>2.6.0-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>flatten-maven-plugin</artifactId>
+						<configuration>
+							<flattenMode>bom</flattenMode>
+							<pomElements>
+								<!-- properties are not needed downstream -->
+								<properties>remove</properties>
+							</pomElements>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
