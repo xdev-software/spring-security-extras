@@ -127,8 +127,8 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
         server-id: github-central
-        server-password: PACKAGES_CENTRAL_TOKEN
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        server-password-env-var: PACKAGES_CENTRAL_TOKEN
+        gpg-passphrase-env-var: MAVEN_GPG_PASSPHRASE
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Only import once
 
     - name: Publish to GitHub Packages Central
@@ -144,9 +144,9 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
         server-id: sonatype-central-portal
-        server-username: MAVEN_CENTRAL_USERNAME
-        server-password: MAVEN_CENTRAL_TOKEN
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        server-username-env-var: MAVEN_CENTRAL_USERNAME
+        server-password-env-var: MAVEN_CENTRAL_TOKEN
+        gpg-passphrase-env-var: MAVEN_GPG_PASSPHRASE
 
     - name: Publish to Central Portal
       run: ../mvnw -B deploy -P publish,publish-sonatype-central-portal
@@ -190,9 +190,28 @@ jobs:
     
     - name: Aggregate site
       run: |
-        module_dirs=$(../mvnw -B -q --also-make exec:exec -Dexec.executable="pwd")
-        for m in "${module_dirs[@]}"
+        # Compile is required, otherwise dep resolution failure
+        echo "Looking up modules"
+        module_dirs=($(../mvnw -B -q --also-make compile exec:exec -Dexec.executable="pwd" -Dmaven.main.skip))
+        base_module_full="${module_dirs[0]}"
+
+        echo "Found modules - Src: $base_module_full"
+
+        base_cut_away_length=$((${#base_module_full}+1))
+
+        echo "BasePathLengthToCutAway: $base_cut_away_length"
+
+        is_first=true
+        for full_module_path in "${module_dirs[@]}"
         do
+          if [ $is_first = true ]; then
+            echo "Skipping initial/base module"
+            is_first=false
+            continue
+          fi
+
+          m=${full_module_path:$base_cut_away_length}
+
           echo "$m/target/site -> ./target/$m"
           mkdir -p ./target/$m
           cp -r $m/target/site ./target/$m
@@ -203,13 +222,6 @@ jobs:
       uses: actions/upload-pages-artifact@v5
       with:
         path: src/target/site
-
-    - name: Deploy to Github pages
-      uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./src/target/site
-        force_orphan: true
 
   deploy-pages:
     runs-on: ubuntu-latest
