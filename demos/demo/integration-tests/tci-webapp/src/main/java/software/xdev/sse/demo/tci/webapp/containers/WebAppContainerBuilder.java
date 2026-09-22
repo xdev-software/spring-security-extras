@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 
 import software.xdev.tci.imagebuild.BuildImage;
+import software.xdev.tci.imagebuild.integrations.maven.POMSimpleModuleFilter;
 
 
 public final class WebAppContainerBuilder
