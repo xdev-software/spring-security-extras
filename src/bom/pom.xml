@@ -85,4 +85,25 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>flatten-maven-plugin</artifactId>
+						<configuration>
+							<flattenMode>bom</flattenMode>
+							<pomElements>
+								<!-- properties are not needed downstream -->
+								<properties>remove</properties>
+							</pomElements>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
