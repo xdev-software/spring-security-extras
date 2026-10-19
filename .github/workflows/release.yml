@@ -87,7 +87,7 @@ jobs:
 
     - name: Create Release
       id: create-release
-      uses: shogo82148/actions-create-release@8674c0ecee617c8dfb006526bcc22a362c70b88a # v1
+      uses: shogo82148/actions-create-release@cfc5a8374495dd25fe96f758cc09251ab6286911 # v1
       with:
         tag_name: v${{ steps.version.outputs.release }}
         release_name: v${{ steps.version.outputs.release }}
@@ -192,7 +192,7 @@ jobs:
       run: |
         # Compile is required, otherwise dep resolution failure
         echo "Looking up modules"
-        module_dirs=($(../mvnw -B -q --also-make compile exec:exec -Dexec.executable="pwd" -Dmaven.main.skip))
+        module_dirs=($(../mvnw -B -q --also-make compile exec:exec -P site -Dexec.executable="pwd" -Dmaven.main.skip))
         base_module_full="${module_dirs[0]}"
 
         echo "Found modules - Src: $base_module_full"
@@ -212,9 +212,9 @@ jobs:
 
           m=${full_module_path:$base_cut_away_length}
 
-          echo "$m/target/site -> ./target/$m"
-          mkdir -p ./target/$m
-          cp -r $m/target/site ./target/$m
+          echo "$m/target/site/. -> ./target/site/$m"
+          mkdir -p ./target/site/$m
+          cp -r $m/target/site/. ./target/site/$m
         done
       working-directory: src
     

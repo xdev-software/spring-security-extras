@@ -16,7 +16,7 @@
 
 	<properties>
 		<!-- Dependency Version Groups -->
-		<com.vaadin.version>25.2.3</com.vaadin.version>
+		<com.vaadin.version>25.3.2</com.vaadin.version>
 
 		<org.springframework.boot.version>4.1.1</org.springframework.boot.version>
 	</properties>
@@ -83,7 +83,7 @@
 			<dependency>
 				<groupId>com.github.ben-manes.caffeine</groupId>
 				<artifactId>caffeine</artifactId>
-				<version>3.3.0</version>
+				<version>3.3.1</version>
 			</dependency>
 
 			<!-- Tests -->
