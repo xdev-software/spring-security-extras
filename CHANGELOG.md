@@ -1,3 +1,8 @@
+# 2.6.1
+* vaadin
+  * Correctly respond `401` to 3 special request (HEAD `sw.js` connectivity check, GET `init` and `webcomponent-sync`)
+* Updated dependencies
+
 # 2.6.0
 * Internal restructuring
 * Updated dependencies
