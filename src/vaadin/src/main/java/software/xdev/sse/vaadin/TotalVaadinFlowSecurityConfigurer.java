@@ -39,6 +39,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.vaadin.flow.internal.FrontendUtils;
+import com.vaadin.flow.server.HandlerHelper;
 import com.vaadin.flow.server.auth.NavigationAccessControl;
 import com.vaadin.flow.shared.ApplicationConstants;
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
@@ -68,7 +69,7 @@ import software.xdev.sse.web.loginurl.LoginUrlStore;
 public class TotalVaadinFlowSecurityConfigurer
 	extends AbstractHttpConfigurer<TotalVaadinFlowSecurityConfigurer, HttpSecurity>
 {
-	protected static final Set<String> DEFAULT_DO_NOT_RESPOND_UNAUTHORIZED_METHODS = Stream.of(
+	protected static final Set<String> DO_NOT_RESPOND_UNAUTHORIZED_METHODS = Stream.of(
 			HttpMethod.GET,
 			HttpMethod.OPTIONS,
 			HttpMethod.HEAD,
@@ -209,9 +210,16 @@ public class TotalVaadinFlowSecurityConfigurer
 			request -> {
 				final String method = request.getMethod();
 				
-				if(DEFAULT_DO_NOT_RESPOND_UNAUTHORIZED_METHODS.contains(method))
+				if(DO_NOT_RESPOND_UNAUTHORIZED_METHODS.contains(method))
 				{
-					return this.isDefaultSpecialVaadinUnauthorizedRequest(request, method);
+					if(this.isSpecialVaadinRequestThatNeedsUnauthorizedResponse(request, method))
+					{
+						return true;
+					}
+					
+					// Handle requests where sending a redirect would have no effect
+					// 2026-10: This relies on the Sec-Fetch-Dest header
+					return HandlerHelper.isNonHtmlInitiatedRequest(request);
 				}
 				
 				return true;
@@ -219,7 +227,9 @@ public class TotalVaadinFlowSecurityConfigurer
 		);
 	}
 	
-	protected boolean isDefaultSpecialVaadinUnauthorizedRequest(final HttpServletRequest req, final String method)
+	// Special cases where an unauthorized needs to be sent
+	protected boolean isSpecialVaadinRequestThatNeedsUnauthorizedResponse(
+		final HttpServletRequest req, final String method)
 	{
 		// init and webcomponent resync are done using XHR GET (not POST!)
 		return HttpMethod.GET.matches(method) && req.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER) != null
