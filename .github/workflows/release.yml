@@ -17,7 +17,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v6
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       # Try to reuse existing cache from check-build
@@ -100,11 +100,13 @@ jobs:
           Add the following lines to your pom:
           ```XML
           <dependency>
-             <groupId>software.xdev</groupId>
-             <artifactId>${{ github.event.repository.name }}</artifactId>
+             <groupId>software.xdev.sse</groupId>
+             <artifactId>corresponding_module</artifactId>
              <version>${{ steps.version.outputs.release }}</version>
           </dependency>
           ```
+
+          You can also use the [BOM](https://github.com/${{ github.repository }}/tree/develop/bom) for easier dependency management.
 
   publish-maven:
     runs-on: ubuntu-latest
@@ -123,7 +125,7 @@ jobs:
       uses: actions/setup-java@v6
       with: # running setup-java overwrites the settings.xml
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
         server-id: github-central
         server-password-env-var: PACKAGES_CENTRAL_TOKEN
         gpg-passphrase-env-var: MAVEN_GPG_PASSPHRASE
@@ -140,7 +142,7 @@ jobs:
       uses: actions/setup-java@v6
       with: # running setup-java again overwrites the settings.xml
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
         server-id: sonatype-central-portal
         server-username-env-var: MAVEN_CENTRAL_USERNAME
         server-password-env-var: MAVEN_CENTRAL_TOKEN
@@ -170,7 +172,7 @@ jobs:
     - name: Setup - Java
       uses: actions/setup-java@v6
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
 
     # Try to reuse existing cache from check-build
