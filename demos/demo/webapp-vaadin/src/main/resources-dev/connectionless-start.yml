@@ -1,0 +1,28 @@
+# Use this config to start connectionless. That way it doesn't require a DB or OIDC server at startup.
+# This config should only be used in tests (e.g. pre-starting)
+
+spring:
+  flyway:
+    enabled: false
+  datasource:
+    jpa:
+      database-platform: software.xdev.sse.demo.persistence.config.dialect.DefaultDialect
+      properties:
+        hibernate:
+          boot:
+            allow_jdbc_metadata_access: false
+  security:
+    oauth2:
+      client:
+        registration:
+          local:
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+        provider:
+          local:
+            authorization-uri: http://localhost:4011/connect/authorize
+            token-uri: http://localhost:4011/connect/token
+            jwk-set-uri: http://localhost:4011/.well-known/openid-configuration/jwks
+            user-info-uri: http://localhost:4011/connect/userinfo
+            user-info-authentication-method: header
+            userNameAttribute: sub
