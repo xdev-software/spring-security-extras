@@ -1,0 +1,1 @@
+This module contains the auto-generated [Metamodel](https://hibernate.org/orm/tooling/) for the entities which is required for [JPA Criteria queries](https://www.baeldung.com/hibernate-criteria-queries) to ensure type safety.
