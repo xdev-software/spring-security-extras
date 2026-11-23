@@ -1,0 +1,3 @@
+software.xdev.sse.web.sidecar.auto.CommonSidecarsAutoConfig
+software.xdev.sse.web.sidecar.blackholing.BlackHolingSecurity
+software.xdev.sse.web.sidecar.public_stateless.PublicStatelessWebSecurity
